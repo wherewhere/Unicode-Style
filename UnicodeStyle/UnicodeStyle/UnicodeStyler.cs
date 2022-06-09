@@ -15,71 +15,56 @@ using System;
 
 namespace UnicodeStyle
 {
-    public enum UnicodeStyles
+    /// <summary>
+    /// Styler of Unicode.
+    /// </summary>
+    public class UnicodeStyler : IDisposable
     {
-        Bold,
-        Italic,
-        BoldItalic,
-        SansSerif,
-        SansSerifBold,
-        SansSerifItalic,
-        SansSerifBoldItalic,
-        Script,
-        ScriptBold,
-        Fraktur,
-        FrakturBold,
-        DoubleStruck,
-        Monospace,
-        Fullwidth,
-        Circled,
-        InverseCircled,
-        Squared,
-        InverseSquared,
-        Parenthesized,
-        SmallCapitals,
-        Superscript,
-        Subscript,
-        RegionalIndicatorSymbols,
-        Tags
-    }
+        private bool disposedValue;
 
-    public static class UnicodeStyler
-    {
+        /// <summary>
+        /// Unicode Lines char.
+        /// </summary>
+        public static char[] UnicodeLines = new char[] { '̲', '̅', '̶', '̸' };
+
         // UTF-8 Constants
-        private static readonly int ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
-        private static readonly int CharactersPerPlane = 65536;
-        private static readonly int HighSurrogateFirst = 0xD800;        // U+D800
-        private static readonly int HighSurrogateLast = 0xDBFF;     // U+DBFF
-        private static readonly int LowSurrogateFirst = 0xDC00;     // U+DC00
-        private static readonly int LowSurrogateLast = 0xDFFF;      // U+DFFF
-        private static readonly int HalfShift = 10;
-        private static readonly int HalfBase = 65536;       // 0x10000;
-        private static readonly int HalfMask = 0x03FF;
+        private readonly int ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
+        private readonly int CharactersPerPlane = 65536;
+        private readonly int HighSurrogateFirst = 0xD800;        // U+D800
+        private readonly int HighSurrogateLast = 0xDBFF;     // U+DBFF
+        private readonly int LowSurrogateFirst = 0xDC00;     // U+DC00
+        private readonly int LowSurrogateLast = 0xDFFF;      // U+DFFF
+        private readonly int HalfShift = 10;
+        private readonly int HalfBase = 65536;       // 0x10000;
+        private readonly int HalfMask = 0x03FF;
 
         // Other constants
-        private static readonly int BasicLatinChars = 95;
-        private static readonly int BasicLatinFirst = 32;       // U+0020
-        private static readonly int BasicLatinLast = 126;       // U+007E
-        private static readonly int MathLatinRange = 52;
-        private static readonly int MathLatinFirst = 119808;    // U+1D400
-        private static readonly int MathLatinLast = 120483; // U+1D6A3
-        private static readonly int MathGreekRange = 58;
-        private static readonly int MathGreekFirst = 120488;    // U+1D6A8
-        private static readonly int MathGreekLast = 120777; // U+1D7C9
-        private static readonly int MathDigitsRange = 10;
-        private static readonly int MathDigitsFirst = 120782;   // U+1D7CE
-        private static readonly int MathDigitsLast = 120831;    // U+1D7FF
-        private static readonly int LatinDigitsOffset = 16;
-        private static readonly int LatinCapitalOffset = 33;
-        private static readonly int LatinSmallOffset = 65;
-        private static readonly int GreekChars = 58;
-        private static readonly int FirstTarget = 178;          // U+00B2
-        private static readonly int TotalStyles = 24;
-        private static readonly int GreekStyles = 7;        // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
+        private readonly int BasicLatinChars = 95;
+        private readonly int BasicLatinFirst = 32;       // U+0020
+        private readonly int BasicLatinLast = 126;       // U+007E
+        private readonly int MathLatinRange = 52;
+        private readonly int MathLatinFirst = 119808;    // U+1D400
+        private readonly int MathLatinLast = 120483; // U+1D6A3
+        private readonly int MathGreekRange = 58;
+        private readonly int MathGreekFirst = 120488;    // U+1D6A8
+        private readonly int MathGreekLast = 120777; // U+1D7C9
+        private readonly int MathDigitsRange = 10;
+        private readonly int MathDigitsFirst = 120782;   // U+1D7CE
+        private readonly int MathDigitsLast = 120831;    // U+1D7FF
+        private readonly int LatinDigitsOffset = 16;
+        private readonly int LatinCapitalOffset = 33;
+        private readonly int LatinSmallOffset = 65;
+        private readonly int GreekChars = 58;
+        private readonly int FirstTarget = 178;          // U+00B2
+        private readonly int TotalStyles = 24;
+        private readonly int GreekStyles = 7;        // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
 
-        public static string[] Styles;
+        /// <summary>
+        /// Styles of Unicode.
+        /// </summary>
+        public string[]? Styles;
 
-        private static void InitStyles()
+        private void InitStyles()
         {
             Styles = new string[TotalStyles];
             Styles[0] = "Bold";
@@ -108,9 +93,9 @@ namespace UnicodeStyle
             Styles[23] = "Tags";
         }
 
-        private static int[][] LatinMapping;
+        private int[][]? LatinMapping;
 
-        private static void InitLatinMapping()
+        private void InitLatinMapping()
         {
             LatinMapping = new int[BasicLatinChars][];
             LatinMapping[0] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917536 };        // U+0020: SPACE
@@ -210,9 +195,9 @@ namespace UnicodeStyle
             LatinMapping[94] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917630 };       // U+007E: TILDE
         }
 
-        private static int[][] GreekMapping;
+        private int[][]? GreekMapping;
 
-        private static void InitGreekMapping()
+        private void InitGreekMapping()
         {
             GreekMapping = new int[GreekChars][];
             GreekMapping[0] = new int[] { 120488, 120546, 120604, 0, 120662, 0, 120720 };       // U+0391, GREEK CAPITAL LETTER ALPHA
@@ -275,9 +260,9 @@ namespace UnicodeStyle
             GreekMapping[57] = new int[] { 120545, 120603, 120661, 0, 120719, 0, 120777 };      // U+03D6, GREEK PI SYMBOL
         }
 
-        private static int[] GreekCharacters;
+        private int[]? GreekCharacters;
 
-        private static void InitGreekCharacters()
+        private void InitGreekCharacters()
         {
             GreekCharacters = new int[GreekChars];
             GreekCharacters[0] = 0x0391;        // GREEK CAPITAL LETTER ALPHA
@@ -340,15 +325,27 @@ namespace UnicodeStyle
             GreekCharacters[57] = 0x03D6;       // GREEK PI SYMBOL
         }
 
-        static UnicodeStyler()
+        // TODO: 仅当“Dispose(bool disposing)”拥有用于释放未托管资源的代码时才替代终结器
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnicodeStyler"/> class.
+        /// </summary>
+        public UnicodeStyler()
         {
+            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+            Dispose(disposing: false);
             InitGreekCharacters();
             InitGreekMapping();
             InitLatinMapping();
             InitStyles();
         }
 
-        public static string StyleConvert(string str, UnicodeStyles? style = null)
+        /// <summary>
+        /// Style the string.
+        /// </summary>
+        /// <param name="str">The string to style.</param>
+        /// <param name="style">The style you want.</param>
+        /// <returns>The styled string.</returns>
+        public string StyleConvert(string str, UnicodeStyles? style = null)
         {
             string input = str;
 
@@ -367,7 +364,13 @@ namespace UnicodeStyle
             return input;
         }
 
-        public static string StyleConvert(string str, string style)
+        /// <summary>
+        /// Style string.
+        /// </summary>
+        /// <param name="str">The string to style.</param>
+        /// <param name="style">The style you want.</param>
+        /// <returns>The styled string.</returns>
+        public string StyleConvert(string str, string style = "")
         {
             string input = str;
 
@@ -395,7 +398,7 @@ namespace UnicodeStyle
             return input;
         }
 
-        private static string ToRegular(string input)
+        private string ToRegular(string input)
         {
             string? output = "";
             int hi = 0;
@@ -519,7 +522,7 @@ namespace UnicodeStyle
             return output;
         }
 
-        private static string ToStyled(string input, int style)
+        private string ToStyled(string input, int style)
         {
             string? output = "";
 
@@ -620,7 +623,7 @@ namespace UnicodeStyle
             return output;
         }
 
-        private static int[] ToSurrogates(int cp)
+        private int[] ToSurrogates(int cp)
         {
             int hi = cp;
             int lo = 0;
@@ -635,7 +638,7 @@ namespace UnicodeStyle
             return new int[] { hi, lo };
         }
 
-        private static int FromSurrogates(int hi, int lo)
+        private int FromSurrogates(int hi, int lo)
         {
             int cp = ReplacementCharacter;
             if ((hi >= HighSurrogateFirst) && (hi <= HighSurrogateLast) && (lo >= LowSurrogateFirst) && (lo <= LowSurrogateLast))
@@ -644,6 +647,89 @@ namespace UnicodeStyle
             }
 
             return cp;
+        }
+
+        /// <summary>
+        /// Add Unicode Lines.
+        /// </summary>
+        /// <param name="str">The string you want to add lines.</param>
+        /// <param name="lines">Lines you want to add.</param>
+        /// <returns>The lines-added string.</returns>
+        public static string AddLine(string str, params UnicodeLines[] lines)
+        {
+            string input = str;
+
+            foreach (char line in lines)
+            {
+                input = input.Replace(line.ToString(), string.Empty);
+            }
+
+            if (lines != null)
+            {
+                string output = string.Empty;
+                foreach (char c in str)
+                {
+                    output += c;
+                    foreach (char line in lines)
+                    {
+                        output += line;
+                    }
+                }
+                return output;
+            }
+
+            return input;
+        }
+
+        /// <summary>
+        /// Remove Unicode Lines.
+        /// </summary>
+        /// <param name="str">The string you want to remove lines.</param>
+        /// <returns>The lines-removeed string.</returns>
+        public static string RemoveLine(string str)
+        {
+            string input = str;
+            string output = string.Empty;
+
+            foreach (char line in UnicodeLines)
+            {
+                output = input.Replace(line.ToString(), string.Empty);
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Dispose the styler.
+        /// </summary>
+        /// <param name="disposing">Is disposing?</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 释放托管状态(托管对象)
+                }
+
+                // TODO: 释放未托管的资源(未托管的对象)并重写终结器
+                // TODO: 将大型字段设置为 null
+                Styles = null;
+                LatinMapping = null;
+                GreekMapping = null;
+                GreekCharacters = null;
+                disposedValue = true;
+            }
+        }
+
+        /// <summary>
+        /// Dispose the styler.
+        /// </summary>
+        public void Dispose()
+        {
+            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

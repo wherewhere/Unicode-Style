@@ -8,24 +8,24 @@ namespace UnicodeStyle
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Regular: Hello, World!");
-            foreach (var style in UnicodeStyler.Styles)
+
+            using (UnicodeStyler? styler = new())
             {
-                Console.WriteLine($"{style}: {UnicodeStyler.StyleConvert("Hello, World!", style)}");
+                foreach (string? style in styler.Styles)
+                {
+                    Console.WriteLine($"{style}: {styler.StyleConvert("Hello, World!", style)}");
+                }
             }
 
-            string? a = Console.ReadLine();
-            int[] b = new int[a.Length];
-            for (int i = 0; i < a.Length; i++)
-            {
-                b[i] = Convert.ToInt32(a[i]);
-            }
+            Console.WriteLine($"Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Underline)}");
+            Console.WriteLine($"Double Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleUnderline)}");
+            Console.WriteLine($"Overline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Overline)}");
+            Console.WriteLine($"Strikethrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Strikethrough)}");
+            Console.WriteLine($"Strikethrough Vertical: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.StrikethroughVertical)}");
+            Console.WriteLine($"Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Slashthrough)}");
+            Console.WriteLine($"Double Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleSlashthrough)}");
 
-            char[] c = new char[b.Length];
-            for (int i = 0; i < b.Length; i++)
-            {
-                c[i] = Convert.ToChar(b[i]);
-            }
-
+            Console.Write("Press any key to exit...");
             Console.ReadKey(true);
         }
     }
