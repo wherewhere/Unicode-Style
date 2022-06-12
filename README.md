@@ -7,6 +7,15 @@ Styles text by substituting characters with suitable unicode replacements.
 
 ![image](https://user-images.githubusercontent.com/27689196/172851193-c6b70b3e-613d-4bbb-a706-37a51f4296bb.png)
 
+## Support Platform
+- Silverlight 4
+- .NET Framework 2.0
+- .NET Framework 3.5
+- .NET Framework 4.0
+- .NET Framework 4.6.2
+- .NET Standard 1.1
+- .NET 6.0
+
 ## All Styles
 - Regular: Hello, World!
 - Bold: 𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!
