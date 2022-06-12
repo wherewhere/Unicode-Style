@@ -12,9 +12,9 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/wherewhere/Unicode-Style</RepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <TargetFrameworks>net2.0-client;net3.5-client;net4.0-client;net4.8;netstandard1.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>sl4;net2.0-client;net3.5-client;net4.0-client;net4.6.2;netstandard1.1;net6.0</TargetFrameworks>
     <Title>Unicode Style - Format text using unicode characters</Title>
-    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionPrefix>0.0.3</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
 Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/yi.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
 Format text by using UnicodeStyler.StyleConvert().</Description>
