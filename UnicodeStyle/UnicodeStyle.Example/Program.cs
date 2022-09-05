@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace UnicodeStyle
 {
@@ -9,9 +10,9 @@ namespace UnicodeStyle
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Regular: Hello, World!");
 
-            using (UnicodeStyler? styler = new())
+            using (UnicodeStyler styler = new UnicodeStyler())
             {
-                foreach (string? style in styler.Styles)
+                foreach (string style in styler.Styles)
                 {
                     Console.WriteLine($"{style}: {styler.StyleConvert("Hello, World!", style)}");
                 }

@@ -62,7 +62,7 @@ namespace UnicodeStyle
         /// <summary>
         /// Styles of Unicode.
         /// </summary>
-        public string[]? Styles;
+        public string[] Styles;
 
         private void InitStyles()
         {
@@ -93,7 +93,7 @@ namespace UnicodeStyle
             Styles[23] = "Tags";
         }
 
-        private int[][]? LatinMapping;
+        private int[][] LatinMapping;
 
         private void InitLatinMapping()
         {
@@ -195,7 +195,7 @@ namespace UnicodeStyle
             LatinMapping[94] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917630 };       // U+007E: TILDE
         }
 
-        private int[][]? GreekMapping;
+        private int[][] GreekMapping;
 
         private void InitGreekMapping()
         {
@@ -260,7 +260,7 @@ namespace UnicodeStyle
             GreekMapping[57] = new int[] { 120545, 120603, 120661, 0, 120719, 0, 120777 };      // U+03D6, GREEK PI SYMBOL
         }
 
-        private int[]? GreekCharacters;
+        private int[] GreekCharacters;
 
         private void InitGreekCharacters()
         {
@@ -400,7 +400,7 @@ namespace UnicodeStyle
 
         private string ToRegular(string input)
         {
-            string? output = "";
+            string output = "";
             int hi = 0;
 
             for (int i = 0; i < input.Length; i++)
@@ -508,7 +508,7 @@ namespace UnicodeStyle
                 {
                     if (cp > CharactersPerPlane)
                     {
-                        int[]? a = ToSurrogates(cp);
+                        int[] a = ToSurrogates(cp);
                         output += Convert.ToChar(a[0]);
                         output += Convert.ToChar(a[1]);
                     }
@@ -524,7 +524,7 @@ namespace UnicodeStyle
 
         private string ToStyled(string input, int style)
         {
-            string? output = "";
+            string output = "";
 
             for (int i = 0; i < input.Length; i++)
             {
@@ -609,7 +609,7 @@ namespace UnicodeStyle
                 {
                     if (result > CharactersPerPlane)
                     {
-                        int[]? a = ToSurrogates(result);
+                        int[] a = ToSurrogates(result);
                         output += Convert.ToChar(a[0]);
                         output += Convert.ToChar(a[1]);
                     }
@@ -659,9 +659,9 @@ namespace UnicodeStyle
         {
             string input = str;
 
-            foreach (char line in lines)
+            foreach (UnicodeLines line in lines)
             {
-                input = input.Replace(line.ToString(), string.Empty);
+                input = input.Replace(((char)line).ToString(), string.Empty);
             }
 
             if (lines != null)
@@ -670,9 +670,9 @@ namespace UnicodeStyle
                 foreach (char c in str)
                 {
                     output += c;
-                    foreach (char line in lines)
+                    foreach (UnicodeLines line in lines)
                     {
-                        output += line;
+                        output += (char)line;
                     }
                 }
                 return output;

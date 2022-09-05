@@ -12,8 +12,12 @@ Styles text by substituting characters with suitable unicode replacements.
 - .NET Framework 2.0
 - .NET Framework 3.5
 - .NET Framework 4.0
+- .NET Framework 4.5.2
 - .NET Framework 4.6.2
+- .NET Framework 4.8.1
 - .NET Standard 1.1
+- .NET Core 5.0
+- .NET Core App 3.1
 - .NET 6.0
 
 ## All Styles
