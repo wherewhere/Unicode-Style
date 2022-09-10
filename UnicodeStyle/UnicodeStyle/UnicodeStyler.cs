@@ -689,7 +689,7 @@ namespace UnicodeStyle
             foreach (char word in input)
             {
                 bool isline = false;
-                foreach (var line in UnicodeLines)
+                foreach (char line in UnicodeLines)
                 {
                     if (line == word)
                     {
