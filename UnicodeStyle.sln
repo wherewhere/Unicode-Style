@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32519.111
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeStyle", "UnicodeStyle\UnicodeStyle\UnicodeStyle.csproj", "{4BC5EF50-13FC-4C4C-950F-CD74B8EEA650}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnicodeStyle.Example", "UnicodeStyle\UnicodeStyle.Example\UnicodeStyle.Example.csproj", "{E0425284-898C-4A90-B83F-3ED452520577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeStyle.Example", "UnicodeStyle\UnicodeStyle.Example\UnicodeStyle.Example.csproj", "{E0425284-898C-4A90-B83F-3ED452520577}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnicodeStyle.Tests", "UnicodeStyle\UnicodeStyle.Tests\UnicodeStyle.Tests.csproj", "{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E0425284-898C-4A90-B83F-3ED452520577}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0425284-898C-4A90-B83F-3ED452520577}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0425284-898C-4A90-B83F-3ED452520577}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -25,7 +25,7 @@ namespace UnicodeStyle
         /// <summary>
         /// Unicode Lines char.
         /// </summary>
-        public static char[] UnicodeLines = new char[] { '̲', '̅', '̶', '̸' };
+        public static char[] UnicodeLines = new char[] { '̲', '̳', '̅', '̶', '⃦', '̸', '⃫' };
 
         // UTF-8 Constants
         private readonly int ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
@@ -657,12 +657,7 @@ namespace UnicodeStyle
         /// <returns>The lines-added string.</returns>
         public static string AddLine(string str, params UnicodeLines[] lines)
         {
-            string input = str;
-
-            foreach (UnicodeLines line in lines)
-            {
-                input = input.Replace(((char)line).ToString(), string.Empty);
-            }
+            string input = RemoveLine(str, lines);
 
             if (lines != null)
             {
@@ -691,9 +686,46 @@ namespace UnicodeStyle
             string input = str;
             string output = string.Empty;
 
-            foreach (char line in UnicodeLines)
+            foreach (char word in input)
             {
-                output = input.Replace(line.ToString(), string.Empty);
+                bool isline = false;
+                foreach (var line in UnicodeLines)
+                {
+                    if (line == word)
+                    {
+                        isline = true;
+                        break;
+                    }
+                }
+                if (!isline) { output += word; }
+            }
+
+            return output;
+        }
+
+        /// <summary>
+        /// Remove Unicode Lines.
+        /// </summary>
+        /// <param name="str">The string you want to remove lines.</param>
+        /// <param name="lines">Lines you want to remove.</param>
+        /// <returns>The lines-removeed string.</returns>
+        public static string RemoveLine(string str, params UnicodeLines[] lines)
+        {
+            string input = str;
+            string output = string.Empty;
+
+            foreach (char word in input)
+            {
+                bool isline = false;
+                foreach (UnicodeLines line in lines)
+                {
+                    if ((char)line == word)
+                    {
+                        isline = true;
+                        break;
+                    }
+                }
+                if (!isline) { output += word; }
             }
 
             return output;
