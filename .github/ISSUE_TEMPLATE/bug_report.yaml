@@ -31,6 +31,7 @@ body:
       label: NuGet package version
       description: Specify the version of Unicode Style you're using.
       options:
+        - "0.0.5"
         - "0.0.4"
         - "0.0.3"
         - "0.0.2"
@@ -50,6 +51,7 @@ body:
         - ".NET Framework 4.6.x"
         - ".NET Framework 4.7.x"
         - ".NET Framework 4.8.x"
+        - ".NET Micro Framework 4.4"
         - ".NET Standard 1.x"
         - ".NET Standard 2.x"
         - ".NET Core 4.5.x"

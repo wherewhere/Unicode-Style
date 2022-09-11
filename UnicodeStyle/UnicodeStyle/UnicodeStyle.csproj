@@ -11,9 +11,9 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/wherewhere/Unicode-Style</RepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <TargetFrameworks>netmf4.4;net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;netcore50;netcoreapp3.1;netstandard1.1;sl4</TargetFrameworks>
+    <TargetFrameworks>net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;netcore50;netcoreapp3.1;netmf4.4;netstandard1.1;sl4</TargetFrameworks>
     <Title>Unicode Style - Format text using unicode characters</Title>
-    <VersionPrefix>0.0.4</VersionPrefix>
+    <VersionPrefix>0.0.5</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
 Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/yi.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
 Format text by using UnicodeStyler.StyleConvert().</Description>
