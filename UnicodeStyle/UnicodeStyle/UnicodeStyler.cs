@@ -28,36 +28,36 @@ namespace UnicodeStyle
         public static char[] UnicodeLines = new char[] { '̲', '̳', '̅', '̶', '⃦', '̸', '⃫' };
 
         // UTF-8 Constants
-        private readonly int ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
-        private readonly int CharactersPerPlane = 65536;
-        private readonly int HighSurrogateFirst = 0xD800;        // U+D800
-        private readonly int HighSurrogateLast = 0xDBFF;     // U+DBFF
-        private readonly int LowSurrogateFirst = 0xDC00;     // U+DC00
-        private readonly int LowSurrogateLast = 0xDFFF;      // U+DFFF
-        private readonly int HalfShift = 10;
-        private readonly int HalfBase = 65536;       // 0x10000;
-        private readonly int HalfMask = 0x03FF;
+        private const ushort ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
+        private const int CharactersPerPlane = 65536;
+        private const ushort HighSurrogateFirst = 0xD800;        // U+D800
+        private const ushort HighSurrogateLast = 0xDBFF;     // U+DBFF
+        private const ushort LowSurrogateFirst = 0xDC00;     // U+DC00
+        private const ushort LowSurrogateLast = 0xDFFF;      // U+DFFF
+        private const ushort HalfShift = 10;
+        private const int HalfBase = 65536;       // 0x10000;
+        private const ushort HalfMask = 0x03FF;
 
         // Other constants
-        private readonly int BasicLatinChars = 95;
-        private readonly int BasicLatinFirst = 32;       // U+0020
-        private readonly int BasicLatinLast = 126;       // U+007E
-        private readonly int MathLatinRange = 52;
-        private readonly int MathLatinFirst = 119808;    // U+1D400
-        private readonly int MathLatinLast = 120483; // U+1D6A3
-        private readonly int MathGreekRange = 58;
-        private readonly int MathGreekFirst = 120488;    // U+1D6A8
-        private readonly int MathGreekLast = 120777; // U+1D7C9
-        private readonly int MathDigitsRange = 10;
-        private readonly int MathDigitsFirst = 120782;   // U+1D7CE
-        private readonly int MathDigitsLast = 120831;    // U+1D7FF
-        private readonly int LatinDigitsOffset = 16;
-        private readonly int LatinCapitalOffset = 33;
-        private readonly int LatinSmallOffset = 65;
-        private readonly int GreekChars = 58;
-        private readonly int FirstTarget = 178;          // U+00B2
-        private readonly int TotalStyles = 24;
-        private readonly int GreekStyles = 7;        // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
+        private const ushort BasicLatinChars = 95;
+        private const ushort BasicLatinFirst = 32;       // U+0020
+        private const ushort BasicLatinLast = 126;       // U+007E
+        private const ushort MathLatinRange = 52;
+        private const int MathLatinFirst = 119808;    // U+1D400
+        private const int MathLatinLast = 120483; // U+1D6A3
+        private const ushort MathGreekRange = 58;
+        private const int MathGreekFirst = 120488;    // U+1D6A8
+        private const int MathGreekLast = 120777; // U+1D7C9
+        private const ushort MathDigitsRange = 10;
+        private const int MathDigitsFirst = 120782;   // U+1D7CE
+        private const int MathDigitsLast = 120831;    // U+1D7FF
+        private const ushort LatinDigitsOffset = 16;
+        private const ushort LatinCapitalOffset = 33;
+        private const ushort LatinSmallOffset = 65;
+        private const ushort GreekChars = 58;
+        private const ushort FirstTarget = 178;          // U+00B2
+        private const ushort TotalStyles = 24;
+        private const ushort GreekStyles = 7;        // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
 
         /// <summary>
         /// Styles of Unicode.
@@ -260,11 +260,11 @@ namespace UnicodeStyle
             GreekMapping[57] = new int[] { 120545, 120603, 120661, 0, 120719, 0, 120777 };      // U+03D6, GREEK PI SYMBOL
         }
 
-        private int[] GreekCharacters;
+        private ushort[] GreekCharacters;
 
         private void InitGreekCharacters()
         {
-            GreekCharacters = new int[GreekChars];
+            GreekCharacters = new ushort[GreekChars];
             GreekCharacters[0] = 0x0391;        // GREEK CAPITAL LETTER ALPHA
             GreekCharacters[1] = 0x0392;        // GREEK CAPITAL LETTER BETA
             GreekCharacters[2] = 0x0393;        // GREEK CAPITAL LETTER GAMMA
@@ -345,7 +345,7 @@ namespace UnicodeStyle
         /// <param name="str">The string to style.</param>
         /// <param name="style">The style you want.</param>
         /// <returns>The styled string.</returns>
-        public string StyleConvert(string str, UnicodeStyles? style = null)
+        public string StyleConvert(string str, UnicodeStyles style = UnicodeStyles.Regular)
         {
             string input = str;
 
@@ -355,7 +355,7 @@ namespace UnicodeStyle
             {
                 input = ToRegular(input);
 
-                int index = style == null ? -1 : (int)style;
+                int index = (int)style;
 
                 string output = index == -1 ? input : ToStyled(input, index);
                 return output;
@@ -405,7 +405,7 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
-                int cp = Convert.ToInt32(input[i]);
+                int cp = input[i];
 
                 if ((cp >= HighSurrogateFirst) && (cp <= HighSurrogateLast))
                 {
@@ -509,12 +509,12 @@ namespace UnicodeStyle
                     if (cp > CharactersPerPlane)
                     {
                         int[] a = ToSurrogates(cp);
-                        output += Convert.ToChar(a[0]);
-                        output += Convert.ToChar(a[1]);
+                        output += (char)a[0];
+                        output += (char)a[1];
                     }
                     else
                     {
-                        output += Convert.ToChar(cp);
+                        output += (char)cp;
                     }
                 }
             }
@@ -528,7 +528,7 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
-                int cp = Convert.ToInt32(input[i]);
+                int cp = input[i];
                 int result = 0;
 
                 if ((cp >= BasicLatinFirst) && (cp <= BasicLatinLast))
@@ -603,19 +603,19 @@ namespace UnicodeStyle
 
                 if (result == 0)
                 {
-                    output += Convert.ToChar(cp);
+                    output += (char)cp;
                 }
                 else
                 {
                     if (result > CharactersPerPlane)
                     {
                         int[] a = ToSurrogates(result);
-                        output += Convert.ToChar(a[0]);
-                        output += Convert.ToChar(a[1]);
+                        output += (char)a[0];
+                        output += (char)a[1];
                     }
                     else
                     {
-                        output += Convert.ToChar(result);
+                        output += (char)result;
                     }
                 }
             }
@@ -662,11 +662,13 @@ namespace UnicodeStyle
             if (lines != null)
             {
                 string output = string.Empty;
-                foreach (char c in str)
+                for (int i = 0; i < str.Length; i++)
                 {
+                    char c = str[i];
                     output += c;
-                    foreach (UnicodeLines line in lines)
+                    for (int j = 0; j < lines.Length; j++)
                     {
+                        UnicodeLines line = lines[j];
                         output += (char)line;
                     }
                 }
@@ -686,11 +688,13 @@ namespace UnicodeStyle
             string input = str;
             string output = string.Empty;
 
-            foreach (char word in input)
+            for (int i = 0; i < input.Length; i++)
             {
                 bool isline = false;
-                foreach (char line in UnicodeLines)
+                char word = input[i];
+                for (int j = 0; j < UnicodeLines.Length; j++)
                 {
+                    char line = UnicodeLines[j];
                     if (line == word)
                     {
                         isline = true;
@@ -714,11 +718,13 @@ namespace UnicodeStyle
             string input = str;
             string output = string.Empty;
 
-            foreach (char word in input)
+            for (int i = 0; i < input.Length; i++)
             {
                 bool isline = false;
-                foreach (UnicodeLines line in lines)
+                char word = input[i];
+                for (int j = 0; j < lines.Length; j++)
                 {
+                    UnicodeLines line = lines[j];
                     if ((char)line == word)
                     {
                         isline = true;

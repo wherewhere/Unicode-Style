@@ -15,6 +15,7 @@ namespace UnicodeStyle.Tests
 
             using (UnicodeStyler styler = new UnicodeStyler())
             {
+                Assert.AreEqual("Hello, World!", styler.StyleConvert(Regular, UnicodeStyles.Regular));
                 Assert.AreEqual("𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!", styler.StyleConvert(Regular, UnicodeStyles.Bold));
                 Assert.AreEqual("𝐻𝑒𝑙𝑙𝑜, 𝑊𝑜𝑟𝑙𝑑!", styler.StyleConvert(Regular, UnicodeStyles.Italic));
                 Assert.AreEqual("𝑯𝒆𝒍𝒍𝒐, 𝑾𝒐𝒓𝒍𝒅!", styler.StyleConvert(Regular, UnicodeStyles.BoldItalic));

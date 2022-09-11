@@ -6,6 +6,11 @@
     public enum UnicodeStyles
     {
         /// <summary>
+        /// Hello, World!
+        /// </summary>
+        Regular = -1,
+
+        /// <summary>
         /// 𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!
         /// </summary>
         Bold,
