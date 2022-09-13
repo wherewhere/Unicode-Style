@@ -11,7 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/wherewhere/Unicode-Style</RepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <TargetFrameworks>net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;netcore50;netcoreapp3.1;netmf4.4;netstandard1.1;sl4;wp8.0</TargetFrameworks>
+    <TargetFrameworks>net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;netcore50;netcoreapp3.1;netmf4.4;netstandard1.1;sl4;wp7.0;wp8.0</TargetFrameworks>
     <Title>Unicode Style - Format text using unicode characters</Title>
     <VersionPrefix>0.0.5</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
