@@ -19,4 +19,10 @@ Source from the JavaScript version of Unicode Text Styler by Andrew West at http
 Format text by using UnicodeStyler.StyleConvert().</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>

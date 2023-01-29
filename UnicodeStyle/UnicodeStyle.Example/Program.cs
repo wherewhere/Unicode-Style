@@ -5,12 +5,12 @@ namespace UnicodeStyle
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Regular: Hello, World!");
 
-            using (UnicodeStyler styler = new UnicodeStyler())
+            using (UnicodeStyler styler = new())
             {
                 foreach (string style in styler.Styles)
                 {
@@ -28,6 +28,12 @@ namespace UnicodeStyle
 
             Console.Write("Press any key to exit...");
             Console.ReadKey(true);
+            //while (true)
+            //{
+            //    string a = Console.ReadLine();
+            //    string[] b = a.Split(',');
+            //    Console.WriteLine(string.Join(", ", b.Select((x) => x.Trim() != "0" ? $"0x{Convert.ToString(Convert.ToInt64(x.Trim()), 16).ToUpperInvariant()}" : "0")));
+            //}
         }
     }
 }

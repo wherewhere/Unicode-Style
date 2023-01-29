@@ -13,34 +13,32 @@ namespace UnicodeStyle.Tests
         {
             string Regular = "Hello, World!";
 
-            using (UnicodeStyler styler = new UnicodeStyler())
-            {
-                Assert.AreEqual("Hello, World!", styler.StyleConvert(Regular, UnicodeStyles.Regular));
-                Assert.AreEqual("𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!", styler.StyleConvert(Regular, UnicodeStyles.Bold));
-                Assert.AreEqual("𝐻𝑒𝑙𝑙𝑜, 𝑊𝑜𝑟𝑙𝑑!", styler.StyleConvert(Regular, UnicodeStyles.Italic));
-                Assert.AreEqual("𝑯𝒆𝒍𝒍𝒐, 𝑾𝒐𝒓𝒍𝒅!", styler.StyleConvert(Regular, UnicodeStyles.BoldItalic));
-                Assert.AreEqual("𝖧𝖾𝗅𝗅𝗈, 𝖶𝗈𝗋𝗅𝖽!", styler.StyleConvert(Regular, UnicodeStyles.SansSerif));
-                Assert.AreEqual("𝗛𝗲𝗹𝗹𝗼, 𝗪𝗼𝗿𝗹𝗱!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifBold));
-                Assert.AreEqual("𝘏𝘦𝘭𝘭𝘰, 𝘞𝘰𝘳𝘭𝘥!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifItalic));
-                Assert.AreEqual("𝙃𝙚𝙡𝙡𝙤, 𝙒𝙤𝙧𝙡𝙙!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifBoldItalic));
-                Assert.AreEqual("ℋℯ𝓁𝓁ℴ, 𝒲ℴ𝓇𝓁𝒹!", styler.StyleConvert(Regular, UnicodeStyles.Script));
-                Assert.AreEqual("𝓗𝓮𝓵𝓵𝓸, 𝓦𝓸𝓻𝓵𝓭!", styler.StyleConvert(Regular, UnicodeStyles.ScriptBold));
-                Assert.AreEqual("ℌ𝔢𝔩𝔩𝔬, 𝔚𝔬𝔯𝔩𝔡!", styler.StyleConvert(Regular, UnicodeStyles.Fraktur));
-                Assert.AreEqual("𝕳𝖊𝖑𝖑𝖔, 𝖂𝖔𝖗𝖑𝖉!", styler.StyleConvert(Regular, UnicodeStyles.FrakturBold));
-                Assert.AreEqual("ℍ𝕖𝕝𝕝𝕠, 𝕎𝕠𝕣𝕝𝕕!", styler.StyleConvert(Regular, UnicodeStyles.DoubleStruck));
-                Assert.AreEqual("𝙷𝚎𝚕𝚕𝚘, 𝚆𝚘𝚛𝚕𝚍!", styler.StyleConvert(Regular, UnicodeStyles.Monospace));
-                Assert.AreEqual("Ｈｅｌｌｏ，　Ｗｏｒｌｄ！", styler.StyleConvert(Regular, UnicodeStyles.Fullwidth));
-                Assert.AreEqual("Ⓗⓔⓛⓛⓞ, Ⓦⓞⓡⓛⓓ!", styler.StyleConvert(Regular, UnicodeStyles.Circled));
-                Assert.AreEqual("🅗ello, 🅦orld!", styler.StyleConvert(Regular, UnicodeStyles.InverseCircled));
-                Assert.AreEqual("🄷ello, 🅆orld!", styler.StyleConvert(Regular, UnicodeStyles.Squared));
-                Assert.AreEqual("🅷ello, 🆆orld!", styler.StyleConvert(Regular, UnicodeStyles.InverseSquared));
-                Assert.AreEqual("🄗⒠⒧⒧⒪, 🄦⒪⒭⒧⒟!", styler.StyleConvert(Regular, UnicodeStyles.Parenthesized));
-                Assert.AreEqual("ʜello, ᴡorld!", styler.StyleConvert(Regular, UnicodeStyles.SmallCapitals));
-                Assert.AreEqual("ᴴᵉˡˡᵒ, ᵂᵒʳˡᵈ!", styler.StyleConvert(Regular, UnicodeStyles.Superscript));
-                Assert.AreEqual("Hₑₗₗₒ, Wₒᵣₗd!", styler.StyleConvert(Regular, UnicodeStyles.Subscript));
-                Assert.AreEqual("🇭ello, 🇼orld!", styler.StyleConvert(Regular, UnicodeStyles.RegionalIndicatorSymbols));
-                Assert.AreEqual("󠁈󠁥󠁬󠁬󠁯󠀬󠀠󠁗󠁯󠁲󠁬󠁤󠀡", styler.StyleConvert(Regular, UnicodeStyles.Tags));
-            }
+            using UnicodeStyler styler = new();
+            Assert.AreEqual("Hello, World!", styler.StyleConvert(Regular, UnicodeStyles.Regular));
+            Assert.AreEqual("𝐇𝐞𝐥𝐥𝐨, 𝐖𝐨𝐫𝐥𝐝!", styler.StyleConvert(Regular, UnicodeStyles.Bold));
+            Assert.AreEqual("𝐻𝑒𝑙𝑙𝑜, 𝑊𝑜𝑟𝑙𝑑!", styler.StyleConvert(Regular, UnicodeStyles.Italic));
+            Assert.AreEqual("𝑯𝒆𝒍𝒍𝒐, 𝑾𝒐𝒓𝒍𝒅!", styler.StyleConvert(Regular, UnicodeStyles.BoldItalic));
+            Assert.AreEqual("𝖧𝖾𝗅𝗅𝗈, 𝖶𝗈𝗋𝗅𝖽!", styler.StyleConvert(Regular, UnicodeStyles.SansSerif));
+            Assert.AreEqual("𝗛𝗲𝗹𝗹𝗼, 𝗪𝗼𝗿𝗹𝗱!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifBold));
+            Assert.AreEqual("𝘏𝘦𝘭𝘭𝘰, 𝘞𝘰𝘳𝘭𝘥!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifItalic));
+            Assert.AreEqual("𝙃𝙚𝙡𝙡𝙤, 𝙒𝙤𝙧𝙡𝙙!", styler.StyleConvert(Regular, UnicodeStyles.SansSerifBoldItalic));
+            Assert.AreEqual("ℋℯ𝓁𝓁ℴ, 𝒲ℴ𝓇𝓁𝒹!", styler.StyleConvert(Regular, UnicodeStyles.Script));
+            Assert.AreEqual("𝓗𝓮𝓵𝓵𝓸, 𝓦𝓸𝓻𝓵𝓭!", styler.StyleConvert(Regular, UnicodeStyles.ScriptBold));
+            Assert.AreEqual("ℌ𝔢𝔩𝔩𝔬, 𝔚𝔬𝔯𝔩𝔡!", styler.StyleConvert(Regular, UnicodeStyles.Fraktur));
+            Assert.AreEqual("𝕳𝖊𝖑𝖑𝖔, 𝖂𝖔𝖗𝖑𝖉!", styler.StyleConvert(Regular, UnicodeStyles.FrakturBold));
+            Assert.AreEqual("ℍ𝕖𝕝𝕝𝕠, 𝕎𝕠𝕣𝕝𝕕!", styler.StyleConvert(Regular, UnicodeStyles.DoubleStruck));
+            Assert.AreEqual("𝙷𝚎𝚕𝚕𝚘, 𝚆𝚘𝚛𝚕𝚍!", styler.StyleConvert(Regular, UnicodeStyles.Monospace));
+            Assert.AreEqual("Ｈｅｌｌｏ，　Ｗｏｒｌｄ！", styler.StyleConvert(Regular, UnicodeStyles.Fullwidth));
+            Assert.AreEqual("Ⓗⓔⓛⓛⓞ, Ⓦⓞⓡⓛⓓ!", styler.StyleConvert(Regular, UnicodeStyles.Circled));
+            Assert.AreEqual("🅗ello, 🅦orld!", styler.StyleConvert(Regular, UnicodeStyles.InverseCircled));
+            Assert.AreEqual("🄷ello, 🅆orld!", styler.StyleConvert(Regular, UnicodeStyles.Squared));
+            Assert.AreEqual("🅷ello, 🆆orld!", styler.StyleConvert(Regular, UnicodeStyles.InverseSquared));
+            Assert.AreEqual("🄗⒠⒧⒧⒪, 🄦⒪⒭⒧⒟!", styler.StyleConvert(Regular, UnicodeStyles.Parenthesized));
+            Assert.AreEqual("ʜello, ᴡorld!", styler.StyleConvert(Regular, UnicodeStyles.SmallCapitals));
+            Assert.AreEqual("ᴴᵉˡˡᵒ, ᵂᵒʳˡᵈ!", styler.StyleConvert(Regular, UnicodeStyles.Superscript));
+            Assert.AreEqual("Hₑₗₗₒ, Wₒᵣₗd!", styler.StyleConvert(Regular, UnicodeStyles.Subscript));
+            Assert.AreEqual("🇭ello, 🇼orld!", styler.StyleConvert(Regular, UnicodeStyles.RegionalIndicatorSymbols));
+            Assert.AreEqual("󠁈󠁥󠁬󠁬󠁯󠀬󠀠󠁗󠁯󠁲󠁬󠁤󠀡", styler.StyleConvert(Regular, UnicodeStyles.Tags));
         }
 
         [Test]

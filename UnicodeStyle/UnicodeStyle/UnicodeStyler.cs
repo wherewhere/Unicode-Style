@@ -25,319 +25,293 @@ namespace UnicodeStyle
         /// <summary>
         /// Unicode Lines char.
         /// </summary>
-        public static char[] UnicodeLines = new char[] { '̲', '̳', '̅', '̶', '⃦', '̸', '⃫' };
+        public static char[] UnicodeLines = new char[] { '\u0332', '\u0333', '\u0305', '\u0336', '\u20E6', '\u0338', '\u20EB' };
 
         // UTF-8 Constants
-        private const ushort ReplacementCharacter = 0xFFFD;  // U+FFFD REPLACEMENT CHARACTER
-        private const int CharactersPerPlane = 65536;
-        private const ushort HighSurrogateFirst = 0xD800;        // U+D800
-        private const ushort HighSurrogateLast = 0xDBFF;     // U+DBFF
-        private const ushort LowSurrogateFirst = 0xDC00;     // U+DC00
-        private const ushort LowSurrogateLast = 0xDFFF;      // U+DFFF
+        private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER
+        private const int CharactersPerPlane = 0x10000;
+        private const ushort HighSurrogateFirst = 0xD800;   // U+D800
+        private const ushort HighSurrogateLast = 0xDBFF;    // U+DBFF
+        private const ushort LowSurrogateFirst = 0xDC00;    // U+DC00
+        private const ushort LowSurrogateLast = 0xDFFF;     // U+DFFF
         private const ushort HalfShift = 10;
-        private const int HalfBase = 65536;       // 0x10000;
+        private const int HalfBase = 0x10000;               // 0x10000;
         private const ushort HalfMask = 0x03FF;
 
         // Other constants
         private const ushort BasicLatinChars = 95;
-        private const ushort BasicLatinFirst = 32;       // U+0020
-        private const ushort BasicLatinLast = 126;       // U+007E
+        private const ushort BasicLatinFirst = 0x0020;      // U+0020
+        private const ushort BasicLatinLast = 0x007E;       // U+007E
         private const ushort MathLatinRange = 52;
-        private const int MathLatinFirst = 119808;    // U+1D400
-        private const int MathLatinLast = 120483; // U+1D6A3
+        private const int MathLatinFirst = 0x1D400;         // U+1D400
+        private const int MathLatinLast = 0x1D6A3;          // U+1D6A3
         private const ushort MathGreekRange = 58;
-        private const int MathGreekFirst = 120488;    // U+1D6A8
-        private const int MathGreekLast = 120777; // U+1D7C9
+        private const int MathGreekFirst = 0x1D6A8;         // U+1D6A8
+        private const int MathGreekLast = 0x1D7C9;          // U+1D7C9
         private const ushort MathDigitsRange = 10;
-        private const int MathDigitsFirst = 120782;   // U+1D7CE
-        private const int MathDigitsLast = 120831;    // U+1D7FF
+        private const int MathDigitsFirst = 0x1D7CE;        // U+1D7CE
+        private const int MathDigitsLast = 0x1D7FF;         // U+1D7FF
         private const ushort LatinDigitsOffset = 16;
         private const ushort LatinCapitalOffset = 33;
         private const ushort LatinSmallOffset = 65;
         private const ushort GreekChars = 58;
-        private const ushort FirstTarget = 178;          // U+00B2
+        private const ushort FirstTarget = 0x00B2;          // U+00B2
         private const ushort TotalStyles = 24;
-        private const ushort GreekStyles = 7;        // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
+        private const ushort GreekStyles = 7;               // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
 
         /// <summary>
         /// Styles of Unicode.
         /// </summary>
-        public string[] Styles;
-
-        private void InitStyles()
+        public string[] Styles = new string[TotalStyles]
         {
-            Styles = new string[TotalStyles];
-            Styles[0] = "Bold";
-            Styles[1] = "Italic";
-            Styles[2] = "BoldItalic";
-            Styles[3] = "SansSerif";
-            Styles[4] = "SansSerifBold";
-            Styles[5] = "SansSerifItalic";
-            Styles[6] = "SansSerifBoldItalic";
-            Styles[7] = "Script";
-            Styles[8] = "ScriptBold";
-            Styles[9] = "Fraktur";
-            Styles[10] = "FrakturBold";
-            Styles[11] = "DoubleStruck";
-            Styles[12] = "Monospace";
-            Styles[13] = "Fullwidth";
-            Styles[14] = "Circled";
-            Styles[15] = "InverseCircled";
-            Styles[16] = "Squared";
-            Styles[17] = "InverseSquared";
-            Styles[18] = "Parenthesized";
-            Styles[19] = "SmallCapitals";
-            Styles[20] = "Superscript";
-            Styles[21] = "Subscript";
-            Styles[22] = "RegionalIndicatorSymbols";
-            Styles[23] = "Tags";
-        }
+            "Bold",
+            "Italic",
+            "BoldItalic",
+            "SansSerif",
+            "SansSerifBold",
+            "SansSerifItalic",
+            "SansSerifBoldItalic",
+            "Script",
+            "ScriptBold",
+            "Fraktur",
+            "FrakturBold",
+            "DoubleStruck",
+            "Monospace",
+            "Fullwidth",
+            "Circled",
+            "InverseCircled",
+            "Squared",
+            "InverseSquared",
+            "Parenthesized",
+            "SmallCapitals",
+            "Superscript",
+            "Subscript",
+            "RegionalIndicatorSymbols",
+            "Tags"
+        };
 
-        private int[][] LatinMapping;
-
-        private void InitLatinMapping()
+        private int[][] LatinMapping = new int[BasicLatinChars][]
         {
-            LatinMapping = new int[BasicLatinChars][];
-            LatinMapping[0] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917536 };        // U+0020: SPACE
-            LatinMapping[1] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65281, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917537 };        // U+0021: EXCLAMATION MARK
-            LatinMapping[2] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917538 };        // U+0022: QUOTATION MARK
-            LatinMapping[3] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65283, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917539 };        // U+0023: NUMBER SIGN
-            LatinMapping[4] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65284, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917540 };        // U+0024: DOLLAR SIGN
-            LatinMapping[5] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65285, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917541 };        // U+0025: PERCENT SIGN
-            LatinMapping[6] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65286, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917542 };        // U+0026: AMPERSAND
-            LatinMapping[7] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65287, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917543 };        // U+0027: APOSTROPHE
-            LatinMapping[8] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65288, 0, 0, 0, 0, 0, 0, 8317, 8333, 0, 917544 };      // U+0028: LEFT PARENTHESIS
-            LatinMapping[9] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65289, 0, 0, 0, 0, 0, 0, 8318, 8334, 0, 917545 };      // U+0029: RIGHT PARENTHESIS
-            LatinMapping[10] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65290, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917546 };       // U+002A: ASTERISK
-            LatinMapping[11] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65291, 0, 0, 0, 0, 0, 0, 8314, 8330, 0, 917547 };     // U+002B: PLUS SIGN
-            LatinMapping[12] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65292, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917548 };       // U+002C: COMMA
-            LatinMapping[13] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65293, 0, 0, 0, 0, 0, 0, 8315, 8331, 0, 917549 };     // U+002D: HYPHEN-MINUS
-            LatinMapping[14] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65294, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917550 };       // U+002E: FULL STOP
-            LatinMapping[15] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65295, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917551 };       // U+002F: SOLIDUS
-            LatinMapping[16] = new int[] { 120782, 0, 0, 120802, 120812, 0, 0, 0, 0, 0, 0, 120792, 120822, 65296, 9450, 9471, 0, 0, 0, 0, 8304, 8320, 0, 917552 };      // U+0030: DIGIT ZERO
-            LatinMapping[17] = new int[] { 120783, 0, 0, 120803, 120813, 0, 0, 0, 0, 0, 0, 120793, 120823, 65297, 9312, 10102, 0, 0, 9332, 0, 185, 8321, 0, 917553 };       // U+0031: DIGIT ONE
-            LatinMapping[18] = new int[] { 120784, 0, 0, 120804, 120814, 0, 0, 0, 0, 0, 0, 120794, 120824, 65298, 9313, 10103, 0, 0, 9333, 0, 178, 8322, 0, 917554 };       // U+0032: DIGIT TWO
-            LatinMapping[19] = new int[] { 120785, 0, 0, 120805, 120815, 0, 0, 0, 0, 0, 0, 120795, 120825, 65299, 9314, 10104, 0, 0, 9334, 0, 179, 8323, 0, 917555 };       // U+0033: DIGIT THREE
-            LatinMapping[20] = new int[] { 120786, 0, 0, 120806, 120816, 0, 0, 0, 0, 0, 0, 120796, 120826, 65300, 9315, 10105, 0, 0, 9335, 0, 8308, 8324, 0, 917556 };      // U+0034: DIGIT FOUR
-            LatinMapping[21] = new int[] { 120787, 0, 0, 120807, 120817, 0, 0, 0, 0, 0, 0, 120797, 120827, 65301, 9316, 10106, 0, 0, 9336, 0, 8309, 8325, 0, 917557 };      // U+0035: DIGIT FIVE
-            LatinMapping[22] = new int[] { 120788, 0, 0, 120808, 120818, 0, 0, 0, 0, 0, 0, 120798, 120828, 65302, 9317, 10107, 0, 0, 9337, 0, 8310, 8326, 0, 917558 };      // U+0036: DIGIT SIX
-            LatinMapping[23] = new int[] { 120789, 0, 0, 120809, 120819, 0, 0, 0, 0, 0, 0, 120799, 120829, 65303, 9318, 10108, 0, 0, 9338, 0, 8311, 8327, 0, 917559 };      // U+0037: DIGIT SEVEN
-            LatinMapping[24] = new int[] { 120790, 0, 0, 120810, 120820, 0, 0, 0, 0, 0, 0, 120800, 120830, 65304, 9319, 10109, 0, 0, 9339, 0, 8312, 8328, 0, 917560 };      // U+0038: DIGIT EIGHT
-            LatinMapping[25] = new int[] { 120791, 0, 0, 120811, 120821, 0, 0, 0, 0, 0, 0, 120801, 120831, 65305, 9320, 10110, 0, 0, 9340, 0, 8313, 8329, 0, 917561 };      // U+0039: DIGIT NINE
-            LatinMapping[26] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65306, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917562 };       // U+003A: COLON
-            LatinMapping[27] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65307, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917563 };       // U+003B: SEMICOLON
-            LatinMapping[28] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65308, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917564 };       // U+003C: LESS-THAN SIGN
-            LatinMapping[29] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65309, 0, 0, 0, 0, 0, 0, 8316, 8332, 0, 917565 };     // U+003D: EQUALS SIGN
-            LatinMapping[30] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65310, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917566 };       // U+003E: GREATER-THAN SIGN
-            LatinMapping[31] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65311, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917567 };       // U+003F: QUESTION MARK
-            LatinMapping[32] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65312, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917568 };       // U+0040: COMMERCIAL AT
-            LatinMapping[33] = new int[] { 119808, 119860, 119912, 120224, 120276, 120328, 120380, 119964, 120016, 120068, 120172, 120120, 120432, 65313, 9398, 127312, 127280, 127344, 127248, 7424, 7468, 0, 127462, 917569 };        // U+0041: LATIN CAPITAL LETTER A
-            LatinMapping[34] = new int[] { 119809, 119861, 119913, 120225, 120277, 120329, 120381, 8492, 120017, 120069, 120173, 120121, 120433, 65314, 9399, 127313, 127281, 127345, 127249, 665, 7470, 0, 127463, 917570 };       // U+0042: LATIN CAPITAL LETTER B
-            LatinMapping[35] = new int[] { 119810, 119862, 119914, 120226, 120278, 120330, 120382, 119966, 120018, 8493, 120174, 8450, 120434, 65315, 9400, 127314, 127282, 127346, 127250, 7428, 42994, 0, 127464, 917571 };       // U+0043: LATIN CAPITAL LETTER C
-            LatinMapping[36] = new int[] { 119811, 119863, 119915, 120227, 120279, 120331, 120383, 119967, 120019, 120071, 120175, 120123, 120435, 65316, 9401, 127315, 127283, 127347, 127251, 7429, 7472, 0, 127465, 917572 };        // U+0044: LATIN CAPITAL LETTER D
-            LatinMapping[37] = new int[] { 119812, 119864, 119916, 120228, 120280, 120332, 120384, 8496, 120020, 120072, 120176, 120124, 120436, 65317, 9402, 127316, 127284, 127348, 127252, 7431, 7473, 0, 127466, 917573 };      // U+0045: LATIN CAPITAL LETTER E
-            LatinMapping[38] = new int[] { 119813, 119865, 119917, 120229, 120281, 120333, 120385, 8497, 120021, 120073, 120177, 120125, 120437, 65318, 9403, 127317, 127285, 127349, 127253, 42800, 42995, 0, 127467, 917574 };        // U+0046: LATIN CAPITAL LETTER F
-            LatinMapping[39] = new int[] { 119814, 119866, 119918, 120230, 120282, 120334, 120386, 119970, 120022, 120074, 120178, 120126, 120438, 65319, 9404, 127318, 127286, 127350, 127254, 610, 7475, 0, 127468, 917575 };     // U+0047: LATIN CAPITAL LETTER G
-            LatinMapping[40] = new int[] { 119815, 119867, 119919, 120231, 120283, 120335, 120387, 8459, 120023, 8460, 120179, 8461, 120439, 65320, 9405, 127319, 127287, 127351, 127255, 668, 7476, 0, 127469, 917576 };       // U+0048: LATIN CAPITAL LETTER H
-            LatinMapping[41] = new int[] { 119816, 119868, 119920, 120232, 120284, 120336, 120388, 8464, 120024, 8465, 120180, 120128, 120440, 65321, 9406, 127320, 127288, 127352, 127256, 618, 7477, 0, 127470, 917577 };     // U+0049: LATIN CAPITAL LETTER I
-            LatinMapping[42] = new int[] { 119817, 119869, 119921, 120233, 120285, 120337, 120389, 119973, 120025, 120077, 120181, 120129, 120441, 65322, 9407, 127321, 127289, 127353, 127257, 7434, 7478, 0, 127471, 917578 };        // U+004A: LATIN CAPITAL LETTER J
-            LatinMapping[43] = new int[] { 119818, 119870, 119922, 120234, 120286, 120338, 120390, 119974, 120026, 120078, 120182, 120130, 120442, 65323, 9408, 127322, 127290, 127354, 127258, 7435, 7479, 0, 127472, 917579 };        // U+004B: LATIN CAPITAL LETTER K
-            LatinMapping[44] = new int[] { 119819, 119871, 119923, 120235, 120287, 120339, 120391, 8466, 120027, 120079, 120183, 120131, 120443, 65324, 9409, 127323, 127291, 127355, 127259, 671, 7480, 0, 127473, 917580 };       // U+004C: LATIN CAPITAL LETTER L
-            LatinMapping[45] = new int[] { 119820, 119872, 119924, 120236, 120288, 120340, 120392, 8499, 120028, 120080, 120184, 120132, 120444, 65325, 9410, 127324, 127292, 127356, 127260, 7437, 7481, 0, 127474, 917581 };      // U+004D: LATIN CAPITAL LETTER M
-            LatinMapping[46] = new int[] { 119821, 119873, 119925, 120237, 120289, 120341, 120393, 119977, 120029, 120081, 120185, 8469, 120445, 65326, 9411, 127325, 127293, 127357, 127261, 628, 7482, 0, 127475, 917582 };       // U+004E: LATIN CAPITAL LETTER N
-            LatinMapping[47] = new int[] { 119822, 119874, 119926, 120238, 120290, 120342, 120394, 119978, 120030, 120082, 120186, 120134, 120446, 65327, 9412, 127326, 127294, 127358, 127262, 7439, 7484, 0, 127476, 917583 };        // U+004F: LATIN CAPITAL LETTER O
-            LatinMapping[48] = new int[] { 119823, 119875, 119927, 120239, 120291, 120343, 120395, 119979, 120031, 120083, 120187, 8473, 120447, 65328, 9413, 127327, 127295, 127359, 127263, 7448, 7486, 0, 127477, 917584 };      // U+0050: LATIN CAPITAL LETTER P
-            LatinMapping[49] = new int[] { 119824, 119876, 119928, 120240, 120292, 120344, 120396, 119980, 120032, 120084, 120188, 8474, 120448, 65329, 9414, 127328, 127296, 127360, 127264, 42927, 42996, 0, 127478, 917585 };        // U+0051: LATIN CAPITAL LETTER Q
-            LatinMapping[50] = new int[] { 119825, 119877, 119929, 120241, 120293, 120345, 120397, 8475, 120033, 8476, 120189, 8477, 120449, 65330, 9415, 127329, 127297, 127361, 127265, 640, 7487, 0, 127479, 917586 };       // U+0052: LATIN CAPITAL LETTER R
-            LatinMapping[51] = new int[] { 119826, 119878, 119930, 120242, 120294, 120346, 120398, 119982, 120034, 120086, 120190, 120138, 120450, 65331, 9416, 127330, 127298, 127362, 127266, 42801, 0, 0, 127480, 917587 };      // U+0053: LATIN CAPITAL LETTER S
-            LatinMapping[52] = new int[] { 119827, 119879, 119931, 120243, 120295, 120347, 120399, 119983, 120035, 120087, 120191, 120139, 120451, 65332, 9417, 127331, 127299, 127363, 127267, 7451, 7488, 0, 127481, 917588 };        // U+0054: LATIN CAPITAL LETTER T
-            LatinMapping[53] = new int[] { 119828, 119880, 119932, 120244, 120296, 120348, 120400, 119984, 120036, 120088, 120192, 120140, 120452, 65333, 9418, 127332, 127300, 127364, 127268, 7452, 7489, 0, 127482, 917589 };        // U+0055: LATIN CAPITAL LETTER U
-            LatinMapping[54] = new int[] { 119829, 119881, 119933, 120245, 120297, 120349, 120401, 119985, 120037, 120089, 120193, 120141, 120453, 65334, 9419, 127333, 127301, 127365, 127269, 7456, 11389, 0, 127483, 917590 };       // U+0056: LATIN CAPITAL LETTER V
-            LatinMapping[55] = new int[] { 119830, 119882, 119934, 120246, 120298, 120350, 120402, 119986, 120038, 120090, 120194, 120142, 120454, 65335, 9420, 127334, 127302, 127366, 127270, 7457, 7490, 0, 127484, 917591 };        // U+0057: LATIN CAPITAL LETTER W
-            LatinMapping[56] = new int[] { 119831, 119883, 119935, 120247, 120299, 120351, 120403, 119987, 120039, 120091, 120195, 120143, 120455, 65336, 9421, 127335, 127303, 127367, 127271, 0, 0, 0, 127485, 917592 };      // U+0058: LATIN CAPITAL LETTER X
-            LatinMapping[57] = new int[] { 119832, 119884, 119936, 120248, 120300, 120352, 120404, 119988, 120040, 120092, 120196, 120144, 120456, 65337, 9422, 127336, 127304, 127368, 127272, 655, 0, 0, 127486, 917593 };        // U+0059: LATIN CAPITAL LETTER Y
-            LatinMapping[58] = new int[] { 119833, 119885, 119937, 120249, 120301, 120353, 120405, 119989, 120041, 8488, 120197, 8484, 120457, 65338, 9423, 127337, 127305, 127369, 127273, 7458, 0, 0, 127487, 917594 };       // U+005A: LATIN CAPITAL LETTER Z
-            LatinMapping[59] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65339, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917595 };       // U+005B: LEFT SQUARE BRACKET
-            LatinMapping[60] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65340, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917596 };       // U+005C: REVERSE SOLIDUS
-            LatinMapping[61] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65341, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917597 };       // U+005D: RIGHT SQUARE BRACKET
-            LatinMapping[62] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65342, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917598 };       // U+005E: CIRCUMFLEX ACCENT
-            LatinMapping[63] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65343, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917599 };       // U+005F: LOW LINE
-            LatinMapping[64] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65344, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917600 };       // U+0060: GRAVE ACCENT
-            LatinMapping[65] = new int[] { 119834, 119886, 119938, 120250, 120302, 120354, 120406, 119990, 120042, 120094, 120198, 120146, 120458, 65345, 9424, 0, 0, 0, 9372, 0, 7491, 8336, 0, 917601 };      // U+0061: LATIN SMALL LETTER A
-            LatinMapping[66] = new int[] { 119835, 119887, 119939, 120251, 120303, 120355, 120407, 119991, 120043, 120095, 120199, 120147, 120459, 65346, 9425, 0, 0, 0, 9373, 0, 7495, 0, 0, 917602 };     // U+0062: LATIN SMALL LETTER B
-            LatinMapping[67] = new int[] { 119836, 119888, 119940, 120252, 120304, 120356, 120408, 119992, 120044, 120096, 120200, 120148, 120460, 65347, 9426, 0, 0, 0, 9374, 0, 7580, 0, 0, 917603 };     // U+0063: LATIN SMALL LETTER C
-            LatinMapping[68] = new int[] { 119837, 119889, 119941, 120253, 120305, 120357, 120409, 119993, 120045, 120097, 120201, 120149, 120461, 65348, 9427, 0, 0, 0, 9375, 0, 7496, 0, 0, 917604 };     // U+0064: LATIN SMALL LETTER D
-            LatinMapping[69] = new int[] { 119838, 119890, 119942, 120254, 120306, 120358, 120410, 8495, 120046, 120098, 120202, 120150, 120462, 65349, 9428, 0, 0, 0, 9376, 0, 7497, 8337, 0, 917605 };        // U+0065: LATIN SMALL LETTER E
-            LatinMapping[70] = new int[] { 119839, 119891, 119943, 120255, 120307, 120359, 120411, 119995, 120047, 120099, 120203, 120151, 120463, 65350, 9429, 0, 0, 0, 9377, 0, 7584, 0, 0, 917606 };     // U+0066: LATIN SMALL LETTER F
-            LatinMapping[71] = new int[] { 119840, 119892, 119944, 120256, 120308, 120360, 120412, 8458, 120048, 120100, 120204, 120152, 120464, 65351, 9430, 0, 0, 0, 9378, 0, 7501, 0, 0, 917607 };       // U+0067: LATIN SMALL LETTER G
-            LatinMapping[72] = new int[] { 119841, 8462, 119945, 120257, 120309, 120361, 120413, 119997, 120049, 120101, 120205, 120153, 120465, 65352, 9431, 0, 0, 0, 9379, 0, 688, 8341, 0, 917608 };     // U+0068: LATIN SMALL LETTER H
-            LatinMapping[73] = new int[] { 119842, 119894, 119946, 120258, 120310, 120362, 120414, 119998, 120050, 120102, 120206, 120154, 120466, 65353, 9432, 0, 0, 0, 9380, 0, 8305, 7522, 0, 917609 };      // U+0069: LATIN SMALL LETTER I
-            LatinMapping[74] = new int[] { 119843, 119895, 119947, 120259, 120311, 120363, 120415, 119999, 120051, 120103, 120207, 120155, 120467, 65354, 9433, 0, 0, 0, 9381, 0, 690, 11388, 0, 917610 };      // U+006A: LATIN SMALL LETTER J
-            LatinMapping[75] = new int[] { 119844, 119896, 119948, 120260, 120312, 120364, 120416, 120000, 120052, 120104, 120208, 120156, 120468, 65355, 9434, 0, 0, 0, 9382, 0, 7503, 8342, 0, 917611 };      // U+006B: LATIN SMALL LETTER K
-            LatinMapping[76] = new int[] { 119845, 119897, 119949, 120261, 120313, 120365, 120417, 120001, 120053, 120105, 120209, 120157, 120469, 65356, 9435, 0, 0, 0, 9383, 0, 737, 8343, 0, 917612 };       // U+006C: LATIN SMALL LETTER L
-            LatinMapping[77] = new int[] { 119846, 119898, 119950, 120262, 120314, 120366, 120418, 120002, 120054, 120106, 120210, 120158, 120470, 65357, 9436, 0, 0, 0, 9384, 0, 7504, 8344, 0, 917613 };      // U+006D: LATIN SMALL LETTER M
-            LatinMapping[78] = new int[] { 119847, 119899, 119951, 120263, 120315, 120367, 120419, 120003, 120055, 120107, 120211, 120159, 120471, 65358, 9437, 0, 0, 0, 9385, 0, 8319, 8345, 0, 917614 };      // U+006E: LATIN SMALL LETTER N
-            LatinMapping[79] = new int[] { 119848, 119900, 119952, 120264, 120316, 120368, 120420, 8500, 120056, 120108, 120212, 120160, 120472, 65359, 9438, 0, 0, 0, 9386, 0, 7506, 8338, 0, 917615 };        // U+006F: LATIN SMALL LETTER O
-            LatinMapping[80] = new int[] { 119849, 119901, 119953, 120265, 120317, 120369, 120421, 120005, 120057, 120109, 120213, 120161, 120473, 65360, 9439, 0, 0, 0, 9387, 0, 7510, 8346, 0, 917616 };      // U+0070: LATIN SMALL LETTER P
-            LatinMapping[81] = new int[] { 119850, 119902, 119954, 120266, 120318, 120370, 120422, 120006, 120058, 120110, 120214, 120162, 120474, 65361, 9440, 0, 0, 0, 9388, 0, 67493, 0, 0, 917617 };        // U+0071: LATIN SMALL LETTER Q
-            LatinMapping[82] = new int[] { 119851, 119903, 119955, 120267, 120319, 120371, 120423, 120007, 120059, 120111, 120215, 120163, 120475, 65362, 9441, 0, 0, 0, 9389, 0, 691, 7523, 0, 917618 };       // U+0072: LATIN SMALL LETTER R
-            LatinMapping[83] = new int[] { 119852, 119904, 119956, 120268, 120320, 120372, 120424, 120008, 120060, 120112, 120216, 120164, 120476, 65363, 9442, 0, 0, 0, 9390, 0, 738, 8347, 0, 917619 };       // U+0073: LATIN SMALL LETTER S
-            LatinMapping[84] = new int[] { 119853, 119905, 119957, 120269, 120321, 120373, 120425, 120009, 120061, 120113, 120217, 120165, 120477, 65364, 9443, 0, 0, 0, 9391, 0, 7511, 8348, 0, 917620 };      // U+0074: LATIN SMALL LETTER T
-            LatinMapping[85] = new int[] { 119854, 119906, 119958, 120270, 120322, 120374, 120426, 120010, 120062, 120114, 120218, 120166, 120478, 65365, 9444, 0, 0, 0, 9392, 0, 7512, 7524, 0, 917621 };      // U+0075: LATIN SMALL LETTER U
-            LatinMapping[86] = new int[] { 119855, 119907, 119959, 120271, 120323, 120375, 120427, 120011, 120063, 120115, 120219, 120167, 120479, 65366, 9445, 0, 0, 0, 9393, 0, 7515, 7525, 0, 917622 };      // U+0076: LATIN SMALL LETTER V
-            LatinMapping[87] = new int[] { 119856, 119908, 119960, 120272, 120324, 120376, 120428, 120012, 120064, 120116, 120220, 120168, 120480, 65367, 9446, 0, 0, 0, 9394, 0, 695, 0, 0, 917623 };      // U+0077: LATIN SMALL LETTER W
-            LatinMapping[88] = new int[] { 119857, 119909, 119961, 120273, 120325, 120377, 120429, 120013, 120065, 120117, 120221, 120169, 120481, 65368, 9447, 0, 0, 0, 9395, 0, 739, 8339, 0, 917624 };       // U+0078: LATIN SMALL LETTER X
-            LatinMapping[89] = new int[] { 119858, 119910, 119962, 120274, 120326, 120378, 120430, 120014, 120066, 120118, 120222, 120170, 120482, 65369, 9448, 0, 0, 0, 9396, 0, 696, 0, 0, 917625 };      // U+0079: LATIN SMALL LETTER Y
-            LatinMapping[90] = new int[] { 119859, 119911, 119963, 120275, 120327, 120379, 120431, 120015, 120067, 120119, 120223, 120171, 120483, 65370, 9449, 0, 0, 0, 9397, 0, 7611, 0, 0, 917626 };     // U+007A: LATIN SMALL LETTER Z
-            LatinMapping[91] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65371, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917627 };       // U+007B: LEFT CURLY BRACKET
-            LatinMapping[92] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65372, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917628 };       // U+007C: VERTICAL LINE
-            LatinMapping[93] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65373, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917629 };       // U+007D: RIGHT CURLY BRACKET
-            LatinMapping[94] = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 917630 };       // U+007E: TILDE
-        }
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0020 },            // U+0020: SPACE
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0021 },            // U+0021: EXCLAMATION MARK
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF02, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0022 },            // U+0022: QUOTATION MARK
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF03, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0023 },            // U+0023: NUMBER SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF04, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0024 },            // U+0024: DOLLAR SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF05, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0025 },            // U+0025: PERCENT SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0026 },            // U+0026: AMPERSAND
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF07, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0027 },            // U+0027: APOSTROPHE
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF08, 0, 0, 0, 0, 0, 0, 0x207D, 0x208D, 0, 0xE0028 },  // U+0028: LEFT PARENTHESIS
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF09, 0, 0, 0, 0, 0, 0, 0x207E, 0x208E, 0, 0xE0029 },  // U+0029: RIGHT PARENTHESIS
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE002A },            // U+002A: ASTERISK
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0B, 0, 0, 0, 0, 0, 0, 0x207A, 0x208A, 0, 0xE002B },  // U+002B: PLUS SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE002C },            // U+002C: COMMA
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0D, 0, 0, 0, 0, 0, 0, 0x207B, 0x208B, 0, 0xE002D },  // U+002D: HYPHEN-MINUS
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE002E },            // U+002E: FULL STOP
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF0F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE002F },            // U+002F: SOLIDUS
+            new int[] { 0x1D7CE, 0, 0, 0x1D7E2, 0x1D7EC, 0, 0, 0, 0, 0, 0, 0x1D7D8, 0x1D7F6, 0xFF10, 0x24EA, 0x24FF, 0, 0, 0, 0, 0x2070, 0x2080, 0, 0xE0030 },      // U+0030: DIGIT ZERO
+            new int[] { 0x1D7CF, 0, 0, 0x1D7E3, 0x1D7ED, 0, 0, 0, 0, 0, 0, 0x1D7D9, 0x1D7F7, 0xFF11, 0x2460, 0x2776, 0, 0, 0x2474, 0, 0xB9, 0x2081, 0, 0xE0031 },   // U+0031: DIGIT ONE
+            new int[] { 0x1D7D0, 0, 0, 0x1D7E4, 0x1D7EE, 0, 0, 0, 0, 0, 0, 0x1D7DA, 0x1D7F8, 0xFF12, 0x2461, 0x2777, 0, 0, 0x2475, 0, 0xB2, 0x2082, 0, 0xE0032 },   // U+0032: DIGIT TWO
+            new int[] { 0x1D7D1, 0, 0, 0x1D7E5, 0x1D7EF, 0, 0, 0, 0, 0, 0, 0x1D7DB, 0x1D7F9, 0xFF13, 0x2462, 0x2778, 0, 0, 0x2476, 0, 0xB3, 0x2083, 0, 0xE0033 },   // U+0033: DIGIT THREE
+            new int[] { 0x1D7D2, 0, 0, 0x1D7E6, 0x1D7F0, 0, 0, 0, 0, 0, 0, 0x1D7DC, 0x1D7FA, 0xFF14, 0x2463, 0x2779, 0, 0, 0x2477, 0, 0x2074, 0x2084, 0, 0xE0034 }, // U+0034: DIGIT FOUR
+            new int[] { 0x1D7D3, 0, 0, 0x1D7E7, 0x1D7F1, 0, 0, 0, 0, 0, 0, 0x1D7DD, 0x1D7FB, 0xFF15, 0x2464, 0x277A, 0, 0, 0x2478, 0, 0x2075, 0x2085, 0, 0xE0035 }, // U+0035: DIGIT FIVE
+            new int[] { 0x1D7D4, 0, 0, 0x1D7E8, 0x1D7F2, 0, 0, 0, 0, 0, 0, 0x1D7DE, 0x1D7FC, 0xFF16, 0x2465, 0x277B, 0, 0, 0x2479, 0, 0x2076, 0x2086, 0, 0xE0036 }, // U+0036: DIGIT SIX
+            new int[] { 0x1D7D5, 0, 0, 0x1D7E9, 0x1D7F3, 0, 0, 0, 0, 0, 0, 0x1D7DF, 0x1D7FD, 0xFF17, 0x2466, 0x277C, 0, 0, 0x247A, 0, 0x2077, 0x2087, 0, 0xE0037 }, // U+0037: DIGIT SEVEN
+            new int[] { 0x1D7D6, 0, 0, 0x1D7EA, 0x1D7F4, 0, 0, 0, 0, 0, 0, 0x1D7E0, 0x1D7FE, 0xFF18, 0x2467, 0x277D, 0, 0, 0x247B, 0, 0x2078, 0x2088, 0, 0xE0038 }, // U+0038: DIGIT EIGHT
+            new int[] { 0x1D7D7, 0, 0, 0x1D7EB, 0x1D7F5, 0, 0, 0, 0, 0, 0, 0x1D7E1, 0x1D7FF, 0xFF19, 0x2468, 0x277E, 0, 0, 0x247C, 0, 0x2079, 0x2089, 0, 0xE0039 }, // U+0039: DIGIT NINE
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1A, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE003A },            // U+003A: COLON
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE003B },            // U+003B: SEMICOLON
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE003C },            // U+003C: LESS-THAN SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1D, 0, 0, 0, 0, 0, 0, 0x207C, 0x208C, 0, 0xE003D },  // U+003D: EQUALS SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE003E },            // U+003E: GREATER-THAN SIGN
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF1F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE003F },            // U+003F: QUESTION MARK
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0040 },            // U+0040: COMMERCIAL AT
+            new int[] { 0x1D400, 0x1D434, 0x1D468, 0x1D5A0, 0x1D5D4, 0x1D608, 0x1D63C, 0x1D49C, 0x1D4D0, 0x1D504, 0x1D56C, 0x1D538, 0x1D670, 0xFF21, 0x24B6, 0x1F150, 0x1F130, 0x1F170, 0x1F110, 0x1D00, 0x1D2C, 0, 0x1F1E6, 0xE0041 }, // U+0041: LATIN CAPITAL LETTER A
+            new int[] { 0x1D401, 0x1D435, 0x1D469, 0x1D5A1, 0x1D5D5, 0x1D609, 0x1D63D, 0x212C, 0x1D4D1, 0x1D505, 0x1D56D, 0x1D539, 0x1D671, 0xFF22, 0x24B7, 0x1F151, 0x1F131, 0x1F171, 0x1F111, 0x299, 0x1D2E, 0, 0x1F1E7, 0xE0042 },   // U+0042: LATIN CAPITAL LETTER B
+            new int[] { 0x1D402, 0x1D436, 0x1D46A, 0x1D5A2, 0x1D5D6, 0x1D60A, 0x1D63E, 0x1D49E, 0x1D4D2, 0x212D, 0x1D56E, 0x2102, 0x1D672, 0xFF23, 0x24B8, 0x1F152, 0x1F132, 0x1F172, 0x1F112, 0x1D04, 0xA7F2, 0, 0x1F1E8, 0xE0043 },   // U+0043: LATIN CAPITAL LETTER C
+            new int[] { 0x1D403, 0x1D437, 0x1D46B, 0x1D5A3, 0x1D5D7, 0x1D60B, 0x1D63F, 0x1D49F, 0x1D4D3, 0x1D507, 0x1D56F, 0x1D53B, 0x1D673, 0xFF24, 0x24B9, 0x1F153, 0x1F133, 0x1F173, 0x1F113, 0x1D05, 0x1D30, 0, 0x1F1E9, 0xE0044 }, // U+0044: LATIN CAPITAL LETTER D
+            new int[] { 0x1D404, 0x1D438, 0x1D46C, 0x1D5A4, 0x1D5D8, 0x1D60C, 0x1D640, 0x2130, 0x1D4D4, 0x1D508, 0x1D570, 0x1D53C, 0x1D674, 0xFF25, 0x24BA, 0x1F154, 0x1F134, 0x1F174, 0x1F114, 0x1D07, 0x1D31, 0, 0x1F1EA, 0xE0045 },  // U+0045: LATIN CAPITAL LETTER E
+            new int[] { 0x1D405, 0x1D439, 0x1D46D, 0x1D5A5, 0x1D5D9, 0x1D60D, 0x1D641, 0x2131, 0x1D4D5, 0x1D509, 0x1D571, 0x1D53D, 0x1D675, 0xFF26, 0x24BB, 0x1F155, 0x1F135, 0x1F175, 0x1F115, 0xA730, 0xA7F3, 0, 0x1F1EB, 0xE0046 },  // U+0046: LATIN CAPITAL LETTER F
+            new int[] { 0x1D406, 0x1D43A, 0x1D46E, 0x1D5A6, 0x1D5DA, 0x1D60E, 0x1D642, 0x1D4A2, 0x1D4D6, 0x1D50A, 0x1D572, 0x1D53E, 0x1D676, 0xFF27, 0x24BC, 0x1F156, 0x1F136, 0x1F176, 0x1F116, 0x262, 0x1D33, 0, 0x1F1EC, 0xE0047 },  // U+0047: LATIN CAPITAL LETTER G
+            new int[] { 0x1D407, 0x1D43B, 0x1D46F, 0x1D5A7, 0x1D5DB, 0x1D60F, 0x1D643, 0x210B, 0x1D4D7, 0x210C, 0x1D573, 0x210D, 0x1D677, 0xFF28, 0x24BD, 0x1F157, 0x1F137, 0x1F177, 0x1F117, 0x29C, 0x1D34, 0, 0x1F1ED, 0xE0048 },     // U+0048: LATIN CAPITAL LETTER H
+            new int[] { 0x1D408, 0x1D43C, 0x1D470, 0x1D5A8, 0x1D5DC, 0x1D610, 0x1D644, 0x2110, 0x1D4D8, 0x2111, 0x1D574, 0x1D540, 0x1D678, 0xFF29, 0x24BE, 0x1F158, 0x1F138, 0x1F178, 0x1F118, 0x26A, 0x1D35, 0, 0x1F1EE, 0xE0049 },    // U+0049: LATIN CAPITAL LETTER I
+            new int[] { 0x1D409, 0x1D43D, 0x1D471, 0x1D5A9, 0x1D5DD, 0x1D611, 0x1D645, 0x1D4A5, 0x1D4D9, 0x1D50D, 0x1D575, 0x1D541, 0x1D679, 0xFF2A, 0x24BF, 0x1F159, 0x1F139, 0x1F179, 0x1F119, 0x1D0A, 0x1D36, 0, 0x1F1EF, 0xE004A }, // U+004A: LATIN CAPITAL LETTER J
+            new int[] { 0x1D40A, 0x1D43E, 0x1D472, 0x1D5AA, 0x1D5DE, 0x1D612, 0x1D646, 0x1D4A6, 0x1D4DA, 0x1D50E, 0x1D576, 0x1D542, 0x1D67A, 0xFF2B, 0x24C0, 0x1F15A, 0x1F13A, 0x1F17A, 0x1F11A, 0x1D0B, 0x1D37, 0, 0x1F1F0, 0xE004B }, // U+004B: LATIN CAPITAL LETTER K
+            new int[] { 0x1D40B, 0x1D43F, 0x1D473, 0x1D5AB, 0x1D5DF, 0x1D613, 0x1D647, 0x2112, 0x1D4DB, 0x1D50F, 0x1D577, 0x1D543, 0x1D67B, 0xFF2C, 0x24C1, 0x1F15B, 0x1F13B, 0x1F17B, 0x1F11B, 0x29F, 0x1D38, 0, 0x1F1F1, 0xE004C },   // U+004C: LATIN CAPITAL LETTER L
+            new int[] { 0x1D40C, 0x1D440, 0x1D474, 0x1D5AC, 0x1D5E0, 0x1D614, 0x1D648, 0x2133, 0x1D4DC, 0x1D510, 0x1D578, 0x1D544, 0x1D67C, 0xFF2D, 0x24C2, 0x1F15C, 0x1F13C, 0x1F17C, 0x1F11C, 0x1D0D, 0x1D39, 0, 0x1F1F2, 0xE004D },  // U+004D: LATIN CAPITAL LETTER M
+            new int[] { 0x1D40D, 0x1D441, 0x1D475, 0x1D5AD, 0x1D5E1, 0x1D615, 0x1D649, 0x1D4A9, 0x1D4DD, 0x1D511, 0x1D579, 0x2115, 0x1D67D, 0xFF2E, 0x24C3, 0x1F15D, 0x1F13D, 0x1F17D, 0x1F11D, 0x274, 0x1D3A, 0, 0x1F1F3, 0xE004E },   // U+004E: LATIN CAPITAL LETTER N
+            new int[] { 0x1D40E, 0x1D442, 0x1D476, 0x1D5AE, 0x1D5E2, 0x1D616, 0x1D64A, 0x1D4AA, 0x1D4DE, 0x1D512, 0x1D57A, 0x1D546, 0x1D67E, 0xFF2F, 0x24C4, 0x1F15E, 0x1F13E, 0x1F17E, 0x1F11E, 0x1D0F, 0x1D3C, 0, 0x1F1F4, 0xE004F }, // U+004F: LATIN CAPITAL LETTER O
+            new int[] { 0x1D40F, 0x1D443, 0x1D477, 0x1D5AF, 0x1D5E3, 0x1D617, 0x1D64B, 0x1D4AB, 0x1D4DF, 0x1D513, 0x1D57B, 0x2119, 0x1D67F, 0xFF30, 0x24C5, 0x1F15F, 0x1F13F, 0x1F17F, 0x1F11F, 0x1D18, 0x1D3E, 0, 0x1F1F5, 0xE0050 },  // U+0050: LATIN CAPITAL LETTER P
+            new int[] { 0x1D410, 0x1D444, 0x1D478, 0x1D5B0, 0x1D5E4, 0x1D618, 0x1D64C, 0x1D4AC, 0x1D4E0, 0x1D514, 0x1D57C, 0x211A, 0x1D680, 0xFF31, 0x24C6, 0x1F160, 0x1F140, 0x1F180, 0x1F120, 0xA7AF, 0xA7F4, 0, 0x1F1F6, 0xE0051 },  // U+0051: LATIN CAPITAL LETTER Q
+            new int[] { 0x1D411, 0x1D445, 0x1D479, 0x1D5B1, 0x1D5E5, 0x1D619, 0x1D64D, 0x211B, 0x1D4E1, 0x211C, 0x1D57D, 0x211D, 0x1D681, 0xFF32, 0x24C7, 0x1F161, 0x1F141, 0x1F181, 0x1F121, 0x280, 0x1D3F, 0, 0x1F1F7, 0xE0052 },     // U+0052: LATIN CAPITAL LETTER R
+            new int[] { 0x1D412, 0x1D446, 0x1D47A, 0x1D5B2, 0x1D5E6, 0x1D61A, 0x1D64E, 0x1D4AE, 0x1D4E2, 0x1D516, 0x1D57E, 0x1D54A, 0x1D682, 0xFF33, 0x24C8, 0x1F162, 0x1F142, 0x1F182, 0x1F122, 0xA731, 0, 0, 0x1F1F8, 0xE0053 },      // U+0053: LATIN CAPITAL LETTER S
+            new int[] { 0x1D413, 0x1D447, 0x1D47B, 0x1D5B3, 0x1D5E7, 0x1D61B, 0x1D64F, 0x1D4AF, 0x1D4E3, 0x1D517, 0x1D57F, 0x1D54B, 0x1D683, 0xFF34, 0x24C9, 0x1F163, 0x1F143, 0x1F183, 0x1F123, 0x1D1B, 0x1D40, 0, 0x1F1F9, 0xE0054 }, // U+0054: LATIN CAPITAL LETTER T
+            new int[] { 0x1D414, 0x1D448, 0x1D47C, 0x1D5B4, 0x1D5E8, 0x1D61C, 0x1D650, 0x1D4B0, 0x1D4E4, 0x1D518, 0x1D580, 0x1D54C, 0x1D684, 0xFF35, 0x24CA, 0x1F164, 0x1F144, 0x1F184, 0x1F124, 0x1D1C, 0x1D41, 0, 0x1F1FA, 0xE0055 }, // U+0055: LATIN CAPITAL LETTER U
+            new int[] { 0x1D415, 0x1D449, 0x1D47D, 0x1D5B5, 0x1D5E9, 0x1D61D, 0x1D651, 0x1D4B1, 0x1D4E5, 0x1D519, 0x1D581, 0x1D54D, 0x1D685, 0xFF36, 0x24CB, 0x1F165, 0x1F145, 0x1F185, 0x1F125, 0x1D20, 0x2C7D, 0, 0x1F1FB, 0xE0056 }, // U+0056: LATIN CAPITAL LETTER V
+            new int[] { 0x1D416, 0x1D44A, 0x1D47E, 0x1D5B6, 0x1D5EA, 0x1D61E, 0x1D652, 0x1D4B2, 0x1D4E6, 0x1D51A, 0x1D582, 0x1D54E, 0x1D686, 0xFF37, 0x24CC, 0x1F166, 0x1F146, 0x1F186, 0x1F126, 0x1D21, 0x1D42, 0, 0x1F1FC, 0xE0057 }, // U+0057: LATIN CAPITAL LETTER W
+            new int[] { 0x1D417, 0x1D44B, 0x1D47F, 0x1D5B7, 0x1D5EB, 0x1D61F, 0x1D653, 0x1D4B3, 0x1D4E7, 0x1D51B, 0x1D583, 0x1D54F, 0x1D687, 0xFF38, 0x24CD, 0x1F167, 0x1F147, 0x1F187, 0x1F127, 0, 0, 0, 0x1F1FD, 0xE0058 },           // U+0058: LATIN CAPITAL LETTER X
+            new int[] { 0x1D418, 0x1D44C, 0x1D480, 0x1D5B8, 0x1D5EC, 0x1D620, 0x1D654, 0x1D4B4, 0x1D4E8, 0x1D51C, 0x1D584, 0x1D550, 0x1D688, 0xFF39, 0x24CE, 0x1F168, 0x1F148, 0x1F188, 0x1F128, 0x28F, 0, 0, 0x1F1FE, 0xE0059 },       // U+0059: LATIN CAPITAL LETTER Y
+            new int[] { 0x1D419, 0x1D44D, 0x1D481, 0x1D5B9, 0x1D5ED, 0x1D621, 0x1D655, 0x1D4B5, 0x1D4E9, 0x2128, 0x1D585, 0x2124, 0x1D689, 0xFF3A, 0x24CF, 0x1F169, 0x1F149, 0x1F189, 0x1F129, 0x1D22, 0, 0, 0x1F1FF, 0xE005A },        // U+005A: LATIN CAPITAL LETTER Z
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF3B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE005B },            // U+005B: LEFT SQUARE BRACKET
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF3C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE005C },            // U+005C: REVERSE SOLIDUS
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF3D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE005D },            // U+005D: RIGHT SQUARE BRACKET
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF3E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE005E },            // U+005E: CIRCUMFLEX ACCENT
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF3F, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE005F },            // U+005F: LOW LINE
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE0060 },            // U+0060: GRAVE ACCENT
+            new int[] { 0x1D41A, 0x1D44E, 0x1D482, 0x1D5BA, 0x1D5EE, 0x1D622, 0x1D656, 0x1D4B6, 0x1D4EA, 0x1D51E, 0x1D586, 0x1D552, 0x1D68A, 0xFF41, 0x24D0, 0, 0, 0, 0x249C, 0, 0x1D43, 0x2090, 0, 0xE0061 },  // U+0061: LATIN SMALL LETTER A
+            new int[] { 0x1D41B, 0x1D44F, 0x1D483, 0x1D5BB, 0x1D5EF, 0x1D623, 0x1D657, 0x1D4B7, 0x1D4EB, 0x1D51F, 0x1D587, 0x1D553, 0x1D68B, 0xFF42, 0x24D1, 0, 0, 0, 0x249D, 0, 0x1D47, 0, 0, 0xE0062 },       // U+0062: LATIN SMALL LETTER B
+            new int[] { 0x1D41C, 0x1D450, 0x1D484, 0x1D5BC, 0x1D5F0, 0x1D624, 0x1D658, 0x1D4B8, 0x1D4EC, 0x1D520, 0x1D588, 0x1D554, 0x1D68C, 0xFF43, 0x24D2, 0, 0, 0, 0x249E, 0, 0x1D9C, 0, 0, 0xE0063 },       // U+0063: LATIN SMALL LETTER C
+            new int[] { 0x1D41D, 0x1D451, 0x1D485, 0x1D5BD, 0x1D5F1, 0x1D625, 0x1D659, 0x1D4B9, 0x1D4ED, 0x1D521, 0x1D589, 0x1D555, 0x1D68D, 0xFF44, 0x24D3, 0, 0, 0, 0x249F, 0, 0x1D48, 0, 0, 0xE0064 },       // U+0064: LATIN SMALL LETTER D
+            new int[] { 0x1D41E, 0x1D452, 0x1D486, 0x1D5BE, 0x1D5F2, 0x1D626, 0x1D65A, 0x212F, 0x1D4EE, 0x1D522, 0x1D58A, 0x1D556, 0x1D68E, 0xFF45, 0x24D4, 0, 0, 0, 0x24A0, 0, 0x1D49, 0x2091, 0, 0xE0065 },   // U+0065: LATIN SMALL LETTER E
+            new int[] { 0x1D41F, 0x1D453, 0x1D487, 0x1D5BF, 0x1D5F3, 0x1D627, 0x1D65B, 0x1D4BB, 0x1D4EF, 0x1D523, 0x1D58B, 0x1D557, 0x1D68F, 0xFF46, 0x24D5, 0, 0, 0, 0x24A1, 0, 0x1DA0, 0, 0, 0xE0066 },       // U+0066: LATIN SMALL LETTER F
+            new int[] { 0x1D420, 0x1D454, 0x1D488, 0x1D5C0, 0x1D5F4, 0x1D628, 0x1D65C, 0x210A, 0x1D4F0, 0x1D524, 0x1D58C, 0x1D558, 0x1D690, 0xFF47, 0x24D6, 0, 0, 0, 0x24A2, 0, 0x1D4D, 0, 0, 0xE0067 },        // U+0067: LATIN SMALL LETTER G
+            new int[] { 0x1D421, 0x210E, 0x1D489, 0x1D5C1, 0x1D5F5, 0x1D629, 0x1D65D, 0x1D4BD, 0x1D4F1, 0x1D525, 0x1D58D, 0x1D559, 0x1D691, 0xFF48, 0x24D7, 0, 0, 0, 0x24A3, 0, 0x2B0, 0x2095, 0, 0xE0068 },    // U+0068: LATIN SMALL LETTER H
+            new int[] { 0x1D422, 0x1D456, 0x1D48A, 0x1D5C2, 0x1D5F6, 0x1D62A, 0x1D65E, 0x1D4BE, 0x1D4F2, 0x1D526, 0x1D58E, 0x1D55A, 0x1D692, 0xFF49, 0x24D8, 0, 0, 0, 0x24A4, 0, 0x2071, 0x1D62, 0, 0xE0069 },  // U+0069: LATIN SMALL LETTER I
+            new int[] { 0x1D423, 0x1D457, 0x1D48B, 0x1D5C3, 0x1D5F7, 0x1D62B, 0x1D65F, 0x1D4BF, 0x1D4F3, 0x1D527, 0x1D58F, 0x1D55B, 0x1D693, 0xFF4A, 0x24D9, 0, 0, 0, 0x24A5, 0, 0x2B2, 0x2C7C, 0, 0xE006A },   // U+006A: LATIN SMALL LETTER J
+            new int[] { 0x1D424, 0x1D458, 0x1D48C, 0x1D5C4, 0x1D5F8, 0x1D62C, 0x1D660, 0x1D4C0, 0x1D4F4, 0x1D528, 0x1D590, 0x1D55C, 0x1D694, 0xFF4B, 0x24DA, 0, 0, 0, 0x24A6, 0, 0x1D4F, 0x2096, 0, 0xE006B },  // U+006B: LATIN SMALL LETTER K
+            new int[] { 0x1D425, 0x1D459, 0x1D48D, 0x1D5C5, 0x1D5F9, 0x1D62D, 0x1D661, 0x1D4C1, 0x1D4F5, 0x1D529, 0x1D591, 0x1D55D, 0x1D695, 0xFF4C, 0x24DB, 0, 0, 0, 0x24A7, 0, 0x2E1, 0x2097, 0, 0xE006C },   // U+006C: LATIN SMALL LETTER L
+            new int[] { 0x1D426, 0x1D45A, 0x1D48E, 0x1D5C6, 0x1D5FA, 0x1D62E, 0x1D662, 0x1D4C2, 0x1D4F6, 0x1D52A, 0x1D592, 0x1D55E, 0x1D696, 0xFF4D, 0x24DC, 0, 0, 0, 0x24A8, 0, 0x1D50, 0x2098, 0, 0xE006D },  // U+006D: LATIN SMALL LETTER M
+            new int[] { 0x1D427, 0x1D45B, 0x1D48F, 0x1D5C7, 0x1D5FB, 0x1D62F, 0x1D663, 0x1D4C3, 0x1D4F7, 0x1D52B, 0x1D593, 0x1D55F, 0x1D697, 0xFF4E, 0x24DD, 0, 0, 0, 0x24A9, 0, 0x207F, 0x2099, 0, 0xE006E },  // U+006E: LATIN SMALL LETTER N
+            new int[] { 0x1D428, 0x1D45C, 0x1D490, 0x1D5C8, 0x1D5FC, 0x1D630, 0x1D664, 0x2134, 0x1D4F8, 0x1D52C, 0x1D594, 0x1D560, 0x1D698, 0xFF4F, 0x24DE, 0, 0, 0, 0x24AA, 0, 0x1D52, 0x2092, 0, 0xE006F },   // U+006F: LATIN SMALL LETTER O
+            new int[] { 0x1D429, 0x1D45D, 0x1D491, 0x1D5C9, 0x1D5FD, 0x1D631, 0x1D665, 0x1D4C5, 0x1D4F9, 0x1D52D, 0x1D595, 0x1D561, 0x1D699, 0xFF50, 0x24DF, 0, 0, 0, 0x24AB, 0, 0x1D56, 0x209A, 0, 0xE0070 },  // U+0070: LATIN SMALL LETTER P
+            new int[] { 0x1D42A, 0x1D45E, 0x1D492, 0x1D5CA, 0x1D5FE, 0x1D632, 0x1D666, 0x1D4C6, 0x1D4FA, 0x1D52E, 0x1D596, 0x1D562, 0x1D69A, 0xFF51, 0x24E0, 0, 0, 0, 0x24AC, 0, 0x107A5, 0, 0, 0xE0071 },      // U+0071: LATIN SMALL LETTER Q
+            new int[] { 0x1D42B, 0x1D45F, 0x1D493, 0x1D5CB, 0x1D5FF, 0x1D633, 0x1D667, 0x1D4C7, 0x1D4FB, 0x1D52F, 0x1D597, 0x1D563, 0x1D69B, 0xFF52, 0x24E1, 0, 0, 0, 0x24AD, 0, 0x2B3, 0x1D63, 0, 0xE0072 },   // U+0072: LATIN SMALL LETTER R
+            new int[] { 0x1D42C, 0x1D460, 0x1D494, 0x1D5CC, 0x1D600, 0x1D634, 0x1D668, 0x1D4C8, 0x1D4FC, 0x1D530, 0x1D598, 0x1D564, 0x1D69C, 0xFF53, 0x24E2, 0, 0, 0, 0x24AE, 0, 0x2E2, 0x209B, 0, 0xE0073 },   // U+0073: LATIN SMALL LETTER S
+            new int[] { 0x1D42D, 0x1D461, 0x1D495, 0x1D5CD, 0x1D601, 0x1D635, 0x1D669, 0x1D4C9, 0x1D4FD, 0x1D531, 0x1D599, 0x1D565, 0x1D69D, 0xFF54, 0x24E3, 0, 0, 0, 0x24AF, 0, 0x1D57, 0x209C, 0, 0xE0074 },  // U+0074: LATIN SMALL LETTER T
+            new int[] { 0x1D42E, 0x1D462, 0x1D496, 0x1D5CE, 0x1D602, 0x1D636, 0x1D66A, 0x1D4CA, 0x1D4FE, 0x1D532, 0x1D59A, 0x1D566, 0x1D69E, 0xFF55, 0x24E4, 0, 0, 0, 0x24B0, 0, 0x1D58, 0x1D64, 0, 0xE0075 },  // U+0075: LATIN SMALL LETTER U
+            new int[] { 0x1D42F, 0x1D463, 0x1D497, 0x1D5CF, 0x1D603, 0x1D637, 0x1D66B, 0x1D4CB, 0x1D4FF, 0x1D533, 0x1D59B, 0x1D567, 0x1D69F, 0xFF56, 0x24E5, 0, 0, 0, 0x24B1, 0, 0x1D5B, 0x1D65, 0, 0xE0076 },  // U+0076: LATIN SMALL LETTER V
+            new int[] { 0x1D430, 0x1D464, 0x1D498, 0x1D5D0, 0x1D604, 0x1D638, 0x1D66C, 0x1D4CC, 0x1D500, 0x1D534, 0x1D59C, 0x1D568, 0x1D6A0, 0xFF57, 0x24E6, 0, 0, 0, 0x24B2, 0, 0x2B7, 0, 0, 0xE0077 },        // U+0077: LATIN SMALL LETTER W
+            new int[] { 0x1D431, 0x1D465, 0x1D499, 0x1D5D1, 0x1D605, 0x1D639, 0x1D66D, 0x1D4CD, 0x1D501, 0x1D535, 0x1D59D, 0x1D569, 0x1D6A1, 0xFF58, 0x24E7, 0, 0, 0, 0x24B3, 0, 0x2E3, 0x2093, 0, 0xE0078 },   // U+0078: LATIN SMALL LETTER X
+            new int[] { 0x1D432, 0x1D466, 0x1D49A, 0x1D5D2, 0x1D606, 0x1D63A, 0x1D66E, 0x1D4CE, 0x1D502, 0x1D536, 0x1D59E, 0x1D56A, 0x1D6A2, 0xFF59, 0x24E8, 0, 0, 0, 0x24B4, 0, 0x2B8, 0, 0, 0xE0079 },        // U+0079: LATIN SMALL LETTER Y
+            new int[] { 0x1D433, 0x1D467, 0x1D49B, 0x1D5D3, 0x1D607, 0x1D63B, 0x1D66F, 0x1D4CF, 0x1D503, 0x1D537, 0x1D59F, 0x1D56B, 0x1D6A3, 0xFF5A, 0x24E9, 0, 0, 0, 0x24B5, 0, 0x1DBB, 0, 0, 0xE007A },       // U+007A: LATIN SMALL LETTER Z
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF5B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE007B },            // U+007B: LEFT CURLY BRACKET
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF5C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE007C },            // U+007C: VERTICAL LINE
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF5D, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE007D },            // U+007D: RIGHT CURLY BRACKET
+            new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xFF5E, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xE007E }             // U+007E: TILDE
+        };
 
-        private int[][] GreekMapping;
-
-        private void InitGreekMapping()
+        private int[][] GreekMapping = new int[GreekChars][]
         {
-            GreekMapping = new int[GreekChars][];
-            GreekMapping[0] = new int[] { 120488, 120546, 120604, 0, 120662, 0, 120720 };       // U+0391, GREEK CAPITAL LETTER ALPHA
-            GreekMapping[1] = new int[] { 120489, 120547, 120605, 0, 120663, 0, 120721 };       // U+0392, GREEK CAPITAL LETTER BETA
-            GreekMapping[2] = new int[] { 120490, 120548, 120606, 0, 120664, 0, 120722 };       // U+0393, GREEK CAPITAL LETTER GAMMA
-            GreekMapping[3] = new int[] { 120491, 120549, 120607, 0, 120665, 0, 120723 };       // U+0394, GREEK CAPITAL LETTER DELTA
-            GreekMapping[4] = new int[] { 120492, 120550, 120608, 0, 120666, 0, 120724 };       // U+0395, GREEK CAPITAL LETTER EPSILON
-            GreekMapping[5] = new int[] { 120493, 120551, 120609, 0, 120667, 0, 120725 };       // U+0396, GREEK CAPITAL LETTER ZETA
-            GreekMapping[6] = new int[] { 120494, 120552, 120610, 0, 120668, 0, 120726 };       // U+0397, GREEK CAPITAL LETTER ETA
-            GreekMapping[7] = new int[] { 120495, 120553, 120611, 0, 120669, 0, 120727 };       // U+0398, GREEK CAPITAL LETTER THETA
-            GreekMapping[8] = new int[] { 120496, 120554, 120612, 0, 120670, 0, 120728 };       // U+0399, GREEK CAPITAL LETTER IOTA
-            GreekMapping[9] = new int[] { 120497, 120555, 120613, 0, 120671, 0, 120729 };       // U+039A, GREEK CAPITAL LETTER KAPPA
-            GreekMapping[10] = new int[] { 120498, 120556, 120614, 0, 120672, 0, 120730 };      // U+039B, GREEK CAPITAL LETTER LAMDA
-            GreekMapping[11] = new int[] { 120499, 120557, 120615, 0, 120673, 0, 120731 };      // U+039C, GREEK CAPITAL LETTER MU
-            GreekMapping[12] = new int[] { 120500, 120558, 120616, 0, 120674, 0, 120732 };      // U+039D, GREEK CAPITAL LETTER NU
-            GreekMapping[13] = new int[] { 120501, 120559, 120617, 0, 120675, 0, 120733 };      // U+039E, GREEK CAPITAL LETTER XI
-            GreekMapping[14] = new int[] { 120502, 120560, 120618, 0, 120676, 0, 120734 };      // U+039F, GREEK CAPITAL LETTER OMICRON
-            GreekMapping[15] = new int[] { 120503, 120561, 120619, 0, 120677, 0, 120735 };      // U+03A0, GREEK CAPITAL LETTER PI
-            GreekMapping[16] = new int[] { 120504, 120562, 120620, 0, 120678, 0, 120736 };      // U+03A1, GREEK CAPITAL LETTER RHO
-            GreekMapping[17] = new int[] { 120505, 120563, 120621, 0, 120679, 0, 120737 };      // U+03F4, GREEK CAPITAL THETA SYMBOL
-            GreekMapping[18] = new int[] { 120506, 120564, 120622, 0, 120680, 0, 120738 };      // U+03A3, GREEK CAPITAL LETTER SIGMA
-            GreekMapping[19] = new int[] { 120507, 120565, 120623, 0, 120681, 0, 120739 };      // U+03A4, GREEK CAPITAL LETTER TAU
-            GreekMapping[20] = new int[] { 120508, 120566, 120624, 0, 120682, 0, 120740 };      // U+03A5, GREEK CAPITAL LETTER UPSILON
-            GreekMapping[21] = new int[] { 120509, 120567, 120625, 0, 120683, 0, 120741 };      // U+03A6, GREEK CAPITAL LETTER PHI
-            GreekMapping[22] = new int[] { 120510, 120568, 120626, 0, 120684, 0, 120742 };      // U+03A7, GREEK CAPITAL LETTER CHI
-            GreekMapping[23] = new int[] { 120511, 120569, 120627, 0, 120685, 0, 120743 };      // U+03A8, GREEK CAPITAL LETTER PSI
-            GreekMapping[24] = new int[] { 120512, 120570, 120628, 0, 120686, 0, 120744 };      // U+03A9, GREEK CAPITAL LETTER OMEGA
-            GreekMapping[25] = new int[] { 120513, 120571, 120629, 0, 120687, 0, 120745 };      // U+2207, NABLA
-            GreekMapping[26] = new int[] { 120514, 120572, 120630, 0, 120688, 0, 120746 };      // U+03B1, GREEK SMALL LETTER ALPHA
-            GreekMapping[27] = new int[] { 120515, 120573, 120631, 0, 120689, 0, 120747 };      // U+03B2, GREEK SMALL LETTER BETA
-            GreekMapping[28] = new int[] { 120516, 120574, 120632, 0, 120690, 0, 120748 };      // U+03B3, GREEK SMALL LETTER GAMMA
-            GreekMapping[29] = new int[] { 120517, 120575, 120633, 0, 120691, 0, 120749 };      // U+03B4, GREEK SMALL LETTER DELTA
-            GreekMapping[30] = new int[] { 120518, 120576, 120634, 0, 120692, 0, 120750 };      // U+03B5, GREEK SMALL LETTER EPSILON
-            GreekMapping[31] = new int[] { 120519, 120577, 120635, 0, 120693, 0, 120751 };      // U+03B6, GREEK SMALL LETTER ZETA
-            GreekMapping[32] = new int[] { 120520, 120578, 120636, 0, 120694, 0, 120752 };      // U+03B7, GREEK SMALL LETTER ETA
-            GreekMapping[33] = new int[] { 120521, 120579, 120637, 0, 120695, 0, 120753 };      // U+03B8, GREEK SMALL LETTER THETA
-            GreekMapping[34] = new int[] { 120522, 120580, 120638, 0, 120696, 0, 120754 };      // U+03B9, GREEK SMALL LETTER IOTA
-            GreekMapping[35] = new int[] { 120523, 120581, 120639, 0, 120697, 0, 120755 };      // U+03BA, GREEK SMALL LETTER KAPPA
-            GreekMapping[36] = new int[] { 120524, 120582, 120640, 0, 120698, 0, 120756 };      // U+03BB, GREEK SMALL LETTER LAMDA
-            GreekMapping[37] = new int[] { 120525, 120583, 120641, 0, 120699, 0, 120757 };      // U+03BC, GREEK SMALL LETTER MU
-            GreekMapping[38] = new int[] { 120526, 120584, 120642, 0, 120700, 0, 120758 };      // U+03BD, GREEK SMALL LETTER NU
-            GreekMapping[39] = new int[] { 120527, 120585, 120643, 0, 120701, 0, 120759 };      // U+03BE, GREEK SMALL LETTER XI
-            GreekMapping[40] = new int[] { 120528, 120586, 120644, 0, 120702, 0, 120760 };      // U+03BF, GREEK SMALL LETTER OMICRON
-            GreekMapping[41] = new int[] { 120529, 120587, 120645, 0, 120703, 0, 120761 };      // U+03C0, GREEK SMALL LETTER PI
-            GreekMapping[42] = new int[] { 120530, 120588, 120646, 0, 120704, 0, 120762 };      // U+03C1, GREEK SMALL LETTER RHO
-            GreekMapping[43] = new int[] { 120531, 120589, 120647, 0, 120705, 0, 120763 };      // U+03C2, GREEK SMALL LETTER FINAL SIGMA
-            GreekMapping[44] = new int[] { 120532, 120590, 120648, 0, 120706, 0, 120764 };      // U+03C3, GREEK SMALL LETTER SIGMA
-            GreekMapping[45] = new int[] { 120533, 120591, 120649, 0, 120707, 0, 120765 };      // U+03C4, GREEK SMALL LETTER TAU
-            GreekMapping[46] = new int[] { 120534, 120592, 120650, 0, 120708, 0, 120766 };      // U+03C5, GREEK SMALL LETTER UPSILON
-            GreekMapping[47] = new int[] { 120535, 120593, 120651, 0, 120709, 0, 120767 };      // U+03C6, GREEK SMALL LETTER PHI
-            GreekMapping[48] = new int[] { 120536, 120594, 120652, 0, 120710, 0, 120768 };      // U+03C7, GREEK SMALL LETTER CHI
-            GreekMapping[49] = new int[] { 120537, 120595, 120653, 0, 120711, 0, 120769 };      // U+03C8, GREEK SMALL LETTER PSI
-            GreekMapping[50] = new int[] { 120538, 120596, 120654, 0, 120712, 0, 120770 };      // U+03C9, GREEK SMALL LETTER OMEGA
-            GreekMapping[51] = new int[] { 120539, 120597, 120655, 0, 120713, 0, 120771 };      // U+2202, PARTIAL DIFFERENTIAL
-            GreekMapping[52] = new int[] { 120540, 120598, 120656, 0, 120714, 0, 120772 };      // U+03F5, GREEK LUNATE EPSILON SYMBOL
-            GreekMapping[53] = new int[] { 120541, 120599, 120657, 0, 120715, 0, 120773 };      // U+03D1, GREEK THETA SYMBOL
-            GreekMapping[54] = new int[] { 120542, 120600, 120658, 0, 120716, 0, 120774 };      // U+03F0, GREEK KAPPA SYMBOL
-            GreekMapping[55] = new int[] { 120543, 120601, 120659, 0, 120717, 0, 120775 };      // U+03D5, GREEK PHI SYMBOL
-            GreekMapping[56] = new int[] { 120544, 120602, 120660, 0, 120718, 0, 120776 };      // U+03F1, GREEK RHO SYMBOL
-            GreekMapping[57] = new int[] { 120545, 120603, 120661, 0, 120719, 0, 120777 };      // U+03D6, GREEK PI SYMBOL
-        }
+            new int[] { 0x1D6A8, 0x1D6E2, 0x1D71C, 0, 0x1D756, 0, 0x1D790 },    // U+0391, GREEK CAPITAL LETTER ALPHA
+            new int[] { 0x1D6A9, 0x1D6E3, 0x1D71D, 0, 0x1D757, 0, 0x1D791 },    // U+0392, GREEK CAPITAL LETTER BETA
+            new int[] { 0x1D6AA, 0x1D6E4, 0x1D71E, 0, 0x1D758, 0, 0x1D792 },    // U+0393, GREEK CAPITAL LETTER GAMMA
+            new int[] { 0x1D6AB, 0x1D6E5, 0x1D71F, 0, 0x1D759, 0, 0x1D793 },    // U+0394, GREEK CAPITAL LETTER DELTA
+            new int[] { 0x1D6AC, 0x1D6E6, 0x1D720, 0, 0x1D75A, 0, 0x1D794 },    // U+0395, GREEK CAPITAL LETTER EPSILON
+            new int[] { 0x1D6AD, 0x1D6E7, 0x1D721, 0, 0x1D75B, 0, 0x1D795 },    // U+0396, GREEK CAPITAL LETTER ZETA
+            new int[] { 0x1D6AE, 0x1D6E8, 0x1D722, 0, 0x1D75C, 0, 0x1D796 },    // U+0397, GREEK CAPITAL LETTER ETA
+            new int[] { 0x1D6AF, 0x1D6E9, 0x1D723, 0, 0x1D75D, 0, 0x1D797 },    // U+0398, GREEK CAPITAL LETTER THETA
+            new int[] { 0x1D6B0, 0x1D6EA, 0x1D724, 0, 0x1D75E, 0, 0x1D798 },    // U+0399, GREEK CAPITAL LETTER IOTA
+            new int[] { 0x1D6B1, 0x1D6EB, 0x1D725, 0, 0x1D75F, 0, 0x1D799 },    // U+039A, GREEK CAPITAL LETTER KAPPA
+            new int[] { 0x1D6B2, 0x1D6EC, 0x1D726, 0, 0x1D760, 0, 0x1D79A },    // U+039B, GREEK CAPITAL LETTER LAMDA
+            new int[] { 0x1D6B3, 0x1D6ED, 0x1D727, 0, 0x1D761, 0, 0x1D79B },    // U+039C, GREEK CAPITAL LETTER MU
+            new int[] { 0x1D6B4, 0x1D6EE, 0x1D728, 0, 0x1D762, 0, 0x1D79C },    // U+039D, GREEK CAPITAL LETTER NU
+            new int[] { 0x1D6B5, 0x1D6EF, 0x1D729, 0, 0x1D763, 0, 0x1D79D },    // U+039E, GREEK CAPITAL LETTER XI
+            new int[] { 0x1D6B6, 0x1D6F0, 0x1D72A, 0, 0x1D764, 0, 0x1D79E },    // U+039F, GREEK CAPITAL LETTER OMICRON
+            new int[] { 0x1D6B7, 0x1D6F1, 0x1D72B, 0, 0x1D765, 0, 0x1D79F },    // U+03A0, GREEK CAPITAL LETTER PI
+            new int[] { 0x1D6B8, 0x1D6F2, 0x1D72C, 0, 0x1D766, 0, 0x1D7A0 },    // U+03A1, GREEK CAPITAL LETTER RHO
+            new int[] { 0x1D6B9, 0x1D6F3, 0x1D72D, 0, 0x1D767, 0, 0x1D7A1 },    // U+03F4, GREEK CAPITAL THETA SYMBOL
+            new int[] { 0x1D6BA, 0x1D6F4, 0x1D72E, 0, 0x1D768, 0, 0x1D7A2 },    // U+03A3, GREEK CAPITAL LETTER SIGMA
+            new int[] { 0x1D6BB, 0x1D6F5, 0x1D72F, 0, 0x1D769, 0, 0x1D7A3 },    // U+03A4, GREEK CAPITAL LETTER TAU
+            new int[] { 0x1D6BC, 0x1D6F6, 0x1D730, 0, 0x1D76A, 0, 0x1D7A4 },    // U+03A5, GREEK CAPITAL LETTER UPSILON
+            new int[] { 0x1D6BD, 0x1D6F7, 0x1D731, 0, 0x1D76B, 0, 0x1D7A5 },    // U+03A6, GREEK CAPITAL LETTER PHI
+            new int[] { 0x1D6BE, 0x1D6F8, 0x1D732, 0, 0x1D76C, 0, 0x1D7A6 },    // U+03A7, GREEK CAPITAL LETTER CHI
+            new int[] { 0x1D6BF, 0x1D6F9, 0x1D733, 0, 0x1D76D, 0, 0x1D7A7 },    // U+03A8, GREEK CAPITAL LETTER PSI
+            new int[] { 0x1D6C0, 0x1D6FA, 0x1D734, 0, 0x1D76E, 0, 0x1D7A8 },    // U+03A9, GREEK CAPITAL LETTER OMEGA
+            new int[] { 0x1D6C1, 0x1D6FB, 0x1D735, 0, 0x1D76F, 0, 0x1D7A9 },    // U+2207, NABLA
+            new int[] { 0x1D6C2, 0x1D6FC, 0x1D736, 0, 0x1D770, 0, 0x1D7AA },    // U+03B1, GREEK SMALL LETTER ALPHA
+            new int[] { 0x1D6C3, 0x1D6FD, 0x1D737, 0, 0x1D771, 0, 0x1D7AB },    // U+03B2, GREEK SMALL LETTER BETA
+            new int[] { 0x1D6C4, 0x1D6FE, 0x1D738, 0, 0x1D772, 0, 0x1D7AC },    // U+03B3, GREEK SMALL LETTER GAMMA
+            new int[] { 0x1D6C5, 0x1D6FF, 0x1D739, 0, 0x1D773, 0, 0x1D7AD },    // U+03B4, GREEK SMALL LETTER DELTA
+            new int[] { 0x1D6C6, 0x1D700, 0x1D73A, 0, 0x1D774, 0, 0x1D7AE },    // U+03B5, GREEK SMALL LETTER EPSILON
+            new int[] { 0x1D6C7, 0x1D701, 0x1D73B, 0, 0x1D775, 0, 0x1D7AF },    // U+03B6, GREEK SMALL LETTER ZETA
+            new int[] { 0x1D6C8, 0x1D702, 0x1D73C, 0, 0x1D776, 0, 0x1D7B0 },    // U+03B7, GREEK SMALL LETTER ETA
+            new int[] { 0x1D6C9, 0x1D703, 0x1D73D, 0, 0x1D777, 0, 0x1D7B1 },    // U+03B8, GREEK SMALL LETTER THETA
+            new int[] { 0x1D6CA, 0x1D704, 0x1D73E, 0, 0x1D778, 0, 0x1D7B2 },    // U+03B9, GREEK SMALL LETTER IOTA
+            new int[] { 0x1D6CB, 0x1D705, 0x1D73F, 0, 0x1D779, 0, 0x1D7B3 },    // U+03BA, GREEK SMALL LETTER KAPPA
+            new int[] { 0x1D6CC, 0x1D706, 0x1D740, 0, 0x1D77A, 0, 0x1D7B4 },    // U+03BB, GREEK SMALL LETTER LAMDA
+            new int[] { 0x1D6CD, 0x1D707, 0x1D741, 0, 0x1D77B, 0, 0x1D7B5 },    // U+03BC, GREEK SMALL LETTER MU
+            new int[] { 0x1D6CE, 0x1D708, 0x1D742, 0, 0x1D77C, 0, 0x1D7B6 },    // U+03BD, GREEK SMALL LETTER NU
+            new int[] { 0x1D6CF, 0x1D709, 0x1D743, 0, 0x1D77D, 0, 0x1D7B7 },    // U+03BE, GREEK SMALL LETTER XI
+            new int[] { 0x1D6D0, 0x1D70A, 0x1D744, 0, 0x1D77E, 0, 0x1D7B8 },    // U+03BF, GREEK SMALL LETTER OMICRON
+            new int[] { 0x1D6D1, 0x1D70B, 0x1D745, 0, 0x1D77F, 0, 0x1D7B9 },    // U+03C0, GREEK SMALL LETTER PI
+            new int[] { 0x1D6D2, 0x1D70C, 0x1D746, 0, 0x1D780, 0, 0x1D7BA },    // U+03C1, GREEK SMALL LETTER RHO
+            new int[] { 0x1D6D3, 0x1D70D, 0x1D747, 0, 0x1D781, 0, 0x1D7BB },    // U+03C2, GREEK SMALL LETTER FINAL SIGMA
+            new int[] { 0x1D6D4, 0x1D70E, 0x1D748, 0, 0x1D782, 0, 0x1D7BC },    // U+03C3, GREEK SMALL LETTER SIGMA
+            new int[] { 0x1D6D5, 0x1D70F, 0x1D749, 0, 0x1D783, 0, 0x1D7BD },    // U+03C4, GREEK SMALL LETTER TAU
+            new int[] { 0x1D6D6, 0x1D710, 0x1D74A, 0, 0x1D784, 0, 0x1D7BE },    // U+03C5, GREEK SMALL LETTER UPSILON
+            new int[] { 0x1D6D7, 0x1D711, 0x1D74B, 0, 0x1D785, 0, 0x1D7BF },    // U+03C6, GREEK SMALL LETTER PHI
+            new int[] { 0x1D6D8, 0x1D712, 0x1D74C, 0, 0x1D786, 0, 0x1D7C0 },    // U+03C7, GREEK SMALL LETTER CHI
+            new int[] { 0x1D6D9, 0x1D713, 0x1D74D, 0, 0x1D787, 0, 0x1D7C1 },    // U+03C8, GREEK SMALL LETTER PSI
+            new int[] { 0x1D6DA, 0x1D714, 0x1D74E, 0, 0x1D788, 0, 0x1D7C2 },    // U+03C9, GREEK SMALL LETTER OMEGA
+            new int[] { 0x1D6DB, 0x1D715, 0x1D74F, 0, 0x1D789, 0, 0x1D7C3 },    // U+2202, PARTIAL DIFFERENTIAL
+            new int[] { 0x1D6DC, 0x1D716, 0x1D750, 0, 0x1D78A, 0, 0x1D7C4 },    // U+03F5, GREEK LUNATE EPSILON SYMBOL
+            new int[] { 0x1D6DD, 0x1D717, 0x1D751, 0, 0x1D78B, 0, 0x1D7C5 },    // U+03D1, GREEK THETA SYMBOL
+            new int[] { 0x1D6DE, 0x1D718, 0x1D752, 0, 0x1D78C, 0, 0x1D7C6 },    // U+03F0, GREEK KAPPA SYMBOL
+            new int[] { 0x1D6DF, 0x1D719, 0x1D753, 0, 0x1D78D, 0, 0x1D7C7 },    // U+03D5, GREEK PHI SYMBOL
+            new int[] { 0x1D6E0, 0x1D71A, 0x1D754, 0, 0x1D78E, 0, 0x1D7C8 },    // U+03F1, GREEK RHO SYMBOL
+            new int[] { 0x1D6E1, 0x1D71B, 0x1D755, 0, 0x1D78F, 0, 0x1D7C9 }     // U+03D6, GREEK PI SYMBOL
+        };
 
-        private ushort[] GreekCharacters;
-
-        private void InitGreekCharacters()
+        private ushort[] GreekCharacters = new ushort[GreekChars]
         {
-            GreekCharacters = new ushort[GreekChars];
-            GreekCharacters[0] = 0x0391;        // GREEK CAPITAL LETTER ALPHA
-            GreekCharacters[1] = 0x0392;        // GREEK CAPITAL LETTER BETA
-            GreekCharacters[2] = 0x0393;        // GREEK CAPITAL LETTER GAMMA
-            GreekCharacters[3] = 0x0394;        // GREEK CAPITAL LETTER DELTA
-            GreekCharacters[4] = 0x0395;        // GREEK CAPITAL LETTER EPSILON
-            GreekCharacters[5] = 0x0396;        // GREEK CAPITAL LETTER ZETA
-            GreekCharacters[6] = 0x0397;        // GREEK CAPITAL LETTER ETA
-            GreekCharacters[7] = 0x0398;        // GREEK CAPITAL LETTER THETA
-            GreekCharacters[8] = 0x0399;        // GREEK CAPITAL LETTER IOTA
-            GreekCharacters[9] = 0x039A;        // GREEK CAPITAL LETTER KAPPA
-            GreekCharacters[10] = 0x039B;       // GREEK CAPITAL LETTER LAMDA
-            GreekCharacters[11] = 0x039C;       // GREEK CAPITAL LETTER MU
-            GreekCharacters[12] = 0x039D;       // GREEK CAPITAL LETTER NU
-            GreekCharacters[13] = 0x039E;       // GREEK CAPITAL LETTER XI
-            GreekCharacters[14] = 0x039F;       // GREEK CAPITAL LETTER OMICRON
-            GreekCharacters[15] = 0x03A0;       // GREEK CAPITAL LETTER PI
-            GreekCharacters[16] = 0x03A1;       // GREEK CAPITAL LETTER RHO
-            GreekCharacters[17] = 0x03F4;       // GREEK CAPITAL THETA SYMBOL
-            GreekCharacters[18] = 0x03A3;       // GREEK CAPITAL LETTER SIGMA
-            GreekCharacters[19] = 0x03A4;       // GREEK CAPITAL LETTER TAU
-            GreekCharacters[20] = 0x03A5;       // GREEK CAPITAL LETTER UPSILON
-            GreekCharacters[21] = 0x03A6;       // GREEK CAPITAL LETTER PHI
-            GreekCharacters[22] = 0x03A7;       // GREEK CAPITAL LETTER CHI
-            GreekCharacters[23] = 0x03A8;       // GREEK CAPITAL LETTER PSI
-            GreekCharacters[24] = 0x03A9;       // GREEK CAPITAL LETTER OMEGA
-            GreekCharacters[25] = 0x2207;       // NABLA
-            GreekCharacters[26] = 0x03B1;       // GREEK SMALL LETTER ALPHA
-            GreekCharacters[27] = 0x03B2;       // GREEK SMALL LETTER BETA
-            GreekCharacters[28] = 0x03B3;       // GREEK SMALL LETTER GAMMA
-            GreekCharacters[29] = 0x03B4;       // GREEK SMALL LETTER DELTA
-            GreekCharacters[30] = 0x03B5;       // GREEK SMALL LETTER EPSILON
-            GreekCharacters[31] = 0x03B6;       // GREEK SMALL LETTER ZETA
-            GreekCharacters[32] = 0x03B7;       // GREEK SMALL LETTER ETA
-            GreekCharacters[33] = 0x03B8;       // GREEK SMALL LETTER THETA
-            GreekCharacters[34] = 0x03B9;       // GREEK SMALL LETTER IOTA
-            GreekCharacters[35] = 0x03BA;       // GREEK SMALL LETTER KAPPA
-            GreekCharacters[36] = 0x03BB;       // GREEK SMALL LETTER LAMDA
-            GreekCharacters[37] = 0x03BC;       // GREEK SMALL LETTER MU
-            GreekCharacters[38] = 0x03BD;       // GREEK SMALL LETTER NU
-            GreekCharacters[39] = 0x03BE;       // GREEK SMALL LETTER XI
-            GreekCharacters[40] = 0x03BF;       // GREEK SMALL LETTER OMICRON
-            GreekCharacters[41] = 0x03C0;       // GREEK SMALL LETTER PI
-            GreekCharacters[42] = 0x03C1;       // GREEK SMALL LETTER RHO
-            GreekCharacters[43] = 0x03C2;       // GREEK SMALL LETTER FINAL SIGMA
-            GreekCharacters[44] = 0x03C3;       // GREEK SMALL LETTER SIGMA
-            GreekCharacters[45] = 0x03C4;       // GREEK SMALL LETTER TAU
-            GreekCharacters[46] = 0x03C5;       // GREEK SMALL LETTER UPSILON
-            GreekCharacters[47] = 0x03C6;       // GREEK SMALL LETTER PHI
-            GreekCharacters[48] = 0x03C7;       // GREEK SMALL LETTER CHI
-            GreekCharacters[49] = 0x03C8;       // GREEK SMALL LETTER PSI
-            GreekCharacters[50] = 0x03C9;       // GREEK SMALL LETTER OMEGA
-            GreekCharacters[51] = 0x2202;       // PARTIAL DIFFERENTIAL
-            GreekCharacters[52] = 0x03F5;       // GREEK LUNATE EPSILON SYMBOL
-            GreekCharacters[53] = 0x03D1;       // GREEK THETA SYMBOL
-            GreekCharacters[54] = 0x03F0;       // GREEK KAPPA SYMBOL
-            GreekCharacters[55] = 0x03D5;       // GREEK PHI SYMBOL
-            GreekCharacters[56] = 0x03F1;       // GREEK RHO SYMBOL
-            GreekCharacters[57] = 0x03D6;       // GREEK PI SYMBOL
-        }
-
-        // TODO: 仅当“Dispose(bool disposing)”拥有用于释放未托管资源的代码时才替代终结器
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnicodeStyler"/> class.
-        /// </summary>
-        public UnicodeStyler()
-        {
-            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
-            Dispose(disposing: false);
-            InitGreekCharacters();
-            InitGreekMapping();
-            InitLatinMapping();
-            InitStyles();
-        }
+            0x0391,     // GREEK CAPITAL LETTER ALPHA
+            0x0392,     // GREEK CAPITAL LETTER BETA
+            0x0393,     // GREEK CAPITAL LETTER GAMMA
+            0x0394,     // GREEK CAPITAL LETTER DELTA
+            0x0395,     // GREEK CAPITAL LETTER EPSILON
+            0x0396,     // GREEK CAPITAL LETTER ZETA
+            0x0397,     // GREEK CAPITAL LETTER ETA
+            0x0398,     // GREEK CAPITAL LETTER THETA
+            0x0399,     // GREEK CAPITAL LETTER IOTA
+            0x039A,     // GREEK CAPITAL LETTER KAPPA
+            0x039B,     // GREEK CAPITAL LETTER LAMDA
+            0x039C,     // GREEK CAPITAL LETTER MU
+            0x039D,     // GREEK CAPITAL LETTER NU
+            0x039E,     // GREEK CAPITAL LETTER XI
+            0x039F,     // GREEK CAPITAL LETTER OMICRON
+            0x03A0,     // GREEK CAPITAL LETTER PI
+            0x03A1,     // GREEK CAPITAL LETTER RHO
+            0x03F4,     // GREEK CAPITAL THETA SYMBOL
+            0x03A3,     // GREEK CAPITAL LETTER SIGMA
+            0x03A4,     // GREEK CAPITAL LETTER TAU
+            0x03A5,     // GREEK CAPITAL LETTER UPSILON
+            0x03A6,     // GREEK CAPITAL LETTER PHI
+            0x03A7,     // GREEK CAPITAL LETTER CHI
+            0x03A8,     // GREEK CAPITAL LETTER PSI
+            0x03A9,     // GREEK CAPITAL LETTER OMEGA
+            0x2207,     // NABLA
+            0x03B1,     // GREEK SMALL LETTER ALPHA
+            0x03B2,     // GREEK SMALL LETTER BETA
+            0x03B3,     // GREEK SMALL LETTER GAMMA
+            0x03B4,     // GREEK SMALL LETTER DELTA
+            0x03B5,     // GREEK SMALL LETTER EPSILON
+            0x03B6,     // GREEK SMALL LETTER ZETA
+            0x03B7,     // GREEK SMALL LETTER ETA
+            0x03B8,     // GREEK SMALL LETTER THETA
+            0x03B9,     // GREEK SMALL LETTER IOTA
+            0x03BA,     // GREEK SMALL LETTER KAPPA
+            0x03BB,     // GREEK SMALL LETTER LAMDA
+            0x03BC,     // GREEK SMALL LETTER MU
+            0x03BD,     // GREEK SMALL LETTER NU
+            0x03BE,     // GREEK SMALL LETTER XI
+            0x03BF,     // GREEK SMALL LETTER OMICRON
+            0x03C0,     // GREEK SMALL LETTER PI
+            0x03C1,     // GREEK SMALL LETTER RHO
+            0x03C2,     // GREEK SMALL LETTER FINAL SIGMA
+            0x03C3,     // GREEK SMALL LETTER SIGMA
+            0x03C4,     // GREEK SMALL LETTER TAU
+            0x03C5,     // GREEK SMALL LETTER UPSILON
+            0x03C6,     // GREEK SMALL LETTER PHI
+            0x03C7,     // GREEK SMALL LETTER CHI
+            0x03C8,     // GREEK SMALL LETTER PSI
+            0x03C9,     // GREEK SMALL LETTER OMEGA
+            0x2202,     // PARTIAL DIFFERENTIAL
+            0x03F5,     // GREEK LUNATE EPSILON SYMBOL
+            0x03D1,     // GREEK THETA SYMBOL
+            0x03F0,     // GREEK KAPPA SYMBOL
+            0x03D5,     // GREEK PHI SYMBOL
+            0x03F1,     // GREEK RHO SYMBOL
+            0x03D6      // GREEK PI SYMBOL
+        };
 
         /// <summary>
         /// Style the string.
@@ -349,9 +323,7 @@ namespace UnicodeStyle
         {
             string input = str;
 
-            int length = input.Length;
-
-            if (length > 0)
+            if (input.Length > 0)
             {
                 input = ToRegular(input);
 
@@ -374,9 +346,7 @@ namespace UnicodeStyle
         {
             string input = str;
 
-            int length = input.Length;
-
-            if (length > 0)
+            if (input.Length > 0)
             {
                 input = ToRegular(input);
 
@@ -400,41 +370,43 @@ namespace UnicodeStyle
 
         private string ToRegular(string input)
         {
-            string output = "";
+            string output = string.Empty;
             int hi = 0;
 
             for (int i = 0; i < input.Length; i++)
             {
                 int cp = input[i];
 
-                if ((cp >= HighSurrogateFirst) && (cp <= HighSurrogateLast))
+                switch (cp)
                 {
-                    if (hi != 0)
-                    {
-                        output += ReplacementCharacter;
-                    }
-                    hi = cp;
-                    cp = 0;
-                }
-                else if ((cp >= LowSurrogateFirst) && (cp <= LowSurrogateLast))
-                {
-                    if (hi == 0)
-                    {
-                        output += ReplacementCharacter;
-                    }
-                    else
-                    {
-                        cp = FromSurrogates(hi, cp);
-                        hi = 0;
-                    }
-                }
-                else
-                {
-                    if (hi != 0)
-                    {
-                        output += ReplacementCharacter;
-                        hi = 0;
-                    }
+                    case >= HighSurrogateFirst and <= HighSurrogateLast:
+                        if (hi != 0)
+                        {
+                            output += ReplacementCharacter;
+                        }
+                        hi = cp;
+                        cp = 0;
+                        break;
+
+                    case >= LowSurrogateFirst and <= LowSurrogateLast:
+                        if (hi == 0)
+                        {
+                            output += ReplacementCharacter;
+                        }
+                        else
+                        {
+                            cp = FromSurrogates(hi, cp);
+                            hi = 0;
+                        }
+                        break;
+
+                    default:
+                        if (hi != 0)
+                        {
+                            output += ReplacementCharacter;
+                            hi = 0;
+                        }
+                        break;
                 }
 
                 if (cp >= FirstTarget)
@@ -442,49 +414,54 @@ namespace UnicodeStyle
                     int row = 0;
                     bool isLatin = true;
 
-                    if ((cp >= MathLatinFirst) && (cp <= MathLatinLast))
+                    switch (cp)
                     {
-                        row = (cp - MathLatinFirst) % MathLatinRange;
+                        case >= MathLatinFirst and <= MathLatinLast:
+                            row = (cp - MathLatinFirst) % MathLatinRange;
+                            if (row < 0x1A)
+                            {
+                                row += LatinCapitalOffset;
+                            }
+                            else
+                            {
+                                row -= 0x1A;
+                                row += LatinSmallOffset;
+                            }
+                            break;
 
-                        if (row < 26)
-                        {
-                            row += LatinCapitalOffset;
-                        }
-                        else
-                        {
-                            row -= 26;
-                            row += LatinSmallOffset;
-                        }
-                    }
-                    else if ((cp >= MathGreekFirst) && (cp <= MathGreekLast))
-                    {
-                        row = (cp - MathGreekFirst) % MathGreekRange;
-                        cp = GreekCharacters[row];
-                        isLatin = false;
-                    }
-                    else if ((cp >= MathDigitsFirst) && (cp <= MathDigitsLast))
-                    {
-                        row = LatinDigitsOffset + ((cp - MathDigitsFirst) % MathDigitsRange);
-                    }
-                    else if (cp == 120484)  // U+1D6A4 MATHEMATICAL ITALIC SMALL DOTLESS I
-                    {
-                        cp = 305;
-                        isLatin = false;
-                    }
-                    else if (cp == 120485)  // U+1D6A5 MATHEMATICAL ITALIC SMALL DOTLESS J
-                    {
-                        cp = 567;
-                        isLatin = false;
-                    }
-                    else if (cp == 120778)  // U+1D7CA MATHEMATICAL BOLD CAPITAL DIGAMMA
-                    {
-                        cp = 988;
-                        isLatin = false;
-                    }
-                    else if (cp == 120779)  // U+1D7CB MATHEMATICAL BOLD SMALL DIGAMMA
-                    {
-                        cp = 989;
-                        isLatin = false;
+                        case >= MathGreekFirst and <= MathGreekLast:
+                            row = (cp - MathGreekFirst) % MathGreekRange;
+                            cp = GreekCharacters[row];
+                            isLatin = false;
+                            break;
+
+                        case >= MathDigitsFirst and <= MathDigitsLast:
+                            row = LatinDigitsOffset + ((cp - MathDigitsFirst) % MathDigitsRange);
+                            break;
+
+                        // U+1D6A4 MATHEMATICAL ITALIC SMALL DOTLESS I
+                        case 0x1D6A4:
+                            cp = 0x131;
+                            isLatin = false;
+                            break;
+
+                        // U+1D6A5 MATHEMATICAL ITALIC SMALL DOTLESS J
+                        case 0x1D6A5:
+                            cp = 0x237;
+                            isLatin = false;
+                            break;
+
+                        // U+1D7CA MATHEMATICAL BOLD CAPITAL DIGAMMA
+                        case 0x1D7CA:
+                            cp = 0x3DC;
+                            isLatin = false;
+                            break;
+
+                        // U+1D7CB MATHEMATICAL BOLD SMALL DIGAMMA
+                        case 0x1D7CB:
+                            cp = 0x3DD;
+                            isLatin = false;
+                            break;
                     }
 
                     if (isLatin)
@@ -524,80 +501,81 @@ namespace UnicodeStyle
 
         private string ToStyled(string input, int style)
         {
-            string output = "";
+            string output = string.Empty;
 
             for (int i = 0; i < input.Length; i++)
             {
                 int cp = input[i];
                 int result = 0;
 
-                if ((cp >= BasicLatinFirst) && (cp <= BasicLatinLast))
+                if (cp is >= BasicLatinFirst and <= BasicLatinLast)
                 {
                     int offset = cp - BasicLatinFirst;
                     result = LatinMapping[offset][style];
                 }
-                else if (style < GreekStyles)
+                else
                 {
-                    bool greek = false;
+                    switch (style)
+                    {
+                        case > 1 and < GreekStyles:
+                            bool greek = cp is (>= 0x0391 and <= 0x03C9)
+                                or (>= 0x03D1 and <= 0x03D6)
+                                or (>= 0x03F0 and <= 0x03F5)
+                                or (>= 0x2202 and <= 0x2207);
 
-                    if (cp is >= 0x0391 and <= 0x03C9)
-                    {
-                        greek = true;
-                    }
-                    else if (cp is >= 0x03D1 and <= 0x03D6)
-                    {
-                        greek = true;
-                    }
-                    else if (cp is >= 0x03F0 and <= 0x03F5)
-                    {
-                        greek = true;
-                    }
-                    else if (cp is >= 0x2202 and <= 0x2207)
-                    {
-                        greek = true;
-                    }
+                            int offset = 0;
 
-                    int offset = 0;
-
-                    if (greek == true)
-                    {
-                        greek = false;
-
-                        for (int j = 0; j < MathGreekRange; j++)
-                        {
-                            if (GreekCharacters[j] == cp)
+                            if (greek)
                             {
-                                greek = true;
-                                offset = j;
-                                break;
+                                greek = false;
+
+                                for (int j = 0; j < MathGreekRange; j++)
+                                {
+                                    if (GreekCharacters[j] == cp)
+                                    {
+                                        greek = true;
+                                        offset = j;
+                                        break;
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    if (greek == true)
-                    {
-                        result = GreekMapping[offset][style];
-                    }
+                            if (greek)
+                            {
+                                result = GreekMapping[offset][style];
+                            }
+                            break;
 
-                    // Special Cases
-                    if ((cp == 988) && (style == 0))    // U+1D7CA MATHEMATICAL BOLD CAPITAL DIGAMMA
-                    {
-                        result = 120778;
-                    }
+                        // Special Cases
+                        case 0:
+                            switch (cp)
+                            {
+                                // U+1D7CA MATHEMATICAL BOLD CAPITAL DIGAMMA
+                                case 0x3DC:
+                                    result = 0x1D7CA;
+                                    break;
 
-                    if ((cp == 989) && (style == 0))    // U+1D7CB MATHEMATICAL BOLD SMALL DIGAMMA
-                    {
-                        result = 120779;
-                    }
+                                // U+1D7CB MATHEMATICAL BOLD SMALL DIGAMMA
+                                case 0x3DD:
+                                    result = 0x1D7CB;
+                                    break;
+                            }
+                            break;
 
-                    if ((cp == 305) && (style == 1))    // U+1D6A4 MATHEMATICAL ITALIC SMALL DOTLESS I
-                    {
-                        result = 120484;
-                    }
+                        case 1:
+                            switch (cp)
+                            {
+                                // U+1D6A4 MATHEMATICAL ITALIC SMALL DOTLESS I
+                                case 0x131:
+                                    result = 0x1D6A4;
+                                    break;
 
-                    if ((cp == 567) && (style == 1))    // U+1D6A5 MATHEMATICAL ITALIC SMALL DOTLESS J
-                    {
-                        result = 120485;
+                                // U+1D6A5 MATHEMATICAL ITALIC SMALL DOTLESS J
+                                case 0x237:
+                                    result = 0x1D6A5;
+                                    break;
+                            }
+                            break;
                     }
                 }
 
@@ -641,7 +619,8 @@ namespace UnicodeStyle
         private int FromSurrogates(int hi, int lo)
         {
             int cp = ReplacementCharacter;
-            if ((hi >= HighSurrogateFirst) && (hi <= HighSurrogateLast) && (lo >= LowSurrogateFirst) && (lo <= LowSurrogateLast))
+            if ((hi is >= HighSurrogateFirst and <= HighSurrogateLast)
+                && (lo is >= LowSurrogateFirst and <= LowSurrogateLast))
             {
                 cp = ((hi - HighSurrogateFirst) << HalfShift) + (lo - LowSurrogateFirst) + HalfBase;
             }
@@ -745,11 +724,6 @@ namespace UnicodeStyle
         {
             if (!disposedValue)
             {
-                if (disposing)
-                {
-                    // TODO: 释放托管状态(托管对象)
-                }
-
                 // TODO: 释放未托管的资源(未托管的对象)并重写终结器
                 // TODO: 将大型字段设置为 null
                 Styles = null;

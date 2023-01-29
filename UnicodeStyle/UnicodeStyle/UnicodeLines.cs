@@ -8,36 +8,36 @@
         /// <summary>
         /// Unicode Underline Char
         /// </summary>
-        Underline = '̲',
+        Underline = '\u0332',
 
         /// <summary>
         /// Double Unicode Underline Char
         /// </summary>
-        DoubleUnderline = '̳',
+        DoubleUnderline = '\u0333',
 
         /// <summary>
         /// Unicode Overline Char
         /// </summary>
-        Overline = '̅',
+        Overline = '\u0305',
 
         /// <summary>
         /// Unicode Strikethrough Char
         /// </summary>
-        Strikethrough = '̶',
+        Strikethrough = '\u0336',
 
         /// <summary>
         /// Unicode Strikethrough Vertical Char
         /// </summary>
-        StrikethroughVertical = '⃦',
+        StrikethroughVertical = '\u20E6',
 
         /// <summary>
         /// Unicode Slashthrough Char
         /// </summary>
-        Slashthrough = '̸',
+        Slashthrough = '\u0338',
 
         /// <summary>
         /// Unicode Double Slashthrough Char
         /// </summary>
-        DoubleSlashthrough = '⃫',
+        DoubleSlashthrough = '\u20EB',
     }
 }
