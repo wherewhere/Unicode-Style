@@ -1,11 +1,8 @@
-﻿// Source : <http://www.babelstone.co.uk/Unicode/yi.js>
-// For use by :
-//	Unicode Text Styler at <http://www.babelstone.co.uk/Unicode/text.html>
+﻿// Source : <http://www.babelstone.co.uk/Unicode/text.js>
 // Title : text.js
 // Author : Andrew West
 // Date Created : 2014-07-05
 // Latest Version : 2021-12-05 (update for Unicode 14.0f; added superscript Latin capital letters)
-//
 
 // Creative Commons Licence:
 // CC BY-SA 3.0f <http://creativecommons.org/licenses/by-sa/3.0f/>
@@ -22,10 +19,8 @@ namespace UnicodeStyle
     {
         private bool disposedValue;
 
-        /// <summary>
-        /// Unicode Lines char.
-        /// </summary>
-        public static char[] UnicodeLines = new char[] { '\u0332', '\u0333', '\u0305', '\u0336', '\u20E6', '\u0338', '\u20EB' };
+        private const ushort CombiningFirst = 0x0300;       // U+0300
+        private const ushort CombiningLast = 0x20F0;        // U+20F0
 
         // UTF-8 Constants
         private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER
@@ -314,9 +309,9 @@ namespace UnicodeStyle
         };
 
         /// <summary>
-        /// Style the string.
+        /// Convert the string to target type.
         /// </summary>
-        /// <param name="str">The string to style.</param>
+        /// <param name="str">The string to convert.</param>
         /// <param name="style">The style you want.</param>
         /// <returns>The styled string.</returns>
         public string StyleConvert(string str, UnicodeStyles style = UnicodeStyles.Regular)
@@ -337,9 +332,9 @@ namespace UnicodeStyle
         }
 
         /// <summary>
-        /// Style string.
+        /// Convert the string to target type.
         /// </summary>
-        /// <param name="str">The string to style.</param>
+        /// <param name="str">The string to convert.</param>
         /// <param name="style">The style you want.</param>
         /// <returns>The styled string.</returns>
         public string StyleConvert(string str, string style = "")
@@ -629,7 +624,7 @@ namespace UnicodeStyle
         }
 
         /// <summary>
-        /// Add Unicode Lines.
+        /// Add Unicode Combining Diacritical Marks.
         /// </summary>
         /// <param name="str">The string you want to add lines.</param>
         /// <param name="lines">Lines you want to add.</param>
@@ -643,12 +638,19 @@ namespace UnicodeStyle
                 string output = string.Empty;
                 for (int i = 0; i < str.Length; i++)
                 {
-                    char c = str[i];
-                    output += c;
-                    for (int j = 0; j < lines.Length; j++)
+                    ushort cp = str[i];
+                    if (cp is >= HighSurrogateFirst and <= HighSurrogateLast)
                     {
-                        UnicodeLines line = lines[j];
-                        output += (char)line;
+                        output += (char)cp;
+                    }
+                    else
+                    {
+                        output += (char)cp;
+                        for (int j = 0; j < lines.Length; j++)
+                        {
+                            UnicodeLines line = lines[j];
+                            output += (char)line;
+                        }
                     }
                 }
                 return output;
@@ -669,18 +671,11 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
-                bool isline = false;
-                char word = input[i];
-                for (int j = 0; j < UnicodeLines.Length; j++)
+                ushort word = input[i];
+                if (word is < CombiningFirst or > CombiningLast)
                 {
-                    char line = UnicodeLines[j];
-                    if (line == word)
-                    {
-                        isline = true;
-                        break;
-                    }
+                    output += (char)word;
                 }
-                if (!isline) { output += word; }
             }
 
             return output;

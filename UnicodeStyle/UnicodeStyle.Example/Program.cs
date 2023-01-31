@@ -18,13 +18,19 @@ namespace UnicodeStyle
                 }
             }
 
-            Console.WriteLine($"Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Underline)}");
-            Console.WriteLine($"Double Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleUnderline)}");
-            Console.WriteLine($"Overline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Overline)}");
-            Console.WriteLine($"Strikethrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Strikethrough)}");
-            Console.WriteLine($"Strikethrough Vertical: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.StrikethroughVertical)}");
-            Console.WriteLine($"Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Slashthrough)}");
-            Console.WriteLine($"Double Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleSlashthrough)}");
+            for (ushort line = 0x0300; line <= 0x20F0; line++)
+            {
+                UnicodeLines type = (UnicodeLines)line;
+                Console.WriteLine($"{type}: {UnicodeStyler.AddLine("Hello, World!", type)}");
+            }
+
+            //Console.WriteLine($"Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Underline)}");
+            //Console.WriteLine($"Double Underline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleUnderline)}");
+            //Console.WriteLine($"Overline: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Overline)}");
+            //Console.WriteLine($"Strikethrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Strikethrough)}");
+            //Console.WriteLine($"Strikethrough Vertical: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.StrikethroughVertical)}");
+            //Console.WriteLine($"Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.Slashthrough)}");
+            //Console.WriteLine($"Double Slashthrough: {UnicodeStyler.AddLine("Hello, World!", UnicodeLines.DoubleSlashthrough)}");
 
             Console.Write("Press any key to exit...");
             Console.ReadKey(true);
