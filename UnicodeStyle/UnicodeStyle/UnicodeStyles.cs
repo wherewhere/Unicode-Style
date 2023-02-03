@@ -1,7 +1,7 @@
 ﻿namespace UnicodeStyle
 {
     /// <summary>
-    /// Styles of Unicode.
+    /// The styles of Unicode.
     /// </summary>
     public enum UnicodeStyles
     {

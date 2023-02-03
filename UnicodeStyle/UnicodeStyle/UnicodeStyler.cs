@@ -13,7 +13,7 @@ using System;
 namespace UnicodeStyle
 {
     /// <summary>
-    /// Styler of Unicode.
+    /// The styler of Unicode.
     /// </summary>
     public class UnicodeStyler : IDisposable
     {
@@ -55,7 +55,7 @@ namespace UnicodeStyle
         private const ushort GreekStyles = 7;               // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
 
         /// <summary>
-        /// Styles of Unicode.
+        /// The styles of Unicode.
         /// </summary>
         public string[] Styles = new string[TotalStyles]
         {
@@ -626,26 +626,31 @@ namespace UnicodeStyle
         /// <summary>
         /// Add Unicode Combining Diacritical Marks.
         /// </summary>
-        /// <param name="str">The string you want to add lines.</param>
+        /// <param name="value">The string you want to add lines.</param>
         /// <param name="lines">Lines you want to add.</param>
         /// <returns>The lines-added string.</returns>
-        public static string AddLine(string str, params UnicodeLines[] lines)
+        public static string AddLine(string value, params UnicodeLines[] lines) => AddLine(value, false, lines);
+
+        /// <summary>
+        /// Add Unicode Combining Diacritical Marks.
+        /// </summary>
+        /// <param name="value">The string you want to add lines.</param>
+        /// <param name="removeLine">Remove the lines you want to add if exist in the string.</param>
+        /// <param name="lines">Lines you want to add.</param>
+        /// <returns>The lines-added string.</returns>
+        public static string AddLine(string value, bool removeLine, params UnicodeLines[] lines)
         {
-            string input = RemoveLine(str, lines);
+            string input = removeLine ? RemoveLine(value, lines) : value;
 
             if (lines != null)
             {
                 string output = string.Empty;
-                for (int i = 0; i < str.Length; i++)
+                for (int i = 0; i < input.Length; i++)
                 {
-                    ushort cp = str[i];
-                    if (cp is >= HighSurrogateFirst and <= HighSurrogateLast)
+                    ushort cp = input[i];
+                    output += (char)cp;
+                    if (cp is < CombiningFirst or (> CombiningLast and < HighSurrogateFirst) or > HighSurrogateLast)
                     {
-                        output += (char)cp;
-                    }
-                    else
-                    {
-                        output += (char)cp;
                         for (int j = 0; j < lines.Length; j++)
                         {
                             UnicodeLines line = lines[j];
@@ -662,11 +667,11 @@ namespace UnicodeStyle
         /// <summary>
         /// Remove Unicode Lines.
         /// </summary>
-        /// <param name="str">The string you want to remove lines.</param>
-        /// <returns>The lines-removeed string.</returns>
-        public static string RemoveLine(string str)
+        /// <param name="value">The string you want to remove lines.</param>
+        /// <returns>The lines-removed string.</returns>
+        public static string RemoveLine(string value)
         {
-            string input = str;
+            string input = value;
             string output = string.Empty;
 
             for (int i = 0; i < input.Length; i++)
@@ -684,12 +689,12 @@ namespace UnicodeStyle
         /// <summary>
         /// Remove Unicode Lines.
         /// </summary>
-        /// <param name="str">The string you want to remove lines.</param>
+        /// <param name="value">The string you want to remove lines.</param>
         /// <param name="lines">Lines you want to remove.</param>
-        /// <returns>The lines-removeed string.</returns>
-        public static string RemoveLine(string str, params UnicodeLines[] lines)
+        /// <returns>The lines-removed string.</returns>
+        public static string RemoveLine(string value, params UnicodeLines[] lines)
         {
-            string input = str;
+            string input = value;
             string output = string.Empty;
 
             for (int i = 0; i < input.Length; i++)

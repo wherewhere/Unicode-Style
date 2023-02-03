@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeStyle", "UnicodeStyl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeStyle.Example", "UnicodeStyle\UnicodeStyle.Example\UnicodeStyle.Example.csproj", "{E0425284-898C-4A90-B83F-3ED452520577}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnicodeStyle.Tests", "UnicodeStyle\UnicodeStyle.Tests\UnicodeStyle.Tests.csproj", "{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnicodeStyle.Tests", "UnicodeStyle\UnicodeStyle.Tests\UnicodeStyle.Tests.csproj", "{D2A1A6E2-E599-4DAB-B92B-8BF417216DD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
