@@ -31,6 +31,7 @@ body:
       label: NuGet package version
       description: Specify the version of Unicode Style you're using.
       options:
+        - "0.0.10"
         - "0.0.9"
         - "0.0.8"
         - "0.0.7"
