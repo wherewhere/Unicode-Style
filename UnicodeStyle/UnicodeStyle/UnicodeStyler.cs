@@ -9,19 +9,15 @@
 // text.js by Andrew West is licensed under a Creative Commons Attribution-ShareAlike 3.0f Unported License
 
 using System;
+using UnicodeStyle.Models;
 
 namespace UnicodeStyle
 {
     /// <summary>
-    /// The styler of Unicode.
+    /// The tools to style Unicode strings.
     /// </summary>
-    public class UnicodeStyler : IDisposable
+    public sealed class UnicodeStyler : IDisposable
     {
-        private bool disposedValue;
-
-        private const ushort CombiningFirst = 0x0300;       // U+0300
-        private const ushort CombiningLast = 0x20F0;        // U+20F0
-
         // UTF-8 Constants
         private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER
         private const int CharactersPerPlane = 0x10000;
@@ -53,37 +49,6 @@ namespace UnicodeStyle
         private const ushort FirstTarget = 0x00B2;          // U+00B2
         private const ushort TotalStyles = 24;
         private const ushort GreekStyles = 7;               // Actually only 5, but we include S/S and S/S Italic in the table for ease of mapping
-
-        /// <summary>
-        /// The styles of Unicode.
-        /// </summary>
-        public string[] Styles = new string[TotalStyles]
-        {
-            "Bold",
-            "Italic",
-            "BoldItalic",
-            "SansSerif",
-            "SansSerifBold",
-            "SansSerifItalic",
-            "SansSerifBoldItalic",
-            "Script",
-            "ScriptBold",
-            "Fraktur",
-            "FrakturBold",
-            "DoubleStruck",
-            "Monospace",
-            "Fullwidth",
-            "Circled",
-            "InverseCircled",
-            "Squared",
-            "InverseSquared",
-            "Parenthesized",
-            "SmallCapitals",
-            "Superscript",
-            "Subscript",
-            "RegionalIndicatorSymbols",
-            "Tags"
-        };
 
         private int[][] LatinMapping = new int[BasicLatinChars][]
         {
@@ -314,7 +279,11 @@ namespace UnicodeStyle
         /// <param name="str">The string to convert.</param>
         /// <param name="style">The style you want.</param>
         /// <returns>The styled string.</returns>
-        public string StyleConvert(string str, UnicodeStyles style = UnicodeStyles.Regular)
+        public string StyleConvert(string str, UnicodeStyles style
+#if !WINRT
+            = UnicodeStyles.Regular
+#endif
+            )
         {
             string input = str;
 
@@ -323,38 +292,6 @@ namespace UnicodeStyle
                 input = ToRegular(input);
 
                 int index = (int)style;
-
-                string output = index == -1 ? input : ToStyled(input, index);
-                return output;
-            }
-
-            return input;
-        }
-
-        /// <summary>
-        /// Convert the string to target type.
-        /// </summary>
-        /// <param name="str">The string to convert.</param>
-        /// <param name="style">The style you want.</param>
-        /// <returns>The styled string.</returns>
-        public string StyleConvert(string str, string style = "")
-        {
-            string input = str;
-
-            if (input.Length > 0)
-            {
-                input = ToRegular(input);
-
-                int index = -1;
-
-                for (int i = 0; i < TotalStyles; i++)
-                {
-                    if (Styles[i] == style)
-                    {
-                        index = i;
-                        break;
-                    }
-                }
 
                 string output = index == -1 ? input : ToStyled(input, index);
                 return output;
@@ -624,113 +561,16 @@ namespace UnicodeStyle
         }
 
         /// <summary>
-        /// Add Unicode Combining Diacritical Marks.
-        /// </summary>
-        /// <param name="value">The string you want to add lines.</param>
-        /// <param name="lines">Lines you want to add.</param>
-        /// <returns>The lines-added string.</returns>
-        public static string AddLine(string value, params UnicodeLines[] lines) => AddLine(value, false, lines);
-
-        /// <summary>
-        /// Add Unicode Combining Diacritical Marks.
-        /// </summary>
-        /// <param name="value">The string you want to add lines.</param>
-        /// <param name="removeLine">Remove the lines you want to add if exist in the string.</param>
-        /// <param name="lines">Lines you want to add.</param>
-        /// <returns>The lines-added string.</returns>
-        public static string AddLine(string value, bool removeLine, params UnicodeLines[] lines)
-        {
-            string input = removeLine ? RemoveLine(value, lines) : value;
-
-            if (lines != null)
-            {
-                string output = string.Empty;
-                for (int i = 0; i < input.Length; i++)
-                {
-                    ushort cp = input[i];
-                    output += (char)cp;
-                    if (cp is < CombiningFirst or (> CombiningLast and < HighSurrogateFirst) or > HighSurrogateLast)
-                    {
-                        for (int j = 0; j < lines.Length; j++)
-                        {
-                            UnicodeLines line = lines[j];
-                            output += (char)line;
-                        }
-                    }
-                }
-                return output;
-            }
-
-            return input;
-        }
-
-        /// <summary>
-        /// Remove Unicode Lines.
-        /// </summary>
-        /// <param name="value">The string you want to remove lines.</param>
-        /// <returns>The lines-removed string.</returns>
-        public static string RemoveLine(string value)
-        {
-            string input = value;
-            string output = string.Empty;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                ushort word = input[i];
-                if (word is < CombiningFirst or > CombiningLast)
-                {
-                    output += (char)word;
-                }
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// Remove Unicode Lines.
-        /// </summary>
-        /// <param name="value">The string you want to remove lines.</param>
-        /// <param name="lines">Lines you want to remove.</param>
-        /// <returns>The lines-removed string.</returns>
-        public static string RemoveLine(string value, params UnicodeLines[] lines)
-        {
-            string input = value;
-            string output = string.Empty;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                bool isline = false;
-                char word = input[i];
-                for (int j = 0; j < lines.Length; j++)
-                {
-                    UnicodeLines line = lines[j];
-                    if ((char)line == word)
-                    {
-                        isline = true;
-                        break;
-                    }
-                }
-                if (!isline) { output += word; }
-            }
-
-            return output;
-        }
-
-        /// <summary>
         /// Dispose the styler.
         /// </summary>
         /// <param name="disposing">Is disposing?</param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (disposing)
             {
-                // TODO: 释放未托管的资源(未托管的对象)并重写终结器
-                // TODO: 将大型字段设置为 null
-                Styles = null;
                 LatinMapping = null;
                 GreekMapping = null;
                 GreekCharacters = null;
-                disposedValue = true;
             }
         }
 
@@ -739,7 +579,6 @@ namespace UnicodeStyle
         /// </summary>
         public void Dispose()
         {
-            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }

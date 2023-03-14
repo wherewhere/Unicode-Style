@@ -1,4 +1,4 @@
-﻿namespace UnicodeStyle
+﻿namespace UnicodeStyle.Models
 {
     /// <summary>
     /// The styles of Unicode.

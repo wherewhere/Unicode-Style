@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using UnicodeStyle.Models;
 
 namespace UnicodeStyle.Tests
 {

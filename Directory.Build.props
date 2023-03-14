@@ -1,0 +1,36 @@
+<Project>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcore50'">
+    <NugetTargetMoniker>.NETCore,Version=v5.0</NugetTargetMoniker>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NuGetTargetMoniker>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
+    <TargetPlatformMinVersion>10.0.15138.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'wp7.0'">
+    <FrameworkPathOverride Condition="'$(TargetFramework)' == 'wp7.0'">C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone</FrameworkPathOverride>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'uap10.0'">
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <DebugType>Full</DebugType>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
+    <OutputType>winmdobj</OutputType>
+    <PackageTargetFallback>uap10.0</PackageTargetFallback>
+    <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
+  </PropertyGroup>
+
+</Project>

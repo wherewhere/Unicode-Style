@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using UnicodeStyle.Models;
 
 namespace UnicodeStyle
 {
