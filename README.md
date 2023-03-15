@@ -8,15 +8,19 @@ Styles text by substituting characters with suitable unicode replacements.
 ![image](https://user-images.githubusercontent.com/27689196/172851193-c6b70b3e-613d-4bbb-a706-37a51f4296bb.png)
 
 ## Support Platform
-- Silverlight 4
+- Silverlight 3
+- Silverlight 5
 - .NET Framework 2.0
 - .NET Framework 3.5
 - .NET Framework 4.0
 - .NET Framework 4.5.2
 - .NET Framework 4.6.2
 - .NET Framework 4.8.1
+- .NET Micro Framework 3.0
+- .NET Micro Framework 4.1
 - .NET Micro Framework 4.4
 - .NET Standard 1.1
+- .NET Standard 2.0
 - .NET Core 5.0
 - .NET Core App 3.1
 - .NET 6.0

@@ -48,6 +48,7 @@ body:
       description: Please specify the .NET Platform you're using when you encountered the issue.
       multiple: true
       options:
+        - "Silverlight 3"
         - "Silverlight 4"
         - "Silverlight 5"
         - ".NET Framework 2.0"
@@ -57,6 +58,11 @@ body:
         - ".NET Framework 4.6.x"
         - ".NET Framework 4.7.x"
         - ".NET Framework 4.8.x"
+        - ".NET Micro Framework 3.0"
+        - ".NET Micro Framework 4.0"
+        - ".NET Micro Framework 4.1"
+        - ".NET Micro Framework 4.2"
+        - ".NET Micro Framework 4.3"
         - ".NET Micro Framework 4.4"
         - ".NET Standard 1.x"
         - ".NET Standard 2.x"
