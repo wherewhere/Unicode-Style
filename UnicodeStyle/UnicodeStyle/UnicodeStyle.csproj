@@ -6,6 +6,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IncludeSymbols>True</IncludeSymbols>
     <LangVersion>preview</LangVersion>
+    <NoWarn>NU1603</NoWarn>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wherewhere/Unicode-Style</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -16,7 +17,7 @@
     <TargetFramework Condition="'$(GITHUB_ACTIONS)' == 'true'">netstandard2.0</TargetFramework>
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' != 'true'">native;net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;netcore50;netcoreapp3.1;netmf4.4;netstandard1.1;sl4;uap10.0;wp7.0;wp8.0</TargetFrameworks>
     <Title>Unicode Style - Format text using unicode characters</Title>
-    <VersionPrefix>0.0.10</VersionPrefix>
+    <VersionPrefix>0.1.11</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
 Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/text.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
 Format text by using UnicodeStyler.StyleConvert().</Description>

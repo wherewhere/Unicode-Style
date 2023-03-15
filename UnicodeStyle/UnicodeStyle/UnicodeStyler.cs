@@ -4,7 +4,7 @@
 // Date Created : 2014-07-05
 // Latest Version : 2021-12-05 (update for Unicode 14.0f; added superscript Latin capital letters)
 
-// Creative Commons Licence:
+// Creative Commons License:
 // CC BY-SA 3.0f <http://creativecommons.org/licenses/by-sa/3.0f/>
 // text.js by Andrew West is licensed under a Creative Commons Attribution-ShareAlike 3.0f Unported License
 
@@ -272,6 +272,15 @@ namespace UnicodeStyle
             0x03F1,     // GREEK RHO SYMBOL
             0x03D6      // GREEK PI SYMBOL
         };
+
+#if WINRT
+        /// <summary>
+        /// Convert the string to regular style.
+        /// </summary>
+        /// <param name="str">The string to convert.</param>
+        /// <returns>The styled string.</returns>
+        public string StyleConvert(string str) => StyleConvert(str, UnicodeStyles.Regular);
+#endif
 
         /// <summary>
         /// Convert the string to target type.

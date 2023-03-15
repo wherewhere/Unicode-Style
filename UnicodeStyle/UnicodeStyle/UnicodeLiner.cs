@@ -89,18 +89,18 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
-                bool isline = false;
+                bool isLine = false;
                 char word = input[i];
                 for (int j = 0; j < lines.Length; j++)
                 {
                     UnicodeLines line = lines[j];
                     if ((char)line == word)
                     {
-                        isline = true;
+                        isLine = true;
                         break;
                     }
                 }
-                if (!isline) { output += word; }
+                if (!isLine) { output += word; }
             }
 
             return output;

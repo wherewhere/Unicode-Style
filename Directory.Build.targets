@@ -1,12 +1,12 @@
 ﻿<Project>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcore50'">
-    <PackageReference Include="Microsoft.NETCore" Version="5.0.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NETCore" Version="5.0.2" PrivateAssets="all" IsImplicitlyDefined="true" />
+    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.2" PrivateAssets="all" IsImplicitlyDefined="true" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" PrivateAssets="all" IsImplicitlyDefined="true"/>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" PrivateAssets="all" IsImplicitlyDefined="true" />
   </ItemGroup>
 
   <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->

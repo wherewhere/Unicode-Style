@@ -47,13 +47,13 @@ namespace UnicodeStyle.Tests
         {
             string Regular = "Hello, World!";
 
-            Assert.AreEqual("H̲e̲l̲l̲o̲,̲ ̲W̲o̲r̲l̲d̲!̲", UnicodeStyler.AddLine(Regular, UnicodeLines.Underline));
-            Assert.AreEqual("H̳e̳l̳l̳o̳,̳ ̳W̳o̳r̳l̳d̳!̳", UnicodeStyler.AddLine(Regular, UnicodeLines.DoubleUnderline));
-            Assert.AreEqual("H̅e̅l̅l̅o̅,̅ ̅W̅o̅r̅l̅d̅!̅", UnicodeStyler.AddLine(Regular, UnicodeLines.Overline));
-            Assert.AreEqual("H̶e̶l̶l̶o̶,̶ ̶W̶o̶r̶l̶d̶!̶", UnicodeStyler.AddLine(Regular, UnicodeLines.LongStrokeOverlay));
-            Assert.AreEqual("H⃦e⃦l⃦l⃦o⃦,⃦ ⃦W⃦o⃦r⃦l⃦d⃦!⃦", UnicodeStyler.AddLine(Regular, UnicodeLines.StrikethroughVertical));
-            Assert.AreEqual("H̸e̸l̸l̸o̸,̸ ̸W̸o̸r̸l̸d̸!̸", UnicodeStyler.AddLine(Regular, UnicodeLines.LongSlashOverlay));
-            Assert.AreEqual("H⃫e⃫l⃫l⃫o⃫,⃫ ⃫W⃫o⃫r⃫l⃫d⃫!⃫", UnicodeStyler.AddLine(Regular, UnicodeLines.LongDoubleSolidusOverlay));
+            Assert.AreEqual("H̲e̲l̲l̲o̲,̲ ̲W̲o̲r̲l̲d̲!̲", UnicodeLiner.AddLine(Regular, UnicodeLines.Underline));
+            Assert.AreEqual("H̳e̳l̳l̳o̳,̳ ̳W̳o̳r̳l̳d̳!̳", UnicodeLiner.AddLine(Regular, UnicodeLines.DoubleUnderline));
+            Assert.AreEqual("H̅e̅l̅l̅o̅,̅ ̅W̅o̅r̅l̅d̅!̅", UnicodeLiner.AddLine(Regular, UnicodeLines.Overline));
+            Assert.AreEqual("H̶e̶l̶l̶o̶,̶ ̶W̶o̶r̶l̶d̶!̶", UnicodeLiner.AddLine(Regular, UnicodeLines.LongStrokeOverlay));
+            Assert.AreEqual("H⃦e⃦l⃦l⃦o⃦,⃦ ⃦W⃦o⃦r⃦l⃦d⃦!⃦", UnicodeLiner.AddLine(Regular, UnicodeLines.StrikethroughVertical));
+            Assert.AreEqual("H̸e̸l̸l̸o̸,̸ ̸W̸o̸r̸l̸d̸!̸", UnicodeLiner.AddLine(Regular, UnicodeLines.LongSlashOverlay));
+            Assert.AreEqual("H⃫e⃫l⃫l⃫o⃫,⃫ ⃫W⃫o⃫r⃫l⃫d⃫!⃫", UnicodeLiner.AddLine(Regular, UnicodeLines.LongDoubleSolidusOverlay));
         }
 
         [Test]
@@ -61,13 +61,13 @@ namespace UnicodeStyle.Tests
         {
             string Regular = "Hello, World!";
 
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.Underline)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.DoubleUnderline)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.Overline)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.LongStrokeOverlay)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.StrikethroughVertical)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.LongSlashOverlay)));
-            Assert.AreEqual(Regular, UnicodeStyler.RemoveLine(UnicodeStyler.AddLine(Regular, UnicodeLines.LongDoubleSolidusOverlay)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.Underline)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.DoubleUnderline)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.Overline)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.LongStrokeOverlay)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.StrikethroughVertical)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.LongSlashOverlay)));
+            Assert.AreEqual(Regular, UnicodeLiner.RemoveLine(UnicodeLiner.AddLine(Regular, UnicodeLines.LongDoubleSolidusOverlay)));
         }
     }
 }
