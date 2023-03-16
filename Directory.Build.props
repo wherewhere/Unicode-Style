@@ -1,6 +1,30 @@
 <Project>
 
+  <PropertyGroup>
+    <Authors>wherewhere</Authors>
+    <Deterministic>true</Deterministic>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Copyright>Copyright © 2017 - 2023 wherewhere. All Rights Reserved.</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/wherewhere/Unicode-Style</PackageProjectUrl>
+    <PackageTags>Unicode;Text;Style</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/wherewhere/Unicode-Style</RepositoryUrl>
+    <Title>Unicode Style - Format text using unicode characters</Title>
+    <VersionPrefix>0.1.11</VersionPrefix>
+    <Description>A Styler to format text using unicode characters.
+Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/text.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
+Format text by using UnicodeStyler.StyleConvert().</Description>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
+    <DebugType>Full</DebugType>
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NuGetTargetMoniker>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
+    <OutputType>winmdobj</OutputType>
+    <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
@@ -9,8 +33,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
-    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NuGetTargetMoniker>
-    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
+    <DefineConstants>$(DefineConstants);WINDOWS_UWP</DefineConstants>
+    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
     <TargetPlatformMinVersion>10.0.15138.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
@@ -20,13 +44,8 @@
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'uap10.0'">
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-    <DebugType>Full</DebugType>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
-    <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
-    <OutputType>winmdobj</OutputType>
-    <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
