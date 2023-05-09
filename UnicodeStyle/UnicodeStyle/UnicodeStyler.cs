@@ -16,7 +16,7 @@ namespace UnicodeStyle
     /// <summary>
     /// The tools to style Unicode strings.
     /// </summary>
-    public sealed class UnicodeStyler : IDisposable
+    public sealed class UnicodeStyler : IUnicodeStyle, IDisposable
     {
         // UTF-8 Constants
         private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER

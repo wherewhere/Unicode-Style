@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <Authors>wherewhere</Authors>
-    <Deterministic>true</Deterministic>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Copyright>Copyright © 2017 - 2023 wherewhere. All Rights Reserved.</Copyright>
+    <Deterministic>true</Deterministic>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wherewhere/Unicode-Style</PackageProjectUrl>
     <PackageTags>Unicode;Text;Style</PackageTags>

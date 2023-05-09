@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -10,7 +10,7 @@
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
-    <NuspecFile>UnicodeStyle.nuspec</NuspecFile>
+    <NuspecFile Condition="'$(GITHUB_ACTIONS)' != 'true'">UnicodeStyle.nuspec</NuspecFile>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
