@@ -11,7 +11,7 @@ namespace UnicodeStyle
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Regular: Hello, World!");
 
-            using (UnicodeStyler styler = new())
+            using (UnicodeStyle styler = new())
             {
                 foreach (object style in Enum.GetValues(typeof(UnicodeStyles)))
                 {
@@ -26,13 +26,13 @@ namespace UnicodeStyle
             //    Console.WriteLine($"{type}: {UnicodeLiner.AddLine("Hello, World!", type)}");
             //}
 
-            Console.WriteLine($"Underline: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.Underline)}");
-            Console.WriteLine($"Double Underline: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.DoubleUnderline)}");
-            Console.WriteLine($"Overline: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.Overline)}");
-            Console.WriteLine($"Strikethrough: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.LongStrokeOverlay)}");
-            Console.WriteLine($"Strikethrough Vertical: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.StrikethroughVertical)}");
-            Console.WriteLine($"Slashthrough: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.LongSlashOverlay)}");
-            Console.WriteLine($"Double Slashthrough: {UnicodeLiner.AddLine("Hello, World!", UnicodeLines.LongDoubleSolidusOverlay)}");
+            Console.WriteLine($"Underline: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.Underline)}");
+            Console.WriteLine($"Double Underline: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.DoubleUnderline)}");
+            Console.WriteLine($"Overline: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.Overline)}");
+            Console.WriteLine($"Strikethrough: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.LongStrokeOverlay)}");
+            Console.WriteLine($"Strikethrough Vertical: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.StrikethroughVertical)}");
+            Console.WriteLine($"Slashthrough: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.LongSlashOverlay)}");
+            Console.WriteLine($"Double Slashthrough: {UnicodeLine.AddLine("Hello, World!", UnicodeLines.LongDoubleSolidusOverlay)}");
 
             Console.Write("Press any key to exit...");
             Console.ReadKey(true);

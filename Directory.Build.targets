@@ -15,9 +15,4 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.14" PrivateAssets="all" IsImplicitlyDefined="true" />
   </ItemGroup>
 
-  <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
-  <ItemGroup Condition="'$(TargetFramework)' != 'native' and '$(TargetFramework)' != 'uap10.0'">
-    <EmbeddedResource Remove="Properties\UnicodeStyle.rd.xml" />
-  </ItemGroup>
-
 </Project>

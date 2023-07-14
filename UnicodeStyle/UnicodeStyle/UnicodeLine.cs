@@ -5,7 +5,7 @@ namespace UnicodeStyle
     /// <summary>
     /// The tools to add lines for Unicode strings.
     /// </summary>
-    public static class UnicodeLiner
+    public static class UnicodeLine
     {
         private const ushort CombiningFirst = 0x0300;   // U+0300
         private const ushort CombiningLast = 0x20F0;    // U+20F0

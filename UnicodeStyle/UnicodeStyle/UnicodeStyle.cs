@@ -16,7 +16,7 @@ namespace UnicodeStyle
     /// <summary>
     /// The tools to style Unicode strings.
     /// </summary>
-    public sealed class UnicodeStyler : IUnicodeStyle, IDisposable
+    public sealed class UnicodeStyle : IUnicodeStyle, IDisposable
     {
         // UTF-8 Constants
         private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER
@@ -459,29 +459,29 @@ namespace UnicodeStyle
                     switch (style)
                     {
                         case > 1 and < GreekStyles:
-                            bool greek = cp is (>= 0x0391 and <= 0x03C9)
+                            bool Greek = cp is (>= 0x0391 and <= 0x03C9)
                                 or (>= 0x03D1 and <= 0x03D6)
                                 or (>= 0x03F0 and <= 0x03F5)
                                 or (>= 0x2202 and <= 0x2207);
 
                             int offset = 0;
 
-                            if (greek)
+                            if (Greek)
                             {
-                                greek = false;
+                                Greek = false;
 
                                 for (int j = 0; j < MathGreekRange; j++)
                                 {
                                     if (GreekCharacters[j] == cp)
                                     {
-                                        greek = true;
+                                        Greek = true;
                                         offset = j;
                                         break;
                                     }
                                 }
                             }
 
-                            if (greek)
+                            if (Greek)
                             {
                                 result = GreekMapping[offset][style];
                             }
@@ -542,7 +542,7 @@ namespace UnicodeStyle
             return output;
         }
 
-        private int[] ToSurrogates(int cp)
+        private static int[] ToSurrogates(int cp)
         {
             int hi = cp;
             int lo = 0;
@@ -557,7 +557,7 @@ namespace UnicodeStyle
             return new int[] { hi, lo };
         }
 
-        private int FromSurrogates(int hi, int lo)
+        private static int FromSurrogates(int hi, int lo)
         {
             int cp = ReplacementCharacter;
             if ((hi is >= HighSurrogateFirst and <= HighSurrogateLast)
@@ -569,10 +569,6 @@ namespace UnicodeStyle
             return cp;
         }
 
-        /// <summary>
-        /// Dispose the styler.
-        /// </summary>
-        /// <param name="disposing">Is disposing?</param>
         private void Dispose(bool disposing)
         {
             if (disposing)
@@ -583,9 +579,7 @@ namespace UnicodeStyle
             }
         }
 
-        /// <summary>
-        /// Dispose the styler.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             Dispose(disposing: true);

@@ -3,6 +3,7 @@
     /// <summary>
     /// Unicode Combining Diacritical Marks.
     /// </summary>
+    /// <remarks>The code of combining marks is from <c>U+0300</c> to <c>U+20F0</c>.</remarks>
     public enum UnicodeLines
     {
         /// <summary>
@@ -177,6 +178,6 @@
         /// Combining Asterisk Above.
         /// </summary>
         /// <remarks>Combining Asterisk Above was approved as part of Unicode 5.1 in 2008.</remarks>
-        AsteriskAbove = '\u20EB',
+        AsteriskAbove = '\u20F0'
     }
 }
