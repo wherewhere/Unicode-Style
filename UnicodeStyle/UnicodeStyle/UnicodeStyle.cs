@@ -311,32 +311,32 @@ namespace UnicodeStyle
 
         private string ToRegular(string input)
         {
-            int hi = 0;
+            ushort hi = 0;
             string output = string.Empty;
             
             for (int i = 0; i < input.Length; i++)
             {
-                int cp = input[i];
+                ushort cp = input[i];
+                int result = 0;
 
                 switch (cp)
                 {
                     case >= HighSurrogateFirst and <= HighSurrogateLast:
                         if (hi != 0)
                         {
-                            output += ReplacementCharacter;
+                            output += (char)ReplacementCharacter;
                         }
                         hi = cp;
-                        cp = 0;
-                        break;
+                        continue;
 
                     case >= LowSurrogateFirst and <= LowSurrogateLast:
                         if (hi == 0)
                         {
-                            output += ReplacementCharacter;
+                            output += (char)ReplacementCharacter;
                         }
                         else
                         {
-                            cp = FromSurrogates(hi, cp);
+                            result = FromSurrogates(hi, cp);
                             hi = 0;
                         }
                         break;
@@ -344,21 +344,21 @@ namespace UnicodeStyle
                     default:
                         if (hi != 0)
                         {
-                            output += ReplacementCharacter;
+                            output += (char)ReplacementCharacter;
                             hi = 0;
                         }
                         break;
                 }
 
-                if (cp >= FirstTarget)
+                if (result >= FirstTarget)
                 {
                     int row = 0;
-                    bool isLatin = true;
-
-                    switch (cp)
+                    bool isLatin;
+                    
+                    switch (result)
                     {
                         case >= MathLatinFirst and <= MathLatinLast:
-                            row = (cp - MathLatinFirst) % MathLatinRange;
+                            row = (result - MathLatinFirst) % MathLatinRange;
                             if (row < 0x1A)
                             {
                                 row += LatinCapitalOffset;
@@ -368,40 +368,46 @@ namespace UnicodeStyle
                                 row -= 0x1A;
                                 row += LatinSmallOffset;
                             }
+                            isLatin = true;
                             break;
 
                         case >= MathGreekFirst and <= MathGreekLast:
-                            row = (cp - MathGreekFirst) % MathGreekRange;
-                            cp = GreekCharacters[row];
+                            row = (result - MathGreekFirst) % MathGreekRange;
+                            result = GreekCharacters[row];
                             isLatin = false;
                             break;
 
                         case >= MathDigitsFirst and <= MathDigitsLast:
-                            row = LatinDigitsOffset + ((cp - MathDigitsFirst) % MathDigitsRange);
+                            row = LatinDigitsOffset + ((result - MathDigitsFirst) % MathDigitsRange);
+                            isLatin = true;
                             break;
 
                         // U+1D6A4 MATHEMATICAL ITALIC SMALL DOTLESS I
                         case 0x1D6A4:
-                            cp = 0x131;
+                            result = 0x131;
                             isLatin = false;
                             break;
 
                         // U+1D6A5 MATHEMATICAL ITALIC SMALL DOTLESS J
                         case 0x1D6A5:
-                            cp = 0x237;
+                            result = 0x237;
                             isLatin = false;
                             break;
 
                         // U+1D7CA MATHEMATICAL BOLD CAPITAL DIGAMMA
                         case 0x1D7CA:
-                            cp = 0x3DC;
+                            result = 0x3DC;
                             isLatin = false;
                             break;
 
                         // U+1D7CB MATHEMATICAL BOLD SMALL DIGAMMA
                         case 0x1D7CB:
-                            cp = 0x3DD;
+                            result = 0x3DD;
                             isLatin = false;
+                            break;
+
+                        default:
+                            isLatin = true;
                             break;
                     }
 
@@ -411,9 +417,9 @@ namespace UnicodeStyle
                         {
                             for (int k = 0; k < TotalStyles; k++)
                             {
-                                if (LatinMapping[j, k] == cp)
+                                if (LatinMapping[j, k] == result)
                                 {
-                                    cp = BasicLatinFirst + j;
+                                    result = BasicLatinFirst + j;
                                     j = BasicLatinChars;
                                     break;
                                 }
@@ -422,18 +428,19 @@ namespace UnicodeStyle
                     }
                 }
 
-                if (cp != 0)
+                switch (result)
                 {
-                    if (cp > CharactersPerPlane)
-                    {
-                        int[] a = ToSurrogates(cp);
+                    case 0:
+                        output += (char)cp;
+                        break;
+                    case < CharactersPerPlane:
+                        output += (char)result;
+                        break;
+                    default:
+                        ushort[] a = ToSurrogates(result);
                         output += (char)a[0];
                         output += (char)a[1];
-                    }
-                    else
-                    {
-                        output += (char)cp;
-                    }
+                        break;
                 }
             }
 
@@ -520,46 +527,48 @@ namespace UnicodeStyle
                     }
                 }
 
-                if (result == 0)
+                switch (result)
                 {
-                    output += cp;
-                }
-                else
-                {
-                    if (result > CharactersPerPlane)
-                    {
-                        int[] a = ToSurrogates(result);
+                    case 0:
+                        output += (char)cp;
+                        break;
+                    case < CharactersPerPlane:
+                        output += (char)result;
+                        break;
+                    default:
+                        ushort[] a = ToSurrogates(result);
                         output += (char)a[0];
                         output += (char)a[1];
-                    }
-                    else
-                    {
-                        output += (char)result;
-                    }
+                        break;
                 }
             }
 
             return output;
         }
 
-        private static int[] ToSurrogates(int cp)
+        private static ushort[] ToSurrogates(int cp)
         {
-            int hi = cp;
-            int lo = 0;
+            ushort lo, hi;
 
-            if (cp > CharactersPerPlane)
+            if (cp < CharactersPerPlane)
+            {
+                hi = (ushort)cp;
+                lo = 0;
+            }
+            else
             {
                 cp -= CharactersPerPlane;
-                hi = HighSurrogateFirst | ((cp >>> HalfShift) & HalfMask);
-                lo = LowSurrogateFirst | (cp & HalfMask);
+                hi = (ushort)(HighSurrogateFirst | ((cp >>> HalfShift) & HalfMask));
+                lo = (ushort)(LowSurrogateFirst | (cp & HalfMask));
             }
 
-            return new int[] { hi, lo };
+            return new ushort[] { hi, lo };
         }
 
-        private static int FromSurrogates(int hi, int lo)
+        private static int FromSurrogates(ushort hi, ushort lo)
         {
             int cp = ReplacementCharacter;
+
             if ((hi is >= HighSurrogateFirst and <= HighSurrogateLast)
                 && (lo is >= LowSurrogateFirst and <= LowSurrogateLast))
             {

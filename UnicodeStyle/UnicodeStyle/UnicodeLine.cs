@@ -37,9 +37,9 @@ namespace UnicodeStyle
                 string output = string.Empty;
                 for (int i = 0; i < input.Length; i++)
                 {
-                    ushort cp = input[i];
-                    output += (char)cp;
-                    if (cp is < CombiningFirst or (> CombiningLast and < HighSurrogateFirst) or > HighSurrogateLast)
+                    char cp = input[i];
+                    output += cp;
+                    if ((ushort)cp is < CombiningFirst or (> CombiningLast and < HighSurrogateFirst) or > HighSurrogateLast)
                     {
                         for (int j = 0; j < lines.Length; j++)
                         {
@@ -66,10 +66,10 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
-                ushort word = input[i];
-                if (word is < CombiningFirst or > CombiningLast)
+                char cp = input[i];
+                if ((ushort)cp is < CombiningFirst or > CombiningLast)
                 {
-                    output += (char)word;
+                    output += cp;
                 }
             }
 
@@ -89,18 +89,18 @@ namespace UnicodeStyle
 
             for (int i = 0; i < input.Length; i++)
             {
+                char cp = input[i];
                 bool isLine = false;
-                char word = input[i];
                 for (int j = 0; j < lines.Length; j++)
                 {
                     UnicodeLines line = lines[j];
-                    if ((char)line == word)
+                    if ((char)line == cp)
                     {
                         isLine = true;
                         break;
                     }
                 }
-                if (!isLine) { output += word; }
+                if (!isLine) { output += cp; }
             }
 
             return output;
