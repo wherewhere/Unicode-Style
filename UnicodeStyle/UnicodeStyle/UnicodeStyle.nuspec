@@ -11,6 +11,7 @@
     <projectUrl>$projectUrl$</projectUrl>
     <iconUrl>$iconUrl$</iconUrl>
     <description>$description$</description>
+    <releaseNotes>$releaseNotes$</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>Unicode;Text;Style</tags>
     <repository type="$repositoryType$" url="$repositoryUrl$" commit="$repositoryCommit$" />
