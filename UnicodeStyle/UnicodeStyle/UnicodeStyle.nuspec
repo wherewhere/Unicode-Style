@@ -5,10 +5,11 @@
     <version>$version$</version>
     <title>$title$</title>
     <authors>$authors$</authors>
-    <owners></owners>
     <requireLicenseAcceptance>$requireLicenseAcceptance$</requireLicenseAcceptance>
     <license type="expression">$license$</license>
+    <icon>$icon$</icon>
     <projectUrl>$projectUrl$</projectUrl>
+    <iconUrl>$iconUrl$</iconUrl>
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <tags>Unicode;Text;Style</tags>
@@ -31,14 +32,19 @@
       <group targetFramework="Silverlight5.0" />
       <group targetFramework="WindowsPhone7.0" />
       <group targetFramework="WindowsPhone8.0" />
+      <group targetFramework=".NETCoreApp2.1" />
       <group targetFramework=".NETCoreApp3.1" />
       <group targetFramework="net6.0" />
+      <group targetFramework="net8.0" />
       <group targetFramework=".NETStandard2.0" />
+      <group targetFramework=".NETStandard2.1" />
       <group targetFramework="native0.0" />
       <group targetFramework="UAP10.0.15138" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\logo.png" target="Icon.png" />
+    <file src="UnicodeStyle.targets" target="build\native\UnicodeStyle.targets" />
     <file src="$buildOutput$\native\UnicodeStyle.*" target="lib\native\" />
     <file src="$buildOutput$\net2.0-client\UnicodeStyle.*" target="lib\net20\" />
     <file src="$buildOutput$\net3.5-client\UnicodeStyle.*" target="lib\net35\" />
@@ -47,13 +53,16 @@
     <file src="$buildOutput$\net4.6.2\UnicodeStyle.*" target="lib\net462\" />
     <file src="$buildOutput$\net4.8.1\UnicodeStyle.*" target="lib\net481\" />
     <file src="$buildOutput$\net6.0\UnicodeStyle.*" target="lib\net6.0\" />
+    <file src="$buildOutput$\net8.0\UnicodeStyle.*" target="lib\net8.0\" />
     <file src="$buildOutput$\netcore50\UnicodeStyle.*" target="lib\netcore50\" />
+    <file src="$buildOutput$\netcoreapp2.1\UnicodeStyle.*" target="lib\netcoreapp2.1\" />
     <file src="$buildOutput$\netcoreapp3.1\UnicodeStyle.*" target="lib\netcoreapp3.1\" />
     <file src="$buildOutput$\netmf3.0\UnicodeStyle.*" target="lib\netmf30\" />
     <file src="$buildOutput$\netmf4.1\UnicodeStyle.*" target="lib\netmf41\" />
     <file src="$buildOutput$\netmf4.4\UnicodeStyle.*" target="lib\netmf44\" />
     <file src="$buildOutput$\netstandard1.1\UnicodeStyle.*" target="lib\netstandard1.1\" />
     <file src="$buildOutput$\netstandard2.0\UnicodeStyle.*" target="lib\netstandard2.0\" />
+    <file src="$buildOutput$\netstandard2.1\UnicodeStyle.*" target="lib\netstandard2.1\" />
     <file src="$buildOutput$\sl3\UnicodeStyle.*" target="lib\sl3\" />
     <file src="$buildOutput$\sl5\UnicodeStyle.*" target="lib\sl5\" />
     <file src="$buildOutput$\uap10.0\UnicodeStyle.*" target="lib\uap10.0.15138\" />

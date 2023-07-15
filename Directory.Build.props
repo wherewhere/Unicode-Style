@@ -9,6 +9,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSymbols>true</IncludeSymbols>
     <LangVersion>preview</LangVersion>
+	<PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/wherewhere/Unicode-Style/main/logo.png</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wherewhere/Unicode-Style</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/wherewhere/Unicode-Style/releases</PackageReleaseNotes>
@@ -21,7 +23,7 @@
     <VersionPrefix>0.1.12</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
 Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/text.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
-Format text by using UnicodeStyler.StyleConvert().</Description>
+Format text by using UnicodeStyle.StyleConvert().</Description>
   </PropertyGroup>
 
   <PropertyGroup>

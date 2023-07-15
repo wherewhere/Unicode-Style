@@ -17,16 +17,17 @@
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' != 'True'">net6.0;net8.0;netcoreapp3.1;netstandard1.1;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NuspecFile Condition="'$(FullTargets)' == 'True' and '$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' == 'True'">UnicodeStyle.nuspec</NuspecFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NuspecProperties>id=$(AssemblyName);version=$(VersionPrefix);title=$(Title);authors=$(Authors);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance);license=$(PackageLicenseExpression);projectUrl=$(PackageProjectUrl);description=$(Description);copyright=$(Copyright);repositoryType=$(RepositoryType);repositoryUrl=$(PackageProjectUrl);repositoryCommit=$(RepositoryCommit);buildOutput=bin\$(Configuration)</NuspecProperties>
+  <PropertyGroup Condition="'$(FullTargets)' == 'True'
+                        and '$(GITHUB_ACTIONS)' != 'True'
+                        and '$(IsWindows)' == 'True'">
+    <NuspecFile>UnicodeStyle.nuspec</NuspecFile>
+    <NuspecProperties>id=$(AssemblyName);version=$(VersionPrefix);title=$(Title);authors=$(Authors);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance);license=$(PackageLicenseExpression);icon=$(PackageIcon);projectUrl=$(PackageProjectUrl);iconUrl=$(PackageIconUrl);description=$(Description);copyright=$(Copyright);repositoryType=$(RepositoryType);repositoryUrl=$(PackageProjectUrl);repositoryCommit=$(RepositoryCommit);buildOutput=bin\$(Configuration)</NuspecProperties>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="UnicodeStyle.nuspec" />
+    <None Remove="UnicodeStyle.targets" />
+    <None Include="..\..\logo.png" Pack="true" PackagePath="\Icon.png" />
   </ItemGroup>
 
 </Project>
