@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/wherewhere/Unicode-Style</RepositoryUrl>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Title>Unicode Style - Format text using unicode characters</Title>
-    <VersionPrefix>0.1.12</VersionPrefix>
+    <VersionPrefix>0.2.13</VersionPrefix>
     <Description>A Styler to format text using unicode characters.
 Source from the JavaScript version of Unicode Text Styler by Andrew West at http://www.babelstone.co.uk/Unicode/text.js under a Creative Commons Attribution-ShareAlike 3.0f Unported License.
 Format text by using UnicodeStyle.StyleConvert().</Description>

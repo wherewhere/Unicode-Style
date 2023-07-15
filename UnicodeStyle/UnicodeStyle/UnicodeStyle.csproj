@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(FullTargets)' == 'True'">
-    <NoWarn>NU1603</NoWarn>
+    <NoWarn>NU1603;NU1901;NU1902</NoWarn>
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' == 'True'">netstandard1.1;netstandard2.0;netstandard2.1</TargetFrameworks>
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' == 'True'">native;net2.0-client;net3.5-client;net4.0-client;net4.5.2;net4.6.2;net4.8.1;net6.0;net8.0;netcore50;netcoreapp2.1;netcoreapp3.1;netmf3.0;netmf4.1;netmf4.4;netstandard1.1;netstandard2.0;netstandard2.1;sl3;sl5;uap10.0;wp7.0;wp8.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' != 'True'">net6.0;net8.0;netcoreapp2.1;netcoreapp3.1;netstandard1.1;netstandard2.0;netstandard2.1</TargetFrameworks>
