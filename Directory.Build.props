@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Authors>wherewhere</Authors>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Copyright>Copyright © 2017 - 2023 wherewhere. All Rights Reserved.</Copyright>
+    <Copyright>Copyright © 2017 - 2024 wherewhere. All Rights Reserved.</Copyright>
     <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IncludeSymbols>true</IncludeSymbols>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
 	<PackageIcon>Icon.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/wherewhere/Unicode-Style/main/logo.png</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -43,7 +43,7 @@ Format text by using UnicodeStyle.StyleConvert().</Description>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcore50'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcore5.0'">
     <NugetTargetMoniker>.NETCore,Version=v5.0</NugetTargetMoniker>
   </PropertyGroup>
 

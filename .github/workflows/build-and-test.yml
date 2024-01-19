@@ -9,7 +9,7 @@ on:
     - '**.csproj'
 
 env:
-  DOTNET_VERSION: '6.0.x' # The .NET SDK version to use
+  DOTNET_VERSION: '8.0.x' # The .NET SDK version to use
 
 jobs:
   build-and-test:
@@ -21,17 +21,21 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET Core App
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{env.DOTNET_VERSION}}
-        
-    - name: Install dependencies
-      run: dotnet restore
-      
+
+    - name: Install Dependencies
+      run: dotnet restore -p:FullTargets=false
+
     - name: Build
-      run: dotnet build --no-restore
-    
+      run: dotnet build --no-restore -p:FullTargets=false
+
     - name: Test
-      run: dotnet test --no-restore
+      run: dotnet test --no-restore --blame-hang-timeout 1m -p:FullTargets=false

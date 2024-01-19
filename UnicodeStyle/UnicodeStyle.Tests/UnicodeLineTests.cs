@@ -22,7 +22,7 @@ namespace UnicodeStyle.Tests
         public void AddLineTest(string result, UnicodeLines line)
         {
             string Regular = "Hello, World!";
-            Assert.AreEqual(result, UnicodeLine.AddLine(Regular, line));
+            Assert.That(UnicodeLine.AddLine(Regular, line), Is.EqualTo(result));
         }
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace UnicodeStyle.Tests
         [TestCase(UnicodeLines.LongDoubleSolidusOverlay)]
         public void RemoveLineTest(UnicodeLines line)
         {
-            string Regular = "Hello, World!";
-            Assert.AreEqual(Regular, UnicodeLine.RemoveLine(UnicodeLine.AddLine(Regular, line)));
+            string regular = "Hello, World!";
+            Assert.That(UnicodeLine.RemoveLine(UnicodeLine.AddLine(regular, line)), Is.EqualTo(regular));
         }
     }
 }

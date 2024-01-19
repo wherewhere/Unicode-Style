@@ -41,7 +41,7 @@ namespace UnicodeStyle.Tests
         {
             string Regular = "Hello, World!";
             using UnicodeStyle UnicodeStyle = new();
-            Assert.AreEqual(result, UnicodeStyle.StyleConvert(Regular, style));
+            Assert.That(UnicodeStyle.StyleConvert(Regular, style), Is.EqualTo(result));
         }
     }
 }

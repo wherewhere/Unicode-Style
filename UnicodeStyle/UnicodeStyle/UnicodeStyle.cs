@@ -211,8 +211,8 @@ namespace UnicodeStyle
             { 0x1D6E1, 0x1D71B, 0x1D755, 0, 0x1D78F, 0, 0x1D7C9 }   // U+03D6, GREEK PI SYMBOL
         };
 
-        private ushort[] GreekCharacters = new ushort[GreekChars]
-        {
+        private ushort[] GreekCharacters =
+        [
             0x0391,     // GREEK CAPITAL LETTER ALPHA
             0x0392,     // GREEK CAPITAL LETTER BETA
             0x0393,     // GREEK CAPITAL LETTER GAMMA
@@ -271,7 +271,7 @@ namespace UnicodeStyle
             0x03D5,     // GREEK PHI SYMBOL
             0x03F1,     // GREEK RHO SYMBOL
             0x03D6      // GREEK PI SYMBOL
-        };
+        ];
 
 #if WINRT
         /// <summary>
@@ -313,7 +313,7 @@ namespace UnicodeStyle
         {
             ushort hi = 0;
             string output = string.Empty;
-            
+
             for (int i = 0; i < input.Length; i++)
             {
                 ushort cp = input[i];
@@ -354,7 +354,7 @@ namespace UnicodeStyle
                 {
                     int row = 0;
                     bool isLatin;
-                    
+
                     switch (result)
                     {
                         case >= MathLatinFirst and <= MathLatinLast:
@@ -562,7 +562,7 @@ namespace UnicodeStyle
                 lo = (ushort)(LowSurrogateFirst | (cp & HalfMask));
             }
 
-            return new ushort[] { hi, lo };
+            return [hi, lo];
         }
 
         private static int FromSurrogates(ushort hi, ushort lo)

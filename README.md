@@ -1,5 +1,5 @@
 # Unicode [_Style_](https://www.nuget.org/packages/UnicodeStyle "Nuget")
-Styles text by substituting characters with suitable unicode replacements.
+Styles text by substituting characters with suitable Unicode replacements.
 
 [![Issues](https://img.shields.io/github/issues/wherewhere/Unicode-Style.svg?label=Issues&style=flat-square)](https://github.com/wherewhere/Unicode-Style/issues "Issues")
 [![Stargazers](https://img.shields.io/github/stars/wherewhere/Unicode-Style.svg?label=Stars&style=flat-square)](https://github.com/wherewhere/Unicode-Style/stargazers "Stargazers")
@@ -9,24 +9,14 @@ Styles text by substituting characters with suitable unicode replacements.
 
 ## Support Platform
 - Silverlight 3
-- Silverlight 5
 - .NET Framework 2.0
-- .NET Framework 3.5
 - .NET Framework 4.0
-- .NET Framework 4.5.2
-- .NET Framework 4.6.2
-- .NET Framework 4.8.1
 - .NET Micro Framework 3.0
 - .NET Micro Framework 4.1
-- .NET Micro Framework 4.4
 - .NET Standard 1.1
-- .NET Standard 2.0
-- .NET Standard 2.1
 - .NET Core 5.0
 - .NET Core App 2.1
-- .NET Core App 3.1
 - .NET 6.0
-- .NET 8.0
 
 ## All Styles
 - Regular: Hello, World!

@@ -16,5 +16,5 @@ namespace UnicodeStyle
     /// <para>Copyright © 2017 - 2023 wherewhere. All Rights Reserved.</para>
     /// </remarks>
     [CompilerGenerated]
-    internal class NamespaceDoc { }
+    internal class NamespaceDoc;
 }
