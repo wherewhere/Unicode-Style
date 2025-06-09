@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors>wherewhere</Authors>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <Copyright>Copyright © 2017 - 2024 wherewhere. All Rights Reserved.</Copyright>
+    <Copyright>Copyright © 2017 - 2025 wherewhere. All Rights Reserved.</Copyright>
     <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -28,7 +28,6 @@ Format text by using UnicodeStyle.StyleConvert().</Description>
 
   <PropertyGroup>
     <FullTargets Condition="'$(FullTargets)' == ''">False</FullTargets>
-    <ImportAsync Condition="'$(ImportAsync)' == ''">False</ImportAsync>
     <IsWindows Condition="'$(IsWindows)' == ''">False</IsWindows>
     <IsWindows Condition="$([MSBuild]::IsOSPlatform('Windows')) == 'True' OR '$(Platform)' == 'Windows NT'">True</IsWindows>
   </PropertyGroup>

@@ -2,24 +2,24 @@
 
   <PropertyGroup>
     <FullTargets>True</FullTargets>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">True</IsAotCompatible>
+    <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netcoreapp3.0'))">True</IsTrimmable>
     <NoWarn>$(NoWarn);NU1902;NU1903</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(FullTargets)' == 'True'">
     <NoWarn>$(NoWarn);NU1603;NU1901</NoWarn>
     <TargetFrameworks>net6.0;netstandard1.1;netcoreapp2.1</TargetFrameworks>
-    <TargetFrameworks Condition="'$(IsWindows)' == 'True'">$(TargetFrameworks);net2.0-client;net4.0-client</TargetFrameworks>
+    <TargetFrameworks Condition="'$(IsWindows)' == 'True'">$(TargetFrameworks);net2.0;net4.0-client</TargetFrameworks>
     <TargetFrameworks Condition="'$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' == 'True'">$(TargetFrameworks);native;netcore5.0;netmf3.0;netmf4.1;sl3;uap10.0;wp7.0;wp8.0</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(FullTargets)' != 'True'">
     <TargetFrameworks>net6.0;netcoreapp2.1;netstandard1.1</TargetFrameworks>
-    <TargetFrameworks Condition="'$(IsWindows)' == 'True'">$(TargetFrameworks);net2.0-client</TargetFrameworks>
+    <TargetFrameworks Condition="'$(IsWindows)' == 'True'">$(TargetFrameworks);net2.0</TargetFrameworks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(FullTargets)' == 'True'
-                        and '$(GITHUB_ACTIONS)' != 'True'
-                        and '$(IsWindows)' == 'True'">
+  <PropertyGroup Condition="'$(FullTargets)' == 'True' and '$(GITHUB_ACTIONS)' != 'True' and '$(IsWindows)' == 'True'">
     <NuspecFile>UnicodeStyle.nuspec</NuspecFile>
     <NuspecProperties>id=$(AssemblyName);version=$(VersionPrefix);title=$(Title);authors=$(Authors);requireLicenseAcceptance=$(PackageRequireLicenseAcceptance);license=$(PackageLicenseExpression);icon=$(PackageIcon);projectUrl=$(PackageProjectUrl);iconUrl=$(PackageIconUrl);description=$(Description);releaseNotes=$(PackageReleaseNotes);copyright=$(Copyright);repositoryType=$(RepositoryType);repositoryUrl=$(PackageProjectUrl);repositoryCommit=$(RepositoryCommit);buildOutput=bin\$(Configuration)</NuspecProperties>
   </PropertyGroup>

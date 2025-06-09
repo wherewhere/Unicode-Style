@@ -13,7 +13,7 @@ namespace UnicodeStyle
     /// <remarks>
     /// <para>Creative Commons License:</para>
     /// <para><see href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</see></para>
-    /// <para>Copyright © 2017 - 2024 wherewhere. All Rights Reserved.</para>
+    /// <para>Copyright © 2017 - 2025 wherewhere. All Rights Reserved.</para>
     /// </remarks>
     [CompilerGenerated]
     internal class NamespaceDoc;
