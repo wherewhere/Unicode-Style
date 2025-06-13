@@ -21,7 +21,7 @@
       <group targetFramework=".NETFramework4.0" />
       <group targetFramework=".NETMicroFramework3.0" />
       <group targetFramework=".NETMicroFramework4.1" />
-      <group targetFramework=".NETStandard1.1">
+      <group targetFramework=".NETStandard1.0">
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="Silverlight3.0" />
@@ -44,7 +44,7 @@
     <file src="$buildOutput$\netcoreapp2.1\UnicodeStyle.*" target="lib\netcoreapp2.1\" />
     <file src="$buildOutput$\netmf3.0\UnicodeStyle.*" target="lib\netmf30\" />
     <file src="$buildOutput$\netmf4.1\UnicodeStyle.*" target="lib\netmf41\" />
-    <file src="$buildOutput$\netstandard1.1\UnicodeStyle.*" target="lib\netstandard1.1\" />
+    <file src="$buildOutput$\netstandard1.0\UnicodeStyle.*" target="lib\netstandard1.0\" />
     <file src="$buildOutput$\sl3\UnicodeStyle.*" target="lib\sl3\" />
     <file src="$buildOutput$\uap10.0\UnicodeStyle.*" target="lib\uap10.0.15138\" />
     <file src="$buildOutput$\wp7.0\UnicodeStyle.*" target="lib\wp7\" />

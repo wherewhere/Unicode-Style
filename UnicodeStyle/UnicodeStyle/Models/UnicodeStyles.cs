@@ -4,9 +4,6 @@
     /// The styles of Unicode.
     /// </summary>
     public enum UnicodeStyles
-#if !WINRT
-        : short
-#endif
     {
         /// <summary>
         /// Hello, World!

@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
 using UnicodeStyle.Models;
 
 namespace UnicodeStyle
@@ -15,6 +15,6 @@ namespace UnicodeStyle
     /// <para><see href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</see></para>
     /// <para>Copyright © 2017 - 2025 wherewhere. All Rights Reserved.</para>
     /// </remarks>
-    [CompilerGenerated]
-    internal class NamespaceDoc;
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal static class NamespaceDoc;
 }

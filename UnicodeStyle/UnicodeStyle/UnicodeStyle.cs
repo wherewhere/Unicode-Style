@@ -9,6 +9,7 @@
 // text.js by Andrew West is licensed under a Creative Commons Attribution-ShareAlike 3.0f Unported License
 
 using System;
+using System.Runtime.CompilerServices;
 using UnicodeStyle.Models;
 
 namespace UnicodeStyle
@@ -16,7 +17,7 @@ namespace UnicodeStyle
     /// <summary>
     /// The tools to style Unicode strings.
     /// </summary>
-    public sealed class UnicodeStyle : IUnicodeStyle, IDisposable
+    public sealed class UnicodeStyle : IDisposable
     {
         // UTF-8 Constants
         private const ushort ReplacementCharacter = 0xFFFD; // U+FFFD REPLACEMENT CHARACTER
@@ -273,14 +274,13 @@ namespace UnicodeStyle
             0x03D6      // GREEK PI SYMBOL
         ];
 
-#if WINRT
         /// <summary>
         /// Convert the string to regular style.
         /// </summary>
         /// <param name="str">The string to convert.</param>
         /// <returns>The styled string.</returns>
+        [MethodImpl((MethodImplOptions)0x100)]
         public string StyleConvert(string str) => StyleConvert(str, UnicodeStyles.Regular);
-#endif
 
         /// <summary>
         /// Convert the string to target type.
@@ -288,11 +288,7 @@ namespace UnicodeStyle
         /// <param name="str">The string to convert.</param>
         /// <param name="style">The style you want.</param>
         /// <returns>The styled string.</returns>
-        public string StyleConvert(string str, UnicodeStyles style
-#if !WINRT
-            = UnicodeStyles.Regular
-#endif
-            )
+        public string StyleConvert(string str, UnicodeStyles style)
         {
             string input = str;
 
@@ -582,9 +578,9 @@ namespace UnicodeStyle
         {
             if (disposing)
             {
-                LatinMapping = null;
-                GreekMapping = null;
-                GreekCharacters = null;
+                LatinMapping = null!;
+                GreekMapping = null!;
+                GreekCharacters = null!;
             }
         }
 

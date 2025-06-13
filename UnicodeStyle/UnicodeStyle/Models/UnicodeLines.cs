@@ -5,9 +5,6 @@
     /// </summary>
     /// <remarks>The code of combining marks is from <c>U+0300</c> to <c>U+20F0</c>.</remarks>
     public enum UnicodeLines
-#if !WINRT
-        : ushort
-#endif
     {
         /// <summary>
         /// Combining Grave Accent.
