@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="UnicodeStyle/UnicodeStyle.Example/UnicodeStyle.Example.csproj" />
+  <Project Path="UnicodeStyle/UnicodeStyle.Tests/UnicodeStyle.Tests.csproj" />
+  <Project Path="UnicodeStyle/UnicodeStyle/UnicodeStyle.csproj" />
+</Solution>
